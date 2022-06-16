@@ -1,4 +1,4 @@
-/*! elementor-pro - v3.7.1 - 16-05-2022 */
+/*! elementor-pro - v3.7.2 - 15-06-2022 */
 @charset "UTF-8";
 .elementor-bg-transform .elementor-bg {
   will-change: transform; }
@@ -1783,6 +1783,10 @@ body.rtl.woocommerce-page div.product .elementor-widget-woocommerce-product-imag
       border-color: var(--toggle-button-hover-border-color, #818a91); }
       .elementor-menu-cart__toggle .elementor-button:hover .elementor-button-icon {
         color: var(--toggle-button-icon-hover-color, #818a91); }
+    .elementor-menu-cart__toggle .elementor-button svg {
+      fill: var(--toggle-button-icon-color, #818a91); }
+      .elementor-menu-cart__toggle .elementor-button svg:hover {
+        fill: var(--toggle-button-icon-hover-color, #818a91); }
   .elementor-menu-cart__toggle .elementor-button-text {
     -webkit-margin-end: 0.3em;
             margin-inline-end: 0.3em; }
@@ -2107,24 +2111,6 @@ body.elementor-default .elementor-widget-woocommerce-menu-cart:not(.elementor-me
     display: none; }
   .elementor-widget-woocommerce-menu-cart.elementor-menu-cart--empty-indicator-hide .elementor-menu-cart__toggle .elementor-button-icon[data-counter="0"]:before {
     content: none; }
-  .elementor-widget-woocommerce-menu-cart.toggle-icon--bag-light .elementor-menu-cart__toggle .elementor-button-icon i:before {
-    content: '\e8e3'; }
-  .elementor-widget-woocommerce-menu-cart.toggle-icon--bag-medium .elementor-menu-cart__toggle .elementor-button-icon i:before {
-    content: '\e8e4'; }
-  .elementor-widget-woocommerce-menu-cart.toggle-icon--bag-solid .elementor-menu-cart__toggle .elementor-button-icon i:before {
-    content: '\e8e5'; }
-  .elementor-widget-woocommerce-menu-cart.toggle-icon--basket-light .elementor-menu-cart__toggle .elementor-button-icon i:before {
-    content: '\e8e6'; }
-  .elementor-widget-woocommerce-menu-cart.toggle-icon--basket-medium .elementor-menu-cart__toggle .elementor-button-icon i:before {
-    content: '\e8e7'; }
-  .elementor-widget-woocommerce-menu-cart.toggle-icon--basket-solid .elementor-menu-cart__toggle .elementor-button-icon i:before {
-    content: '\e8e8'; }
-  .elementor-widget-woocommerce-menu-cart.toggle-icon--cart-light .elementor-menu-cart__toggle .elementor-button-icon i:before {
-    content: '\e8e9'; }
-  .elementor-widget-woocommerce-menu-cart.toggle-icon--cart-medium .elementor-menu-cart__toggle .elementor-button-icon i:before {
-    content: '\e8ea'; }
-  .elementor-widget-woocommerce-menu-cart.toggle-icon--cart-solid .elementor-menu-cart__toggle .elementor-button-icon i:before {
-    content: '\e8eb'; }
   .elementor-widget-woocommerce-menu-cart:not(.elementor-menu-cart--show-remove-button-yes) .elementor-menu-cart__product {
     padding-left: 0;
     padding-right: 0;
@@ -4778,6 +4764,9 @@ body.elementor-editor-active .elementor-posts--show-thumbnail .elementor-post__t
 .elementor ul li.elementor-portfolio__filter {
   list-style-type: none; }
 
+.e-container .elementor-widget-portfolio {
+  --flex-grow: 1; }
+
 .elementor-widget-posts.load-more-align-center .elementor-button-wrapper, .elementor-widget-archive-posts.load-more-align-center .elementor-button-wrapper {
   text-align: center; }
 
@@ -5523,6 +5512,11 @@ the source property is coming from element/dev/scss...
       -ms-transform: none;
           transform: none;
   opacity: 1; }
+
+.e-container .elementor-widget-flip-box {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1; }
 
 .elementor-widget-call-to-action .elementor-widget-container {
   overflow: hidden; }
@@ -9358,6 +9352,11 @@ a.elementor-item.elementor-gallery-title {
     color: var(--galleries-title-color-hover); }
   a.elementor-item.elementor-gallery-title.elementor-item-active {
     color: var(--gallery-title-color-active); }
+
+.e-container .elementor-widget-gallery {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1; }
 
 .elementor-widget-table-of-contents .elementor-toc__header-title {
   color: var(--header-color); }

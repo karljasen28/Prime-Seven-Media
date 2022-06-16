@@ -237,15 +237,6 @@ class API {
 		return $info_data;
 	}
 
-	/**
-	 * @param $version
-	 *
-	 * @deprecated 2.7.0 Use `API::get_plugin_package_url()` method instead.
-	 */
-	public static function get_previous_package_url( $version ) {
-		return self::get_plugin_package_url( $version );
-	}
-
 	public static function get_plugin_package_url( $version ) {
 		$url = 'https://my.elementor.com/api/v1/pro-downloads/';
 
