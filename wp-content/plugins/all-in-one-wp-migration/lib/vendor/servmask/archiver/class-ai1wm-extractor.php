@@ -463,6 +463,7 @@ class Ai1wm_Extractor extends Ai1wm_Archiver {
 	 * @return bool
 	 */
 	private function extract_to( $file_name, $file_size, $file_mtime, &$file_written = 0, &$file_offset = 0 ) {
+		global $ai1wm_params;
 		$file_written = 0;
 
 		// Flag to hold if file data has been processed
@@ -491,6 +492,13 @@ class Ai1wm_Extractor extends Ai1wm_Archiver {
 				// Read the file in chunks of 512KB
 				$chunk_size = $file_size > 512000 ? 512000 : $file_size;
 
+				if ( ! empty( $ai1wm_params['decryption_password'] ) && basename( $file_name ) !== 'package.json' ) {
+					if ( $file_size > 512000 ) {
+						$chunk_size += ai1wm_crypt_iv_length() * 2;
+						$chunk_size  = $chunk_size > $file_size ? $file_size : $chunk_size;
+					}
+				}
+
 				// Read data chunk by chunk from archive file
 				if ( $chunk_size > 0 ) {
 					$file_content = null;
@@ -502,6 +510,10 @@ class Ai1wm_Extractor extends Ai1wm_Archiver {
 
 					// Remove the amount of bytes we read
 					$file_size -= $chunk_size;
+
+					if ( ! empty( $ai1wm_params['decryption_password'] ) && basename( $file_name ) !== 'package.json' ) {
+						$file_content = ai1wm_decrypt_string( $file_content, $ai1wm_params['decryption_password'], $file_name );
+					}
 
 					// Write file contents
 					if ( ( $file_bytes = @fwrite( $file_handle, $file_content ) ) !== false ) {

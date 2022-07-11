@@ -27,26 +27,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( 'Kangaroos cannot jump here' );
 }
 
-class Ai1wm_Archive_Exception extends Exception {}
-class Ai1wm_Backups_Exception extends Exception {}
-class Ai1wm_Export_Exception extends Exception {}
-class Ai1wm_Http_Exception extends Exception {}
-class Ai1wm_Import_Exception extends Exception {}
-class Ai1wm_Import_Retry_Exception extends Exception {}
-class Ai1wm_Not_Accessible_Exception extends Exception {}
-class Ai1wm_Not_Seekable_Exception extends Exception {}
-class Ai1wm_Not_Tellable_Exception extends Exception {}
-class Ai1wm_Not_Readable_Exception extends Exception {}
-class Ai1wm_Not_Writable_Exception extends Exception {}
-class Ai1wm_Not_Truncatable_Exception extends Exception {}
-class Ai1wm_Not_Closable_Exception extends Exception {}
-class Ai1wm_Not_Found_Exception extends Exception {}
-class Ai1wm_Not_Directory_Exception extends Exception {}
-class Ai1wm_Not_Valid_Secret_Key_Exception extends Exception {}
-class Ai1wm_Quota_Exceeded_Exception extends Exception {}
-class Ai1wm_Storage_Exception extends Exception {}
-class Ai1wm_Compatibility_Exception extends Exception {}
-class Ai1wm_Feedback_Exception extends Exception {}
-class Ai1wm_Database_Exception extends Exception {}
-class Ai1wm_Not_Encryptable_Exception extends Exception {}
-class Ai1wm_Not_Decryptable_Exception extends Exception {}
+class Ai1wm_Import_Check_Encryption {
+
+	public static function execute( $params ) {
+		// Read package.json file
+		$handle = ai1wm_open( ai1wm_package_path( $params ), 'r' );
+
+		// Parse package.json file
+		$package = ai1wm_read( $handle, filesize( ai1wm_package_path( $params ) ) );
+		$package = json_decode( $package, true );
+
+		// Close handle
+		ai1wm_close( $handle );
+
+		if ( empty( $package['Encrypted'] ) || empty( $package['EncryptedSignature'] ) || ! empty( $params['is_decryption_password_valid'] ) ) {
+			return $params;
+		}
+
+		if ( ! ai1wm_can_decrypt() ) {
+			Ai1wm_Status::server_cannot_decrypt( __( 'Importing an encrypted backup is not supported on this server. <a href="https://help.servmask.com/knowledgebase/unable-to-encrypt-and-decrypt-backups/" target="_blank">Technical details</a>', AI1WM_PLUGIN_NAME ) );
+			exit;
+		}
+
+		if ( defined( 'WP_CLI' ) ) {
+			//TODO: ask to provide password from command line
+		}
+
+		Ai1wm_Status::backup_is_encrypted( null );
+		exit;
+	}
+}

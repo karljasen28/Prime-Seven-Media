@@ -34,6 +34,7 @@ class Ai1wm_Export_Controller {
 	}
 
 	public static function export( $params = array() ) {
+		global $ai1wm_params;
 		ai1wm_setup_environment();
 
 		// Set params
@@ -58,6 +59,8 @@ class Ai1wm_Export_Controller {
 		} catch ( Ai1wm_Not_Valid_Secret_Key_Exception $e ) {
 			exit;
 		}
+
+		$ai1wm_params = $params;
 
 		// Loop over filters
 		if ( ( $filters = ai1wm_get_filters( 'ai1wm_export' ) ) ) {
@@ -266,7 +269,7 @@ class Ai1wm_Export_Controller {
 			$iterator = new Ai1wm_Recursive_Directory_Iterator( AI1WM_STORAGE_PATH );
 
 			// Exclude index.php
-			$iterator = new Ai1wm_Recursive_Exclude_Filter( $iterator, array( 'index.php' ) );
+			$iterator = new Ai1wm_Recursive_Exclude_Filter( $iterator, array( 'index.php', 'index.html' ) );
 
 			// Loop over folders and files
 			foreach ( $iterator as $item ) {

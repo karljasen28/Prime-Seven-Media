@@ -176,6 +176,8 @@ class Ai1wm_Main_Controller {
 		add_filter( 'ai1wm_import', 'Ai1wm_Import_Upload::execute', 5 );
 		add_filter( 'ai1wm_import', 'Ai1wm_Import_Compatibility::execute', 10 );
 		add_filter( 'ai1wm_import', 'Ai1wm_Import_Validate::execute', 50 );
+		add_filter( 'ai1wm_import', 'Ai1wm_Import_Check_Encryption::execute', 75 );
+		add_filter( 'ai1wm_import', 'Ai1wm_Import_Check_Decryption_Password::execute', 90 );
 		add_filter( 'ai1wm_import', 'Ai1wm_Import_Confirm::execute', 100 );
 		add_filter( 'ai1wm_import', 'Ai1wm_Import_Blogs::execute', 150 );
 		add_filter( 'ai1wm_import', 'Ai1wm_Import_Permalinks::execute', 170 );
@@ -183,6 +185,7 @@ class Ai1wm_Main_Controller {
 		add_filter( 'ai1wm_import', 'Ai1wm_Import_Content::execute', 250 );
 		add_filter( 'ai1wm_import', 'Ai1wm_Import_Mu_Plugins::execute', 270 );
 		add_filter( 'ai1wm_import', 'Ai1wm_Import_Database::execute', 300 );
+		add_filter( 'ai1wm_import', 'Ai1wm_Import_Users::execute', 310 );
 		add_filter( 'ai1wm_import', 'Ai1wm_Import_Options::execute', 330 );
 		add_filter( 'ai1wm_import', 'Ai1wm_Import_Done::execute', 350 );
 		add_filter( 'ai1wm_import', 'Ai1wm_Import_Clean::execute', 400 );
@@ -894,6 +897,7 @@ class Ai1wm_Main_Controller {
 				'unable_to_import'                    => __( 'Unable to import', AI1WM_PLUGIN_NAME ),
 				'unable_to_start_the_import'          => __( 'Unable to start the import. Refresh the page and try again', AI1WM_PLUGIN_NAME ),
 				'unable_to_confirm_the_import'        => __( 'Unable to confirm the import. Refresh the page and try again', AI1WM_PLUGIN_NAME ),
+				'unable_to_check_decryption_password' => __( 'Unable to check decryption password. Refresh the page and try again', AI1WM_PLUGIN_NAME ),
 				'unable_to_prepare_blogs_on_import'   => __( 'Unable to prepare blogs on import. Refresh the page and try again', AI1WM_PLUGIN_NAME ),
 				'unable_to_stop_the_import'           => __( 'Unable to stop the import. Refresh the page and try again', AI1WM_PLUGIN_NAME ),
 				'please_wait_stopping_the_import'     => __( 'Please wait, stopping the import...', AI1WM_PLUGIN_NAME ),
@@ -908,6 +912,12 @@ class Ai1wm_Main_Controller {
 				'how_may_we_help_you'                 => __( 'How may we help you?', AI1WM_PLUGIN_NAME ),
 				'thanks_for_submitting_your_feedback' => __( 'Thanks for submitting your feedback!', AI1WM_PLUGIN_NAME ),
 				'thanks_for_submitting_your_request'  => __( 'Thanks for submitting your request!', AI1WM_PLUGIN_NAME ),
+				'backup_encrypted'                    => __( 'The backup is encrypted', AI1WM_PLUGIN_NAME ),
+				'backup_encrypted_message'            => __( 'Please enter a password to import the file', AI1WM_PLUGIN_NAME ),
+				'submit'                              => __( 'Submit', AI1WM_PLUGIN_NAME ),
+				'enter_password'                      => __( 'Enter a password', AI1WM_PLUGIN_NAME ),
+				'repeat_password'                     => __( 'Repeat the password', AI1WM_PLUGIN_NAME ),
+				'passwords_do_not_match'              => __( 'The passwords do not match', AI1WM_PLUGIN_NAME ),
 				'import_from_file'                    => sprintf(
 					__(
 						'Your file exceeds the maximum upload size for this site: <strong>%s</strong><br />%s%s',

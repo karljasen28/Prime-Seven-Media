@@ -149,8 +149,9 @@ class Ai1wm_Backups_Controller {
 		Ai1wm_Template::render(
 			'backups/backups-list',
 			array(
-				'backups' => Ai1wm_Backups::get_files(),
-				'labels'  => Ai1wm_Backups::get_labels(),
+				'backups'      => Ai1wm_Backups::get_files(),
+				'labels'       => Ai1wm_Backups::get_labels(),
+				'downloadable' => Ai1wm_Backups::are_downloadable(),
 			)
 		);
 		exit;

@@ -34,6 +34,7 @@ class Ai1wm_Import_Controller {
 	}
 
 	public static function import( $params = array() ) {
+		global $ai1wm_params;
 		ai1wm_setup_environment();
 
 		// Set params
@@ -58,6 +59,8 @@ class Ai1wm_Import_Controller {
 		} catch ( Ai1wm_Not_Valid_Secret_Key_Exception $e ) {
 			exit;
 		}
+
+		$ai1wm_params = $params;
 
 		// Loop over filters
 		if ( ( $filters = ai1wm_get_filters( 'ai1wm_import' ) ) ) {

@@ -303,6 +303,10 @@ require_once AI1WM_IMPORT_PATH .
 
 require_once AI1WM_IMPORT_PATH .
 			DIRECTORY_SEPARATOR .
+			'class-ai1wm-import-users.php';
+
+require_once AI1WM_IMPORT_PATH .
+			DIRECTORY_SEPARATOR .
 			'class-ai1wm-import-compatibility.php';
 
 require_once AI1WM_IMPORT_PATH .
@@ -312,6 +316,14 @@ require_once AI1WM_IMPORT_PATH .
 require_once AI1WM_IMPORT_PATH .
 			DIRECTORY_SEPARATOR .
 			'class-ai1wm-import-confirm.php';
+
+require_once AI1WM_IMPORT_PATH .
+			DIRECTORY_SEPARATOR .
+			'class-ai1wm-import-check-encryption.php';
+
+require_once AI1WM_IMPORT_PATH .
+			DIRECTORY_SEPARATOR .
+			'class-ai1wm-import-check-decryption-password.php';
 
 require_once AI1WM_IMPORT_PATH .
 			DIRECTORY_SEPARATOR .

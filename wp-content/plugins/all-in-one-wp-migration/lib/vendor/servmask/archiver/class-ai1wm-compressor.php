@@ -53,6 +53,8 @@ class Ai1wm_Compressor extends Ai1wm_Archiver {
 	 * @return bool
 	 */
 	public function add_file( $file_name, $new_file_name = '', &$file_written = 0, &$file_offset = 0 ) {
+		global $ai1wm_params;
+
 		$file_written = 0;
 
 		// Replace forward slash with current directory separator in file name
@@ -73,7 +75,6 @@ class Ai1wm_Compressor extends Ai1wm_Archiver {
 
 			// Get header block
 			if ( ( $block = $this->get_file_block( $file_name, $new_file_name ) ) ) {
-
 				// Write header block
 				if ( $file_offset === 0 ) {
 					if ( ( $file_bytes = @fwrite( $this->file_handle, $block ) ) !== false ) {
@@ -93,6 +94,11 @@ class Ai1wm_Compressor extends Ai1wm_Archiver {
 
 						// Read the file in chunks of 512KB
 						if ( ( $file_content = @fread( $file_handle, 512000 ) ) !== false ) {
+							// Don't encrypt package.json
+							if ( isset( $ai1wm_params['options']['encrypt_backups'] ) && basename( $file_name ) !== 'package.json' ) {
+								$file_content = ai1wm_encrypt_string( $file_content, $ai1wm_params['options']['encrypt_password'] );
+							}
+
 							if ( ( $file_bytes = @fwrite( $this->file_handle, $file_content ) ) !== false ) {
 								if ( strlen( $file_content ) !== $file_bytes ) {
 									throw new Ai1wm_Quota_Exceeded_Exception( sprintf( __( 'Out of disk space. Unable to write content to file. File: %s', AI1WM_PLUGIN_NAME ), $this->file_name ) );

@@ -27,26 +27,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( 'Kangaroos cannot jump here' );
 }
 
-class Ai1wm_Archive_Exception extends Exception {}
-class Ai1wm_Backups_Exception extends Exception {}
-class Ai1wm_Export_Exception extends Exception {}
-class Ai1wm_Http_Exception extends Exception {}
-class Ai1wm_Import_Exception extends Exception {}
-class Ai1wm_Import_Retry_Exception extends Exception {}
-class Ai1wm_Not_Accessible_Exception extends Exception {}
-class Ai1wm_Not_Seekable_Exception extends Exception {}
-class Ai1wm_Not_Tellable_Exception extends Exception {}
-class Ai1wm_Not_Readable_Exception extends Exception {}
-class Ai1wm_Not_Writable_Exception extends Exception {}
-class Ai1wm_Not_Truncatable_Exception extends Exception {}
-class Ai1wm_Not_Closable_Exception extends Exception {}
-class Ai1wm_Not_Found_Exception extends Exception {}
-class Ai1wm_Not_Directory_Exception extends Exception {}
-class Ai1wm_Not_Valid_Secret_Key_Exception extends Exception {}
-class Ai1wm_Quota_Exceeded_Exception extends Exception {}
-class Ai1wm_Storage_Exception extends Exception {}
-class Ai1wm_Compatibility_Exception extends Exception {}
-class Ai1wm_Feedback_Exception extends Exception {}
-class Ai1wm_Database_Exception extends Exception {}
-class Ai1wm_Not_Encryptable_Exception extends Exception {}
-class Ai1wm_Not_Decryptable_Exception extends Exception {}
+class Ai1wm_Import_Check_Decryption_Password {
+
+	public static function execute( $params ) {
+		// Read package.json file
+		$handle = ai1wm_open( ai1wm_package_path( $params ), 'r' );
+
+		// Parse package.json file
+		$package = ai1wm_read( $handle, filesize( ai1wm_package_path( $params ) ) );
+		$package = json_decode( $package, true );
+
+		// Close handle
+		ai1wm_close( $handle );
+
+		if ( ! empty( $params['decryption_password'] ) ) {
+			if ( ai1wm_is_decryption_password_valid( $package['EncryptedSignature'], $params['decryption_password'] ) ) {
+				$params['is_decryption_password_valid'] = true;
+
+				$archive = new Ai1wm_Extractor( ai1wm_archive_path( $params ), $params['decryption_password'] );
+				$archive->extract_by_files_array( ai1wm_storage_path( $params ), array( AI1WM_MULTISITE_NAME, AI1WM_DATABASE_NAME ), array(), array() );
+
+				Ai1wm_Status::info( __( 'Done validating the decryption password.', AI1WM_PLUGIN_NAME ) );
+				return $params;
+			}
+
+			$decryption_password_error = __( 'The decryption password is not valid.', AI1WM_PLUGIN_NAME );
+
+			Ai1wm_Status::backup_is_encrypted( $decryption_password_error );
+			exit;
+		}
+
+		return $params;
+	}
+}

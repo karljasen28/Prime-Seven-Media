@@ -228,7 +228,7 @@ class Ai1wm_Extensions {
 				'check'    => AI1WMME_PLUGIN_CHECK,
 				'basename' => AI1WMME_PLUGIN_BASENAME,
 				'version'  => AI1WMME_VERSION,
-				'requires' => '4.17',
+				'requires' => '4.22',
 				'short'    => AI1WMME_PLUGIN_SHORT,
 			);
 		}
@@ -312,7 +312,7 @@ class Ai1wm_Extensions {
 				'check'    => AI1WMUE_PLUGIN_CHECK,
 				'basename' => AI1WMUE_PLUGIN_BASENAME,
 				'version'  => AI1WMUE_VERSION,
-				'requires' => '2.31',
+				'requires' => '2.46',
 				'short'    => AI1WMUE_PLUGIN_SHORT,
 			);
 		}

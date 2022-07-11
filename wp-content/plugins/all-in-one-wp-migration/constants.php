@@ -35,7 +35,7 @@ define( 'AI1WM_DEBUG', false );
 // ==================
 // = Plugin Version =
 // ==================
-define( 'AI1WM_VERSION', '7.61' );
+define( 'AI1WM_VERSION', '7.62' );
 
 // ===============
 // = Plugin Name =
@@ -367,6 +367,11 @@ define( 'AI1WM_INITIAL_DB_VERSION', 'initial_db_version' );
 // ============
 define( 'AI1WM_CRON', 'cron' );
 
+// =======================
+// = Backups Path Option =
+// =======================
+define( 'AI1WM_BACKUPS_PATH_OPTION', 'ai1wm_backups_path' );
+
 // ===================
 // = Backups Labels  =
 // ===================
@@ -417,6 +422,16 @@ define( 'AI1WM_MAX_CHUNK_SIZE', 5 * 1024 * 1024 );
 // =====================
 define( 'AI1WM_MAX_CHUNK_RETRIES', 10 );
 
+// ===============
+// = CIPHER NAME =
+// ===============
+define( 'AI1WM_CIPHER_NAME', 'AES-256-CBC' );
+
+// =============
+// = SIGN TEXT =
+// =============
+define( 'AI1WM_SIGN_TEXT', '"How long do you want these messages to remain secret? I want them to remain secret for as long as men are capable of evil." - Neal Stephenson' );
+
 // ===========================
 // = Max Transaction Queries =
 // ===========================
@@ -453,11 +468,17 @@ if ( ! defined( 'WP_CONTENT_DIR' ) ) {
 	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 }
 
+// ========================
+// = Backups Default Path =
+// ========================
+if ( ! defined( 'AI1WM_DEFAULT_BACKUPS_PATH' ) ) {
+	define( 'AI1WM_DEFAULT_BACKUPS_PATH', WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'ai1wm-backups' );
+}
+
 // ================
 // = Backups Path =
 // ================
-define( 'AI1WM_DEFAULT_BACKUPS_PATH', WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'ai1wm-backups' );
-define( 'AI1WM_BACKUPS_PATH', get_option( 'ai1wm_backups_path', AI1WM_DEFAULT_BACKUPS_PATH ) );
+define( 'AI1WM_BACKUPS_PATH', get_option( AI1WM_BACKUPS_PATH_OPTION, AI1WM_DEFAULT_BACKUPS_PATH ) );
 
 // ==========================
 // = Storage index.php File =

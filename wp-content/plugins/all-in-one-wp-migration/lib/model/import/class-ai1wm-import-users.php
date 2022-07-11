@@ -27,26 +27,41 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( 'Kangaroos cannot jump here' );
 }
 
-class Ai1wm_Archive_Exception extends Exception {}
-class Ai1wm_Backups_Exception extends Exception {}
-class Ai1wm_Export_Exception extends Exception {}
-class Ai1wm_Http_Exception extends Exception {}
-class Ai1wm_Import_Exception extends Exception {}
-class Ai1wm_Import_Retry_Exception extends Exception {}
-class Ai1wm_Not_Accessible_Exception extends Exception {}
-class Ai1wm_Not_Seekable_Exception extends Exception {}
-class Ai1wm_Not_Tellable_Exception extends Exception {}
-class Ai1wm_Not_Readable_Exception extends Exception {}
-class Ai1wm_Not_Writable_Exception extends Exception {}
-class Ai1wm_Not_Truncatable_Exception extends Exception {}
-class Ai1wm_Not_Closable_Exception extends Exception {}
-class Ai1wm_Not_Found_Exception extends Exception {}
-class Ai1wm_Not_Directory_Exception extends Exception {}
-class Ai1wm_Not_Valid_Secret_Key_Exception extends Exception {}
-class Ai1wm_Quota_Exceeded_Exception extends Exception {}
-class Ai1wm_Storage_Exception extends Exception {}
-class Ai1wm_Compatibility_Exception extends Exception {}
-class Ai1wm_Feedback_Exception extends Exception {}
-class Ai1wm_Database_Exception extends Exception {}
-class Ai1wm_Not_Encryptable_Exception extends Exception {}
-class Ai1wm_Not_Decryptable_Exception extends Exception {}
+class Ai1wm_Import_Users {
+
+	public static function execute( $params ) {
+
+		// Check multisite.json file
+		if ( is_file( ai1wm_multisite_path( $params ) ) ) {
+
+			// Set progress
+			Ai1wm_Status::info( __( 'Preparing users...', AI1WM_PLUGIN_NAME ) );
+
+			// Read multisite.json file
+			$handle = ai1wm_open( ai1wm_multisite_path( $params ), 'r' );
+
+			// Parse multisite.json file
+			$multisite = ai1wm_read( $handle, filesize( ai1wm_multisite_path( $params ) ) );
+			$multisite = json_decode( $multisite, true );
+
+			// Close handle
+			ai1wm_close( $handle );
+
+			// Set WordPress super admins
+			if ( isset( $multisite['Admins'] ) && ( $admins = $multisite['Admins'] ) ) {
+				foreach ( $admins as $username ) {
+					if ( ( $user = get_user_by( 'login', $username ) ) ) {
+						if ( $user->exists() ) {
+							$user->set_role( 'administrator' );
+						}
+					}
+				}
+			}
+
+			// Set progress
+			Ai1wm_Status::info( __( 'Done preparing users.', AI1WM_PLUGIN_NAME ) );
+		}
+
+		return $params;
+	}
+}
