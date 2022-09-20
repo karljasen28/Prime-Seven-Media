@@ -1,4 +1,4 @@
-/*! elementor - v3.6.7 - 03-07-2022 */
+/*! elementor - v3.7.6 - 15-09-2022 */
 .dialog-widget-content {
   background-color: #fff;
   position: absolute;
@@ -95,6 +95,16 @@
 
 .dialog-confirm-widget .dialog-button:first-child {
   border-right: 1px solid #e6e9ec;
+}
+
+#elementor-change-exit-preference-dialog .dialog-message a {
+  cursor: pointer;
+}
+#elementor-change-exit-preference-dialog .dialog-message > div {
+  margin-bottom: 10px;
+}
+#elementor-change-exit-preference-dialog .dialog-ok {
+  color: #39b54a;
 }
 
 .dialog-prevent-scroll {
@@ -467,6 +477,9 @@
   padding: 20px;
   color: #a4afb7;
 }
+#elementor-finder__lock-dialog {
+  z-index: 100000;
+}
 
 .elementor-finder__results__category {
   position: relative;
@@ -538,6 +551,21 @@
   margin-left: 5px;
   color: #a4afb7;
   font-style: italic;
+}
+.elementor-finder__results__item__badge {
+  text-transform: uppercase;
+  position: absolute;
+  inset-inline-end: 16px;
+  color: #556068;
+  font-size: 8px;
+  font-weight: 500;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 4px;
 }
 .elementor-finder__results__item__actions {
   display: -webkit-box;

@@ -1,4 +1,4 @@
-/*! elementor - v3.6.7 - 03-07-2022 */
+/*! elementor - v3.7.6 - 15-09-2022 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -399,496 +399,6 @@
 /***/ (() => {
 
 
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/arrayLikeToArray.js":
-/*!******************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/arrayLikeToArray.js ***!
-  \******************************************************************/
-/***/ ((module) => {
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-module.exports = _arrayLikeToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/arrayWithHoles.js":
-/*!****************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/arrayWithHoles.js ***!
-  \****************************************************************/
-/***/ ((module) => {
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-module.exports = _arrayWithHoles, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/arrayWithoutHoles.js":
-/*!*******************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/arrayWithoutHoles.js ***!
-  \*******************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var arrayLikeToArray = __webpack_require__(/*! ./arrayLikeToArray.js */ "../node_modules/@babel/runtime/helpers/arrayLikeToArray.js");
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return arrayLikeToArray(arr);
-}
-
-module.exports = _arrayWithoutHoles, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/assertThisInitialized.js":
-/*!***********************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
-  \***********************************************************************/
-/***/ ((module) => {
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-module.exports = _assertThisInitialized, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/classCallCheck.js":
-/*!****************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/classCallCheck.js ***!
-  \****************************************************************/
-/***/ ((module) => {
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-module.exports = _classCallCheck, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/createClass.js":
-/*!*************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/createClass.js ***!
-  \*************************************************************/
-/***/ ((module) => {
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  Object.defineProperty(Constructor, "prototype", {
-    writable: false
-  });
-  return Constructor;
-}
-
-module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/defineProperty.js":
-/*!****************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/defineProperty.js ***!
-  \****************************************************************/
-/***/ ((module) => {
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/extends.js":
-/*!*********************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/extends.js ***!
-  \*********************************************************/
-/***/ ((module) => {
-
-function _extends() {
-  module.exports = _extends = Object.assign ? Object.assign.bind() : function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
-  return _extends.apply(this, arguments);
-}
-
-module.exports = _extends, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/get.js":
-/*!*****************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/get.js ***!
-  \*****************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var superPropBase = __webpack_require__(/*! ./superPropBase.js */ "../node_modules/@babel/runtime/helpers/superPropBase.js");
-
-function _get() {
-  if (typeof Reflect !== "undefined" && Reflect.get) {
-    module.exports = _get = Reflect.get.bind(), module.exports.__esModule = true, module.exports["default"] = module.exports;
-  } else {
-    module.exports = _get = function _get(target, property, receiver) {
-      var base = superPropBase(target, property);
-      if (!base) return;
-      var desc = Object.getOwnPropertyDescriptor(base, property);
-
-      if (desc.get) {
-        return desc.get.call(arguments.length < 3 ? target : receiver);
-      }
-
-      return desc.value;
-    }, module.exports.__esModule = true, module.exports["default"] = module.exports;
-  }
-
-  return _get.apply(this, arguments);
-}
-
-module.exports = _get, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/getPrototypeOf.js":
-/*!****************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
-  \****************************************************************/
-/***/ ((module) => {
-
-function _getPrototypeOf(o) {
-  module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
-  return _getPrototypeOf(o);
-}
-
-module.exports = _getPrototypeOf, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/inherits.js":
-/*!**********************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/inherits.js ***!
-  \**********************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ "../node_modules/@babel/runtime/helpers/setPrototypeOf.js");
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  Object.defineProperty(subClass, "prototype", {
-    writable: false
-  });
-  if (superClass) setPrototypeOf(subClass, superClass);
-}
-
-module.exports = _inherits, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js":
-/*!***********************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/interopRequireDefault.js ***!
-  \***********************************************************************/
-/***/ ((module) => {
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
-  };
-}
-
-module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/iterableToArray.js":
-/*!*****************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/iterableToArray.js ***!
-  \*****************************************************************/
-/***/ ((module) => {
-
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-
-module.exports = _iterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/iterableToArrayLimit.js":
-/*!**********************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/iterableToArrayLimit.js ***!
-  \**********************************************************************/
-/***/ ((module) => {
-
-function _iterableToArrayLimit(arr, i) {
-  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-
-  if (_i == null) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-
-  var _s, _e;
-
-  try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/nonIterableRest.js":
-/*!*****************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/nonIterableRest.js ***!
-  \*****************************************************************/
-/***/ ((module) => {
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-module.exports = _nonIterableRest, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/nonIterableSpread.js":
-/*!*******************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/nonIterableSpread.js ***!
-  \*******************************************************************/
-/***/ ((module) => {
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-module.exports = _nonIterableSpread, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js":
-/*!***************************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
-  \***************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var _typeof = (__webpack_require__(/*! ./typeof.js */ "../node_modules/@babel/runtime/helpers/typeof.js")["default"]);
-
-var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ "../node_modules/@babel/runtime/helpers/assertThisInitialized.js");
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === "object" || typeof call === "function")) {
-    return call;
-  } else if (call !== void 0) {
-    throw new TypeError("Derived constructors may only return object or undefined");
-  }
-
-  return assertThisInitialized(self);
-}
-
-module.exports = _possibleConstructorReturn, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/setPrototypeOf.js":
-/*!****************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/setPrototypeOf.js ***!
-  \****************************************************************/
-/***/ ((module) => {
-
-function _setPrototypeOf(o, p) {
-  module.exports = _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
-  return _setPrototypeOf(o, p);
-}
-
-module.exports = _setPrototypeOf, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/slicedToArray.js":
-/*!***************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/slicedToArray.js ***!
-  \***************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var arrayWithHoles = __webpack_require__(/*! ./arrayWithHoles.js */ "../node_modules/@babel/runtime/helpers/arrayWithHoles.js");
-
-var iterableToArrayLimit = __webpack_require__(/*! ./iterableToArrayLimit.js */ "../node_modules/@babel/runtime/helpers/iterableToArrayLimit.js");
-
-var unsupportedIterableToArray = __webpack_require__(/*! ./unsupportedIterableToArray.js */ "../node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js");
-
-var nonIterableRest = __webpack_require__(/*! ./nonIterableRest.js */ "../node_modules/@babel/runtime/helpers/nonIterableRest.js");
-
-function _slicedToArray(arr, i) {
-  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
-}
-
-module.exports = _slicedToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/superPropBase.js":
-/*!***************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/superPropBase.js ***!
-  \***************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ "../node_modules/@babel/runtime/helpers/getPrototypeOf.js");
-
-function _superPropBase(object, property) {
-  while (!Object.prototype.hasOwnProperty.call(object, property)) {
-    object = getPrototypeOf(object);
-    if (object === null) break;
-  }
-
-  return object;
-}
-
-module.exports = _superPropBase, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/toConsumableArray.js":
-/*!*******************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/toConsumableArray.js ***!
-  \*******************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var arrayWithoutHoles = __webpack_require__(/*! ./arrayWithoutHoles.js */ "../node_modules/@babel/runtime/helpers/arrayWithoutHoles.js");
-
-var iterableToArray = __webpack_require__(/*! ./iterableToArray.js */ "../node_modules/@babel/runtime/helpers/iterableToArray.js");
-
-var unsupportedIterableToArray = __webpack_require__(/*! ./unsupportedIterableToArray.js */ "../node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js");
-
-var nonIterableSpread = __webpack_require__(/*! ./nonIterableSpread.js */ "../node_modules/@babel/runtime/helpers/nonIterableSpread.js");
-
-function _toConsumableArray(arr) {
-  return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
-}
-
-module.exports = _toConsumableArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/typeof.js":
-/*!********************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/typeof.js ***!
-  \********************************************************/
-/***/ ((module) => {
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  return (module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
-    return typeof obj;
-  } : function (obj) {
-    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-  }, module.exports.__esModule = true, module.exports["default"] = module.exports), _typeof(obj);
-}
-
-module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "../node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js":
-/*!****************************************************************************!*\
-  !*** ../node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js ***!
-  \****************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var arrayLikeToArray = __webpack_require__(/*! ./arrayLikeToArray.js */ "../node_modules/@babel/runtime/helpers/arrayLikeToArray.js");
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
-}
-
-module.exports = _unsupportedIterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
 
@@ -3036,6 +2546,74 @@ function App() {
 
 /***/ }),
 
+/***/ "../core/app/assets/js/event-track/apps-event-tracking.js":
+/*!****************************************************************!*\
+  !*** ../core/app/assets/js/event-track/apps-event-tracking.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.appsEventTrackingDispatch = void 0;
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var appsEventTrackingDispatch = function appsEventTrackingDispatch(command, eventParams) {
+  // Add existing eventParams key value pair to the data/details object.
+  var objectCreator = function objectCreator(array, obj) {
+    var _iterator = _createForOfIteratorHelper(array),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var key = _step.value;
+
+        if (eventParams.hasOwnProperty(key) && eventParams[key] !== null) {
+          obj[key] = eventParams[key];
+        }
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+
+    return obj;
+  };
+
+  var dataKeys = [];
+  var detailsKeys = ['layout', 'site_part', 'error', 'document_name', 'document_type', 'view_type_clicked', 'tag', 'sort_direction', 'sort_type', 'action', 'grid_location', 'kit_name', 'page_source', 'element_position', 'element', 'event_type', 'modal_type', 'method', 'status', 'step', 'item', 'category', 'element_location', 'search_term', 'section', 'site_area'];
+  var data = {};
+  var details = {};
+
+  var init = function init() {
+    objectCreator(detailsKeys, details);
+    objectCreator(dataKeys, data);
+    var commandSplit = command.split('/');
+    data.placement = commandSplit[0];
+    data.event = commandSplit[1]; // If 'details' is not empty, add the details object to the data object.
+
+    if (Object.keys(details).length) {
+      data.details = details;
+    }
+  };
+
+  init();
+  $e.run(command, data);
+};
+
+exports.appsEventTrackingDispatch = appsEventTrackingDispatch;
+
+/***/ }),
+
 /***/ "../core/app/assets/js/hooks/use-action.js":
 /*!*************************************************!*\
   !*** ../core/app/assets/js/hooks/use-action.js ***!
@@ -3401,7 +2979,7 @@ var Button = /*#__PURE__*/function (_BaseButton) {
 
 exports["default"] = Button;
 (0, _defineProperty2.default)(Button, "defaultProps", Object.assign({}
-/* clone */
+/* Clone */
 , _button.default.defaultProps, {
   hideText: true,
   includeHeaderBtnClass: true
@@ -3538,7 +3116,8 @@ function Header(props) {
 Header.propTypes = {
   title: PropTypes.string,
   titleRedirectRoute: PropTypes.string,
-  buttons: PropTypes.arrayOf(PropTypes.object)
+  buttons: PropTypes.arrayOf(PropTypes.object),
+  onClose: PropTypes.func
 };
 Header.defaultProps = {
   buttons: []
@@ -3596,7 +3175,12 @@ function Page(props) {
   }, /*#__PURE__*/_react.default.createElement(_header.default, {
     title: props.title,
     buttons: props.headerButtons,
-    titleRedirectRoute: props.titleRedirectRoute
+    titleRedirectRoute: props.titleRedirectRoute,
+    onClose: function onClose() {
+      var _props$onClose;
+
+      return (_props$onClose = props.onClose) === null || _props$onClose === void 0 ? void 0 : _props$onClose.call(props);
+    }
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "eps-app__main"
   }, AppSidebar(), /*#__PURE__*/_react.default.createElement(_content.default, null, props.content)), AppFooter()));
@@ -3609,7 +3193,8 @@ Page.propTypes = {
   headerButtons: PropTypes.arrayOf(PropTypes.object),
   sidebar: PropTypes.object,
   content: PropTypes.object.isRequired,
-  footer: PropTypes.object
+  footer: PropTypes.object,
+  onClose: PropTypes.func
 };
 Page.defaultProps = {
   className: ''
@@ -4087,7 +3672,7 @@ function Tooltip(props) {
       classes = [baseClassName, props.className],
       childRef = (0, _react.useRef)(null),
       isAborted = (0, _react.useRef)(false),
-      isManualControl = props.hasOwnProperty('show'),
+      isManualControl = Object.prototype.hasOwnProperty.call(props, 'show'),
       _useState = (0, _react.useState)(false),
       _useState2 = (0, _slicedToArray2.default)(_useState, 2),
       isLibraryLoaded = _useState2[0],
@@ -4252,6 +3837,10 @@ function UploadFile(props) {
     hideText: props.isLoading,
     icon: props.isLoading ? 'eicon-loading eicon-animation-spin' : '',
     onClick: function onClick() {
+      if (props.onFileChoose) {
+        props.onFileChoose();
+      }
+
       if (!props.isLoading) {
         if (props.onButtonClick) {
           props.onButtonClick();
@@ -4295,7 +3884,8 @@ UploadFile.propTypes = {
   onError: PropTypes.func,
   variant: PropTypes.string,
   color: PropTypes.string,
-  onButtonClick: PropTypes.func
+  onButtonClick: PropTypes.func,
+  onFileChoose: PropTypes.func
 };
 UploadFile.defaultProps = {
   className: '',
@@ -4390,7 +3980,8 @@ function DropZone(props) {
     text: props.buttonText,
     filetypes: props.filetypes,
     variant: props.buttonVariant,
-    color: props.buttonColor
+    color: props.buttonColor,
+    onFileChoose: props.onFileChoose
   }), props.description && /*#__PURE__*/_react.default.createElement(_text.default, {
     variant: "xl",
     className: "e-app-drop-zone__description"
@@ -4416,7 +4007,8 @@ DropZone.propTypes = {
   filetypes: PropTypes.array.isRequired,
   onError: PropTypes.func,
   description: PropTypes.string,
-  onButtonClick: PropTypes.func
+  onButtonClick: PropTypes.func,
+  onFileChoose: PropTypes.func
 };
 DropZone.defaultProps = {
   className: '',
@@ -4579,6 +4171,9 @@ function UnfilteredFilesDialog(props) {
       onReady = props.onReady,
       onCancel = props.onCancel,
       onDismiss = props.onDismiss,
+      onLoad = props.onLoad,
+      onEnable = props.onEnable,
+      onClose = props.onClose,
       _useAjax = (0, _useAjax2.default)(),
       ajaxState = _useAjax.ajaxState,
       setAjax = _useAjax.setAjax,
@@ -4605,6 +4200,10 @@ function UnfilteredFilesDialog(props) {
           })
         }
       });
+
+      if (onEnable) {
+        onEnable();
+      }
     }
   }, [enableUnfilteredFiles]); // Enabling unfiltered files ajax status.
 
@@ -4620,18 +4219,23 @@ function UnfilteredFilesDialog(props) {
         break;
     }
   }, [ajaxState]);
+  (0, _react.useEffect)(function () {
+    if (show && onLoad) {
+      onLoad();
+    }
+  }, [show]);
 
   if (!show) {
     return null;
   }
 
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, isEnableError ? /*#__PURE__*/_react.default.createElement(_dialog.default, {
-    title: __('Sorry, something went wrong.', 'elementor'),
+    title: __('Something went wrong.', 'elementor'),
     text: props.errorModalText,
     approveButtonColor: "link",
     approveButtonText: __('Continue', 'elementor'),
     approveButtonOnClick: onReady,
-    dismissButtonText: __('Go back', 'elementor'),
+    dismissButtonText: __('Go Back', 'elementor'),
     dismissButtonOnClick: onCancel,
     onClose: onCancel
   }) : /*#__PURE__*/_react.default.createElement(_dialog.default, {
@@ -4644,7 +4248,7 @@ function UnfilteredFilesDialog(props) {
     },
     dismissButtonText: __('Skip', 'elementor'),
     dismissButtonOnClick: onDismiss || onReady,
-    onClose: onDismiss || onReady
+    onClose: onClose || onDismiss || onReady
   }));
 }
 
@@ -4655,10 +4259,15 @@ UnfilteredFilesDialog.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onDismiss: PropTypes.func,
   confirmModalText: PropTypes.string.isRequired,
-  errorModalText: PropTypes.string.isRequired
+  errorModalText: PropTypes.string.isRequired,
+  onLoad: PropTypes.func,
+  onEnable: PropTypes.func,
+  onClose: PropTypes.func
 };
 UnfilteredFilesDialog.defaultProps = {
-  show: false
+  show: false,
+  onReady: function onReady() {},
+  onCancel: function onCancel() {}
 };
 
 /***/ }),
@@ -4815,7 +4424,7 @@ function Box(props) {
       classes = [baseClassName, props.className],
       style = {};
 
-  if (props.hasOwnProperty('padding')) {
+  if (Object.prototype.hasOwnProperty.call(props, 'padding')) {
     style['--eps-box-padding'] = (0, _utils.pxToRem)(props.padding);
     classes.push(baseClassName + '--padding');
   }
@@ -5120,7 +4729,12 @@ function Select(props) {
     className: props.className,
     value: props.value,
     onChange: props.onChange,
-    ref: props.elRef
+    ref: props.elRef,
+    onClick: function onClick() {
+      var _props$onClick;
+
+      return (_props$onClick = props.onClick) === null || _props$onClick === void 0 ? void 0 : _props$onClick.call(props);
+    }
   }, props.options.map(function (option) {
     return option.children ? /*#__PURE__*/_react.default.createElement("optgroup", {
       label: option.label,
@@ -5143,7 +4757,8 @@ Select.propTypes = {
   options: PropTypes.array,
   elRef: PropTypes.object,
   multiple: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
+  value: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
+  onClick: PropTypes.func
 };
 Select.defaultProps = {
   className: '',
@@ -5290,7 +4905,7 @@ function CardBody(props) {
       classes = [classNameBase, props.className],
       style = {};
 
-  if (props.hasOwnProperty('padding')) {
+  if (Object.prototype.hasOwnProperty.call(props, 'padding')) {
     style['--eps-card-body-padding'] = (0, _utils.pxToRem)(props.padding);
     classes.push(classNameBase + '--padding');
   }
@@ -5382,7 +4997,7 @@ function CardFooter(props) {
       classes = [classNameBase, props.className],
       style = {};
 
-  if (props.hasOwnProperty('padding')) {
+  if (Object.prototype.hasOwnProperty.call(props, 'padding')) {
     style['--eps-card-footer-padding'] = (0, _utils.pxToRem)(props.padding);
     classes.push(classNameBase + '--padding');
   }
@@ -5434,7 +5049,7 @@ function CardHeader(props) {
       classes = [classNameBase, props.className],
       style = {};
 
-  if (props.hasOwnProperty('padding')) {
+  if (Object.prototype.hasOwnProperty.call(props, 'padding')) {
     style['--eps-card-header-padding'] = (0, _utils.pxToRem)(props.padding);
     classes.push(classNameBase + '--padding');
   }
@@ -6273,7 +5888,9 @@ ModalProvider.propTypes = {
   title: PropTypes.string,
   icon: PropTypes.string,
   show: PropTypes.bool,
-  setShow: PropTypes.func
+  setShow: PropTypes.func,
+  onOpen: PropTypes.func,
+  onClose: PropTypes.func
 };
 ModalProvider.defaultProps = {
   show: false
@@ -6287,18 +5904,25 @@ var Modal = function Modal(props) {
       closeModal = function closeModal(e) {
     var node = modalRef.current,
         closeNode = closeRef.current,
-        isInCloseNode = closeNode && closeNode.contains(e.target); // ignore if click is inside the modal
+        isInCloseNode = closeNode && closeNode.contains(e.target); // Ignore if click is inside the modal
 
     if (node && node.contains(e.target) && !isInCloseNode) {
       return;
     }
 
     props.hideModal();
+
+    if (props.onClose) {
+      props.onClose(e);
+    }
   };
 
   (0, _react.useEffect)(function () {
     if (props.show) {
+      var _props$onOpen;
+
       document.addEventListener('mousedown', closeModal, false);
+      (_props$onOpen = props.onOpen) === null || _props$onOpen === void 0 ? void 0 : _props$onOpen.call(props);
     }
 
     return function () {
@@ -6357,7 +5981,9 @@ Modal.propTypes = {
   setShow: PropTypes.func,
   hideModal: PropTypes.func,
   showModal: PropTypes.func,
-  closeModal: PropTypes.func
+  closeModal: PropTypes.func,
+  onOpen: PropTypes.func,
+  onClose: PropTypes.func
 };
 Modal.defaultProps = {
   className: ''
@@ -6612,7 +6238,8 @@ function InlineLink(props) {
       href: props.url,
       target: props.target,
       rel: props.rel,
-      className: className
+      className: className,
+      onClick: props.onClick
     }, props.children);
   },
       getActionLink = function getActionLink() {
@@ -6638,7 +6265,8 @@ InlineLink.propTypes = {
   text: PropTypes.string,
   color: PropTypes.oneOf(['primary', 'secondary', 'cta', 'link', 'disabled']),
   underline: PropTypes.oneOf(['none', 'hover', 'always']),
-  italic: PropTypes.bool
+  italic: PropTypes.bool,
+  onClick: PropTypes.func
 };
 InlineLink.defaultProps = {
   className: '',
@@ -6676,7 +6304,7 @@ function ListItem(props) {
       classes = [baseClassName, props.className];
   var style;
 
-  if (props.hasOwnProperty('padding')) {
+  if (Object.prototype.hasOwnProperty.call(props, 'padding')) {
     style = {
       '--eps-list-item-padding': (0, _utils.pxToRem)(props.padding)
     };
@@ -6730,7 +6358,7 @@ function List(props) {
       classes = [baseClassName, props.className];
   var style;
 
-  if (props.hasOwnProperty('padding')) {
+  if (Object.prototype.hasOwnProperty.call(props, 'padding')) {
     style = {
       '--eps-list-padding': (0, _utils.pxToRem)(props.padding)
     };
@@ -7251,7 +6879,7 @@ function TableCheckbox(props) {
       selected = _ref.selected,
       disabled = _ref.disabled,
       setSelected = _ref.setSelected,
-      isSelectAllCheckbox = props.hasOwnProperty('allSelectedCount'),
+      isSelectAllCheckbox = Object.prototype.hasOwnProperty.call(props, 'allSelectedCount'),
       isAllSelected = selected.length === props.allSelectedCount,
       isIndeterminate = isSelectAllCheckbox ? !!(selected.length - disabled.length && !isAllSelected) : false,
       isSelected = isSelectAllCheckbox ? isAllSelected : selected.includes(props.index),
@@ -7940,7 +7568,8 @@ function SharedContextProvider(props) {
     }),
     referrer: null,
     customPostTypes: [],
-    selectedCustomPostTypes: []
+    selectedCustomPostTypes: [],
+    currentPage: null
   },
       _useReducer = (0, _react.useReducer)(_sharedContextReducer.reducer, initialState),
       _useReducer2 = (0, _slicedToArray2.default)(_useReducer, 2),
@@ -8014,6 +7643,11 @@ var reducer = function reducer(state, _ref) {
     case 'SET_SELECTED_CPT':
       return _objectSpread(_objectSpread({}, state), {}, {
         selectedCustomPostTypes: payload
+      });
+
+    case 'SET_CURRENT_PAGE_NAME':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        currentPage: payload
       });
 
     default:
@@ -8700,7 +8334,7 @@ function ExportComplete() {
     return /*#__PURE__*/_react.default.createElement(_inlineLink.default, {
       onClick: downloadFile,
       italic: true
-    }, __('Click Here', 'elementor'));
+    }, __('Click here', 'elementor'));
   };
 
   (0, _react.useEffect)(function () {
@@ -9631,30 +9265,48 @@ var _actionsFooter = _interopRequireDefault(__webpack_require__(/*! ../../../../
 
 var _button = _interopRequireDefault(__webpack_require__(/*! elementor-app/ui/molecules/button */ "../core/app/assets/js/ui/molecules/button.js"));
 
-var _useImportActions2 = _interopRequireDefault(__webpack_require__(/*! ../../../hooks/use-import-actions */ "../core/app/modules/import-export/assets/js/pages/import/hooks/use-import-actions.js"));
+var _useAction = _interopRequireDefault(__webpack_require__(/*! elementor-app/hooks/use-action */ "../core/app/assets/js/hooks/use-action.js"));
+
+var _appsEventTracking = __webpack_require__(/*! elementor-app/event-track/apps-event-tracking */ "../core/app/assets/js/event-track/apps-event-tracking.js");
 
 function ImportCompleteFooter(_ref) {
-  var seeItLiveUrl = _ref.seeItLiveUrl;
+  var seeItLiveUrl = _ref.seeItLiveUrl,
+      referrer = _ref.referrer;
 
-  var _useImportActions = (0, _useImportActions2.default)(),
-      closeApp = _useImportActions.closeApp;
+  var action = (0, _useAction.default)(),
+      eventTracking = function eventTracking(command) {
+    var eventType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'click';
+
+    if ('kit-library' === referrer) {
+      (0, _appsEventTracking.appsEventTrackingDispatch)(command, {
+        page_source: 'kit is live',
+        element_location: 'app_wizard_footer',
+        event_type: eventType
+      });
+    }
+  };
 
   return /*#__PURE__*/_react.default.createElement(_actionsFooter.default, null, seeItLiveUrl && /*#__PURE__*/_react.default.createElement(_button.default, {
     text: __('See it live', 'elementor'),
     variant: "contained",
     onClick: function onClick() {
-      return window.open(seeItLiveUrl, '_blank');
+      eventTracking('kit-library/see-it-live');
+      window.open(seeItLiveUrl, '_blank');
     }
   }), /*#__PURE__*/_react.default.createElement(_button.default, {
     text: __('Close', 'elementor'),
     variant: "contained",
     color: "primary",
-    onClick: closeApp
+    onClick: function onClick() {
+      eventTracking('kit-library/close');
+      action.backToDashboard();
+    }
   }));
 }
 
 ImportCompleteFooter.propTypes = {
-  seeItLiveUrl: PropTypes.string
+  seeItLiveUrl: PropTypes.string,
+  referrer: PropTypes.string
 };
 
 /***/ }),
@@ -9777,6 +9429,8 @@ var _connectProNotice = _interopRequireDefault(__webpack_require__(/*! ./compone
 
 var _importCompleteFooter = _interopRequireDefault(__webpack_require__(/*! ./components/import-complete-footer/import-complete-footer */ "../core/app/modules/import-export/assets/js/pages/import/import-complete/components/import-complete-footer/import-complete-footer.js"));
 
+var _appsEventTracking = __webpack_require__(/*! elementor-app/event-track/apps-event-tracking */ "../core/app/assets/js/event-track/apps-event-tracking.js");
+
 var _useImportedKitData2 = _interopRequireDefault(__webpack_require__(/*! ./hooks/use-imported-kit-data */ "../core/app/modules/import-export/assets/js/pages/import/import-complete/hooks/use-imported-kit-data.js"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -9792,6 +9446,8 @@ function ImportComplete() {
       uploadedData = _ref.uploadedData,
       importedData = _ref.importedData,
       isProInstalledDuringProcess = _ref.isProInstalledDuringProcess,
+      _ref2 = sharedContext.data || {},
+      referrer = _ref2.referrer,
       _useImportedKitData = (0, _useImportedKitData2.default)(),
       getTemplates = _useImportedKitData.getTemplates,
       getContent = _useImportedKitData.getContent,
@@ -9800,9 +9456,9 @@ function ImportComplete() {
       _getPlugins = getPlugins(importedPlugins),
       activePlugins = _getPlugins.activePlugins,
       failedPlugins = _getPlugins.failedPlugins,
-      _ref2 = (importedData === null || importedData === void 0 ? void 0 : importedData.configData) || {},
-      elementorHomePageUrl = _ref2.elementorHomePageUrl,
-      recentlyEditedElementorPageUrl = _ref2.recentlyEditedElementorPageUrl,
+      _ref3 = (importedData === null || importedData === void 0 ? void 0 : importedData.configData) || {},
+      elementorHomePageUrl = _ref3.elementorHomePageUrl,
+      recentlyEditedElementorPageUrl = _ref3.recentlyEditedElementorPageUrl,
       seeItLiveUrl = elementorHomePageUrl || recentlyEditedElementorPageUrl || null,
       getKitData = function getKitData() {
     if (!uploadedData || !importedData) {
@@ -9819,6 +9475,18 @@ function ImportComplete() {
       configData: importedData.configData
     };
   },
+      eventTracking = function eventTracking(command, source) {
+    var eventType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'click';
+    var elementLocation = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+    if ('kit-library' === referrer) {
+      (0, _appsEventTracking.appsEventTrackingDispatch)(command, {
+        page_source: source,
+        event_type: eventType,
+        element_location: elementLocation
+      });
+    }
+  },
       kitData = (0, _react.useMemo)(function () {
     return getKitData();
   }, []);
@@ -9827,11 +9495,21 @@ function ImportComplete() {
     if (!uploadedData) {
       navigate('/import');
     }
+
+    if (uploadedData) {
+      eventTracking('kit-library/kit-is-live-load', 'kit is live', 'load');
+    }
+
+    sharedContext.dispatch({
+      type: 'SET_CURRENT_PAGE_NAME',
+      payload: ImportComplete.name
+    });
   }, []);
   return /*#__PURE__*/_react.default.createElement(_layout.default, {
     type: "import",
     footer: /*#__PURE__*/_react.default.createElement(_importCompleteFooter.default, {
-      seeItLiveUrl: seeItLiveUrl
+      seeItLiveUrl: seeItLiveUrl,
+      referrer: referrer
     })
   }, /*#__PURE__*/_react.default.createElement(_wizardStep.default, {
     image: elementorAppConfig.assets_url + 'images/go-pro.svg',
@@ -9839,8 +9517,11 @@ function ImportComplete() {
     description: __('You’ve imported and applied the following to your site:', 'elementor'),
     notice: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_inlineLink.default, {
       url: "https://go.elementor.com/app-what-are-kits",
-      italic: true
-    }, __('Click Here', 'elementor')), " ", __('to learn more about building your site with Elementor Kits', 'elementor'))
+      italic: true,
+      onClick: function onClick() {
+        return eventTracking('kit-library/seek-more-info', 'kit is live', 'click', 'app_header');
+      }
+    }, __('Click here', 'elementor')), " ", __('to learn more about building your site with Elementor Kits', 'elementor'))
   }, !!failedPlugins.length && /*#__PURE__*/_react.default.createElement(_failedPluginsNotice.default, {
     failedPlugins: failedPlugins
   }), isProInstalledDuringProcess && /*#__PURE__*/_react.default.createElement(_connectProNotice.default, null), /*#__PURE__*/_react.default.createElement(_kitData.default, {
@@ -9977,7 +9658,9 @@ function ImportContentFooter(_ref) {
   var hasPlugins = _ref.hasPlugins,
       hasConflicts = _ref.hasConflicts,
       isImportAllowed = _ref.isImportAllowed,
-      onResetProcess = _ref.onResetProcess;
+      onResetProcess = _ref.onResetProcess,
+      onPreviousClick = _ref.onPreviousClick,
+      onImportClick = _ref.onImportClick;
 
   var navigate = (0, _router.useNavigate)(),
       getNextPageUrl = function getNextPageUrl() {
@@ -9994,6 +9677,8 @@ function ImportContentFooter(_ref) {
     text: __('Previous', 'elementor'),
     variant: "contained",
     onClick: function onClick() {
+      onPreviousClick === null || onPreviousClick === void 0 ? void 0 : onPreviousClick();
+
       if (hasPlugins) {
         navigate('import/plugins/');
       } else {
@@ -10005,6 +9690,7 @@ function ImportContentFooter(_ref) {
     text: __('Import', 'elementor'),
     color: isImportAllowed ? 'primary' : 'disabled',
     onClick: function onClick() {
+      onImportClick === null || onImportClick === void 0 ? void 0 : onImportClick();
       return isImportAllowed && navigate(getNextPageUrl());
     }
   }));
@@ -10014,7 +9700,9 @@ ImportContentFooter.propTypes = {
   hasPlugins: PropTypes.bool,
   hasConflicts: PropTypes.bool,
   isImportAllowed: PropTypes.bool,
-  onResetProcess: PropTypes.func.isRequired
+  onResetProcess: PropTypes.func.isRequired,
+  onPreviousClick: PropTypes.func,
+  onImportClick: PropTypes.func
 };
 
 /***/ }),
@@ -10044,6 +9732,8 @@ var _sharedContextProvider = __webpack_require__(/*! ../../../context/shared-con
 
 var _importContextProvider = __webpack_require__(/*! ../../../context/import-context/import-context-provider */ "../core/app/modules/import-export/assets/js/context/import-context/import-context-provider.js");
 
+var _appsEventTracking = __webpack_require__(/*! elementor-app/event-track/apps-event-tracking */ "../core/app/assets/js/event-track/apps-event-tracking.js");
+
 var _layout = _interopRequireDefault(__webpack_require__(/*! ../../../templates/layout */ "../core/app/modules/import-export/assets/js/templates/layout.js"));
 
 var _pageHeader = _interopRequireDefault(__webpack_require__(/*! ../../../ui/page-header/page-header */ "../core/app/modules/import-export/assets/js/ui/page-header/page-header.js"));
@@ -10063,7 +9753,10 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 function ImportContent() {
   var sharedContext = (0, _react.useContext)(_sharedContextProvider.SharedContext),
       importContext = (0, _react.useContext)(_importContextProvider.ImportContext),
-      includes = sharedContext.data.includes,
+      _sharedContext$data = sharedContext.data,
+      referrer = _sharedContext$data.referrer,
+      includes = _sharedContext$data.includes,
+      currentPage = _sharedContext$data.currentPage,
       _importContext$data = importContext.data,
       plugins = _importContext$data.plugins,
       requiredPlugins = _importContext$data.requiredPlugins,
@@ -10078,15 +9771,36 @@ function ImportContent() {
       payload: null
     });
   },
+      eventTracking = function eventTracking(command) {
+    if ('kit-library' === referrer) {
+      (0, _appsEventTracking.appsEventTrackingDispatch)(command, {
+        page_source: 'import',
+        step: currentPage,
+        event_type: 'click'
+      });
+    }
+  },
       getFooter = function getFooter() {
     return /*#__PURE__*/_react.default.createElement(_importContentFooter.default, {
       hasPlugins: !!plugins.length,
       hasConflicts: !!(includes.includes('templates') && uploadedData !== null && uploadedData !== void 0 && uploadedData.conflicts),
       isImportAllowed: !!(plugins.length || includes.length),
-      onResetProcess: handleResetProcess
+      onResetProcess: handleResetProcess,
+      onPreviousClick: function onPreviousClick() {
+        return eventTracking('kit-library/go-back');
+      },
+      onImportClick: function onImportClick() {
+        return eventTracking('kit-library/approve-import');
+      }
     });
-  }; // On file change.
+  };
 
+  (0, _react.useEffect)(function () {
+    sharedContext.dispatch({
+      type: 'SET_CURRENT_PAGE_NAME',
+      payload: ImportContent.name
+    });
+  }, []); // On file change.
 
   (0, _react.useEffect)(function () {
     if (!file) {
@@ -10207,6 +9921,8 @@ var _dropZone = _interopRequireDefault(__webpack_require__(/*! elementor-app/org
 
 var _button = _interopRequireDefault(__webpack_require__(/*! elementor-app/ui/molecules/button */ "../core/app/assets/js/ui/molecules/button.js"));
 
+var _appsEventTracking = __webpack_require__(/*! elementor-app/event-track/apps-event-tracking */ "../core/app/assets/js/event-track/apps-event-tracking.js");
+
 var _useKit2 = _interopRequireDefault(__webpack_require__(/*! ../../../hooks/use-kit */ "../core/app/modules/import-export/assets/js/hooks/use-kit.js"));
 
 __webpack_require__(/*! ./import-kit.scss */ "../core/app/modules/import-export/assets/js/pages/import/import-kit/import-kit.scss");
@@ -10231,7 +9947,9 @@ function ImportKit() {
       _useState4 = (0, _slicedToArray2.default)(_useState3, 2),
       isLoading = _useState4[0],
       setIsLoading = _useState4[1],
-      referrer = sharedContext.data.referrer,
+      _sharedContext$data = sharedContext.data,
+      referrer = _sharedContext$data.referrer,
+      currentPage = _sharedContext$data.currentPage,
       resetImportProcess = function resetImportProcess() {
     importContext.dispatch({
       type: 'SET_FILE',
@@ -10241,11 +9959,47 @@ function ImportKit() {
     setIsLoading(false);
     kitActions.reset();
   },
+      eventTracking = function eventTracking(command) {
+    var event = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var eventType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'click';
+    var error = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+    var modalType = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
+    var uploadMethod = arguments.length > 5 ? arguments[5] : undefined;
+
+    if ('kit-library' === referrer) {
+      var uploadMethodName = null;
+
+      if (uploadMethod) {
+        uploadMethodName = 'drop' === uploadMethod ? 'drag-drop' : 'browse';
+      }
+
+      var element = null;
+
+      if (event && 'eps-button eps-dialog__button' === event.currentTarget.className.trim()) {
+        element = 'close button';
+      } else if (event && 'eps-button eps-dialog__close-button' === event.currentTarget.className.trim()) {
+        element = 'x';
+      }
+
+      (0, _appsEventTracking.appsEventTrackingDispatch)(command, {
+        element: element,
+        page_source: 'import',
+        event_type: eventType,
+        step: currentPage,
+        error: 'general' === error ? 'unknown' : error,
+        modal_type: modalType,
+        method: uploadMethodName
+      });
+    }
+  },
       getLearnMoreLink = function getLearnMoreLink() {
     return /*#__PURE__*/_react.default.createElement(_inlineLink.default, {
       url: "https://go.elementor.com/app-what-are-kits",
       key: "learn-more-link",
-      italic: true
+      italic: true,
+      onClick: function onClick() {
+        return eventTracking('kit-library/seek-more-info', null, 'click');
+      }
     }, __('Learn More', 'elementor'));
   }; // On load.
 
@@ -10254,6 +10008,10 @@ function ImportKit() {
     sharedContext.dispatch({
       type: 'SET_INCLUDES',
       payload: []
+    });
+    sharedContext.dispatch({
+      type: 'SET_CURRENT_PAGE_NAME',
+      payload: ImportKit.name
     });
   }, []); // Uploading the kit after file is selected.
 
@@ -10304,12 +10062,16 @@ function ImportKit() {
     text: __('Drag & drop the .zip file with your Kit', 'elementor'),
     secondaryText: __('Or', 'elementor'),
     filetypes: ['zip'],
-    onFileSelect: function onFileSelect(file) {
+    onFileChoose: function onFileChoose() {
+      return eventTracking('kit-library/choose-file');
+    },
+    onFileSelect: function onFileSelect(file, e) {
       setIsLoading(true);
       importContext.dispatch({
         type: 'SET_FILE',
         payload: file
       });
+      eventTracking('kit-library/file-upload', null, 'feedback', null, null, e.type);
     },
     onError: function onError() {
       return setErrorType('general');
@@ -10317,7 +10079,16 @@ function ImportKit() {
     isLoading: isLoading
   }), errorType && /*#__PURE__*/_react.default.createElement(_processFailedDialog.default, {
     errorType: errorType,
-    onApprove: resetImportProcess
+    onApprove: resetImportProcess,
+    onModalClose: function onModalClose(event) {
+      return eventTracking('kit-library/modal-close', event, 'load', null, 'error');
+    },
+    onError: function onError() {
+      return eventTracking('kit-library/modal-open', null, 'load', errorType, 'error');
+    },
+    onLearnMore: function onLearnMore() {
+      return eventTracking('kit-library/seek-more-info', null, 'click', null, 'error');
+    }
   })));
 }
 
@@ -10502,7 +10273,7 @@ function useInstallPlugins(_ref) {
       if (Array.isArray(data)) {
         // When the data type is an Array it means that the plugins data was fetched.
         setIsPluginsFetched(true);
-      } else if (!data.hasOwnProperty('plugin')) {
+      } else if (!Object.prototype.hasOwnProperty.call(data, 'plugin')) {
         setActionStatus(ACTION_STATUS_MAP.FAILED);
       } else if (_usePlugins2.PLUGIN_STATUS_MAP.ACTIVE === data.status) {
         setActionStatus(ACTION_STATUS_MAP.ACTIVATED);
@@ -10577,6 +10348,8 @@ var _router = __webpack_require__(/*! @reach/router */ "../node_modules/@reach/r
 
 var _importContextProvider = __webpack_require__(/*! ../../../context/import-context/import-context-provider */ "../core/app/modules/import-export/assets/js/context/import-context/import-context-provider.js");
 
+var _sharedContextProvider = __webpack_require__(/*! ../../../context/shared-context/shared-context-provider */ "../core/app/modules/import-export/assets/js/context/shared-context/shared-context-provider.js");
+
 var _layout = _interopRequireDefault(__webpack_require__(/*! ../../../templates/layout */ "../core/app/modules/import-export/assets/js/templates/layout.js"));
 
 var _fileProcess = _interopRequireDefault(__webpack_require__(/*! ../../../shared/file-process/file-process */ "../core/app/modules/import-export/assets/js/shared/file-process/file-process.js"));
@@ -10597,6 +10370,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 function ImportPluginsActivation() {
   var importContext = (0, _react.useContext)(_importContextProvider.ImportContext),
+      sharedContext = (0, _react.useContext)(_sharedContextProvider.SharedContext),
       navigate = (0, _router.useNavigate)(),
       _useInstallPlugins = (0, _useInstallPlugins2.default)({
     plugins: importContext.data.plugins
@@ -10621,6 +10395,10 @@ function ImportPluginsActivation() {
       importContext.dispatch({
         type: 'SET_PLUGINS_STATE',
         payload: 'success'
+      });
+      sharedContext.dispatch({
+        type: 'SET_CURRENT_PAGE_NAME',
+        payload: ImportPluginsActivation.name
       });
     }
   }, [isDone]); // Once the imported plugins data was updated.
@@ -10735,6 +10513,7 @@ ExistingPlugins.propTypes = {
 
 "use strict";
 /* provided dependency */ var __ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n")["__"];
+/* provided dependency */ var PropTypes = __webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js");
 
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
@@ -10760,7 +10539,7 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function ImportPluginsFooter() {
+function ImportPluginsFooter(props) {
   var importContext = (0, _react.useContext)(_importContextProvider.ImportContext),
       _useImportActions = (0, _useImportActions2.default)(),
       navigateToMainScreen = _useImportActions.navigateToMainScreen;
@@ -10769,19 +10548,32 @@ function ImportPluginsFooter() {
     text: __('Previous', 'elementor'),
     variant: "contained",
     onClick: function onClick() {
+      var _props$onPreviousClic;
+
       importContext.dispatch({
         type: 'SET_FILE',
         payload: null
       });
+      (_props$onPreviousClic = props.onPreviousClick) === null || _props$onPreviousClic === void 0 ? void 0 : _props$onPreviousClic.call(props);
       navigateToMainScreen();
     }
   }), /*#__PURE__*/_react.default.createElement(_button.default, {
     variant: "contained",
     text: __('Next', 'elementor'),
     color: "primary",
-    url: "/import/content"
+    url: "/import/content",
+    onClick: function onClick() {
+      var _props$onNextClick;
+
+      (_props$onNextClick = props.onNextClick) === null || _props$onNextClick === void 0 ? void 0 : _props$onNextClick.call(props);
+    }
   }));
 }
+
+ImportPluginsFooter.propTypes = {
+  onPreviousClick: PropTypes.func,
+  onNextClick: PropTypes.func
+};
 
 /***/ }),
 
@@ -11073,6 +10865,8 @@ var _router = __webpack_require__(/*! @reach/router */ "../node_modules/@reach/r
 
 var _importContextProvider = __webpack_require__(/*! ../../../context/import-context/import-context-provider */ "../core/app/modules/import-export/assets/js/context/import-context/import-context-provider.js");
 
+var _sharedContextProvider = __webpack_require__(/*! ../../../context/shared-context/shared-context-provider */ "../core/app/modules/import-export/assets/js/context/shared-context/shared-context-provider.js");
+
 var _layout = _interopRequireDefault(__webpack_require__(/*! ../../../templates/layout */ "../core/app/modules/import-export/assets/js/templates/layout.js"));
 
 var _pageHeader = _interopRequireDefault(__webpack_require__(/*! ../../../ui/page-header/page-header */ "../core/app/modules/import-export/assets/js/ui/page-header/page-header.js"));
@@ -11097,6 +10891,8 @@ var _usePluginsData2 = _interopRequireDefault(__webpack_require__(/*! ../../../h
 
 var _useImportPluginsData2 = _interopRequireDefault(__webpack_require__(/*! ./hooks/use-import-plugins-data */ "../core/app/modules/import-export/assets/js/pages/import/import-plugins/hooks/use-import-plugins-data.js"));
 
+var _appsEventTracking = __webpack_require__(/*! elementor-app/event-track/apps-event-tracking */ "../core/app/assets/js/event-track/apps-event-tracking.js");
+
 __webpack_require__(/*! ./import-plugins.scss */ "../core/app/modules/import-export/assets/js/pages/import/import-plugins/import-plugins.scss");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -11107,6 +10903,7 @@ function ImportPlugins() {
   var _importContext$data$u, _importContext$data$u2;
 
   var importContext = (0, _react.useContext)(_importContextProvider.ImportContext),
+      sharedContext = (0, _react.useContext)(_sharedContextProvider.SharedContext),
       navigate = (0, _router.useNavigate)(),
       kitPlugins = ((_importContext$data$u = importContext.data.uploadedData) === null || _importContext$data$u === void 0 ? void 0 : (_importContext$data$u2 = _importContext$data$u.manifest) === null || _importContext$data$u2 === void 0 ? void 0 : _importContext$data$u2.plugins) || [],
       _usePlugins = (0, _usePlugins2.default)(),
@@ -11121,6 +10918,9 @@ function ImportPlugins() {
       existing = _ref.existing,
       minVersionMissing = _ref.minVersionMissing,
       proData = _ref.proData,
+      _ref2 = sharedContext.data || {},
+      referrer = _ref2.referrer,
+      currentPage = _ref2.currentPage,
       handleRequiredPlugins = function handleRequiredPlugins() {
     if (missing.length) {
       // Saving globally the plugins data that the kit requires in order to work properly.
@@ -11145,6 +10945,15 @@ function ImportPlugins() {
         payload: true
       });
     }
+  },
+      eventTracking = function eventTracking(command) {
+    if ('kit-library' === referrer) {
+      (0, _appsEventTracking.appsEventTrackingDispatch)(command, {
+        page_source: 'import',
+        step: currentPage,
+        event_type: 'click'
+      });
+    }
   }; // On load.
 
 
@@ -11152,6 +10961,11 @@ function ImportPlugins() {
     if (!kitPlugins.length) {
       navigate('import/content');
     }
+
+    sharedContext.dispatch({
+      type: 'SET_CURRENT_PAGE_NAME',
+      payload: ImportPlugins.name
+    });
   }, []); // On plugins data ready.
 
   (0, _react.useEffect)(function () {
@@ -11163,8 +10977,15 @@ function ImportPlugins() {
     }
   }, [importPluginsData]);
   return /*#__PURE__*/_react.default.createElement(_layout.default, {
-    type: "export",
-    footer: /*#__PURE__*/_react.default.createElement(_importPluginsFooter.default, null)
+    type: "import",
+    footer: /*#__PURE__*/_react.default.createElement(_importPluginsFooter.default, {
+      onPreviousClick: function onPreviousClick() {
+        return eventTracking('kit-library/go-back');
+      },
+      onNextClick: function onNextClick() {
+        return eventTracking('kit-library/approve-selection');
+      }
+    })
   }, /*#__PURE__*/_react.default.createElement("section", {
     className: "e-app-import-plugins"
   }, !importPluginsData && /*#__PURE__*/_react.default.createElement(_loader.default, {
@@ -11224,6 +11045,8 @@ var _fileProcess = _interopRequireDefault(__webpack_require__(/*! ../../../share
 
 var _unfilteredFilesDialog = _interopRequireDefault(__webpack_require__(/*! elementor-app/organisms/unfiltered-files-dialog */ "../core/app/assets/js/organisms/unfiltered-files-dialog.js"));
 
+var _appsEventTracking = __webpack_require__(/*! elementor-app/event-track/apps-event-tracking */ "../core/app/assets/js/event-track/apps-event-tracking.js");
+
 var _useQueryParams = _interopRequireDefault(__webpack_require__(/*! elementor-app/hooks/use-query-params */ "../core/app/assets/js/hooks/use-query-params.js"));
 
 var _useKit2 = _interopRequireDefault(__webpack_require__(/*! ../../../hooks/use-kit */ "../core/app/modules/import-export/assets/js/hooks/use-kit.js"));
@@ -11269,6 +11092,7 @@ function ImportProcess() {
       _ref = sharedContext.data || {},
       includes = _ref.includes,
       selectedCustomPostTypes = _ref.selectedCustomPostTypes,
+      currentPage = _ref.currentPage,
       _ref2 = importContext.data || {},
       file = _ref2.file,
       uploadedData = _ref2.uploadedData,
@@ -11325,7 +11149,23 @@ function ImportProcess() {
       payload: null
     });
     navigateToMainScreen();
-  }; // on load.
+  },
+      _onReady = function onReady() {
+    setShowUnfilteredFilesDialog(false);
+    setStartImport(true);
+  },
+      eventTracking = function eventTracking(command) {
+    var eventType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'click';
+
+    if ('kit-library' === sharedContext.data.referrer) {
+      (0, _appsEventTracking.appsEventTrackingDispatch)(command, {
+        page_source: 'import',
+        step: currentPage,
+        modal_type: 'unfiltered_file',
+        event_type: eventType
+      });
+    }
+  }; // On load.
 
 
   (0, _react.useEffect)(function () {
@@ -11353,6 +11193,11 @@ function ImportProcess() {
     } else {
       navigate('import');
     }
+
+    sharedContext.dispatch({
+      type: 'SET_CURRENT_PAGE_NAME',
+      payload: ImportProcess.name
+    });
   }, []); // Starting the import process.
 
   (0, _react.useEffect)(function () {
@@ -11449,12 +11294,27 @@ function ImportProcess() {
     confirmModalText: __('This allows Elementor to scan your SVGs for malicious content. Otherwise, you can skip any SVGs in this import.', 'elementor'),
     errorModalText: __('Nothing to worry about, just continue without importing SVGs or go back and start the import again.', 'elementor'),
     onReady: function onReady() {
-      setShowUnfilteredFilesDialog(false);
-      setStartImport(true);
+      return _onReady();
     },
     onCancel: function onCancel() {
       setShowUnfilteredFilesDialog(false);
       onCancelProcess();
+    },
+    onLoad: function onLoad() {
+      return eventTracking('kit-library/modal-load', 'load');
+    },
+    onClose: function onClose() {
+      eventTracking('kit-library/close');
+
+      _onReady();
+    },
+    onDismiss: function onDismiss() {
+      _onReady();
+
+      eventTracking('kit-library/skip');
+    },
+    onEnable: function onEnable() {
+      return eventTracking('kit-library/enable');
     }
   })));
 }
@@ -11498,6 +11358,11 @@ function ConflictCheckbox(props) {
       updateOverrideCondition = function updateOverrideCondition(event) {
     var isChecked = event.target.checked,
         actionType = isChecked ? 'ADD_OVERRIDE_CONDITION' : 'REMOVE_OVERRIDE_CONDITION';
+
+    if (props.onCheck) {
+      props.onCheck(isChecked);
+    }
+
     importContext.dispatch({
       type: actionType,
       payload: props.id
@@ -11521,7 +11386,8 @@ function ConflictCheckbox(props) {
 
 ConflictCheckbox.propTypes = {
   className: PropTypes.string,
-  id: PropTypes.number.isRequired
+  id: PropTypes.number.isRequired,
+  onCheck: PropTypes.func
 };
 ConflictCheckbox.defaultProps = {
   className: ''
@@ -11553,6 +11419,8 @@ var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "react"));
 
 var _importContextProvider = __webpack_require__(/*! ../../../../../context/import-context/import-context-provider */ "../core/app/modules/import-export/assets/js/context/import-context/import-context-provider.js");
 
+var _sharedContextProvider = __webpack_require__(/*! ../../../../../context/shared-context/shared-context-provider */ "../core/app/modules/import-export/assets/js/context/shared-context/shared-context-provider.js");
+
 var _conflictCheckbox = _interopRequireDefault(__webpack_require__(/*! ./components/conflict-checkbox/conflict-checkbox */ "../core/app/modules/import-export/assets/js/pages/import/import-resolver/components/conflict/components/conflict-checkbox/conflict-checkbox.js"));
 
 var _heading = _interopRequireDefault(__webpack_require__(/*! elementor-app/ui/atoms/heading */ "../core/app/assets/js/ui/atoms/heading.js"));
@@ -11563,6 +11431,8 @@ var _grid = _interopRequireDefault(__webpack_require__(/*! elementor-app/ui/grid
 
 var _button = _interopRequireDefault(__webpack_require__(/*! elementor-app/ui/molecules/button */ "../core/app/assets/js/ui/molecules/button.js"));
 
+var _appsEventTracking = __webpack_require__(/*! elementor-app/event-track/apps-event-tracking */ "../core/app/assets/js/event-track/apps-event-tracking.js");
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -11571,7 +11441,9 @@ function Conflict(props) {
   var _importContext$data$u;
 
   var importContext = (0, _react.useContext)(_importContextProvider.ImportContext),
+      sharedContext = (0, _react.useContext)(_sharedContextProvider.SharedContext),
       manifest = (_importContext$data$u = importContext.data.uploadedData) === null || _importContext$data$u === void 0 ? void 0 : _importContext$data$u.manifest,
+      currentPage = sharedContext.data.currentPage,
       getConflictTitle = function getConflictTitle(id) {
     var _elementorAppConfig$i;
 
@@ -11579,14 +11451,19 @@ function Conflict(props) {
         summaryTitle = (_elementorAppConfig$i = elementorAppConfig['import-export'].summaryTitles.templates) === null || _elementorAppConfig$i === void 0 ? void 0 : _elementorAppConfig$i[templateType];
     return (summaryTitle === null || summaryTitle === void 0 ? void 0 : summaryTitle.single) || templateType;
   },
-      getEditTemplateButton = function getEditTemplateButton(editUrl) {
+      getEditTemplateButton = function getEditTemplateButton(editUrl, title) {
     return /*#__PURE__*/_react.default.createElement(_button.default, {
       className: "e-app-import-resolver-conflicts__edit-template",
       url: editUrl,
       target: "_blank",
       icon: "eicon-editor-external-link",
       text: __('Edit Template', 'elementor'),
-      hideText: true
+      hideText: true,
+      onClick: function onClick() {
+        if (props.onClick) {
+          props.onClick(title);
+        }
+      }
     });
   },
       isImportedAssetSelected = function isImportedAssetSelected(importedAssetId) {
@@ -11606,6 +11483,14 @@ function Conflict(props) {
   },
       getExistingAssetClasses = function getExistingAssetClasses(importedAssetId) {
     return getAssetClassName(!isImportedAssetSelected(importedAssetId));
+  },
+      eventTracking = function eventTracking(command, title) {
+    return (0, _appsEventTracking.appsEventTrackingDispatch)("kit-library/".concat(command), {
+      item: title,
+      page_source: 'import',
+      step: currentPage,
+      event_type: 'click'
+    });
   };
 
   return /*#__PURE__*/_react.default.createElement(_grid.default, {
@@ -11614,7 +11499,11 @@ function Conflict(props) {
   }, /*#__PURE__*/_react.default.createElement(_conflictCheckbox.default, {
     id: props.importedId,
     type: "main-type",
-    className: "e-app-import-resolver-conflicts__checkbox"
+    className: "e-app-import-resolver-conflicts__checkbox",
+    onCheck: function onCheck(isChecked) {
+      var command = isChecked && isChecked ? 'check' : 'uncheck';
+      eventTracking(command, props.conflictData.template_title);
+    }
   }), /*#__PURE__*/_react.default.createElement(_grid.default, {
     item: true
   }, /*#__PURE__*/_react.default.createElement(_heading.default, {
@@ -11627,17 +11516,18 @@ function Conflict(props) {
     variant: "sm",
     tag: "span",
     className: getImportedAssetClasses(props.importedId)
-  }, __('Imported'), ": ", manifest.templates[props.importedId].title), /*#__PURE__*/_react.default.createElement(_text.default, {
+  }, __('Imported', 'elementor'), ": ", manifest.templates[props.importedId].title), /*#__PURE__*/_react.default.createElement(_text.default, {
     style: true,
     variant: "sm",
     tag: "span",
     className: getExistingAssetClasses(props.importedId)
-  }, __('Existing'), ": ", props.conflictData.template_title, " ", getEditTemplateButton(props.conflictData.edit_url)))));
+  }, __('Existing', 'elementor'), ": ", props.conflictData.template_title, " ", getEditTemplateButton(props.conflictData.edit_url, props.conflictData.template_title)))));
 }
 
 Conflict.propTypes = {
   importedId: PropTypes.number,
-  conflictData: PropTypes.object
+  conflictData: PropTypes.object,
+  onClick: PropTypes.func
 };
 
 /***/ }),
@@ -11691,6 +11581,8 @@ var _box = _interopRequireDefault(__webpack_require__(/*! elementor-app/ui/atoms
 
 var _list = _interopRequireDefault(__webpack_require__(/*! elementor-app/ui/molecules/list */ "../core/app/assets/js/ui/molecules/list.js"));
 
+var _appsEventTracking = __webpack_require__(/*! elementor-app/event-track/apps-event-tracking */ "../core/app/assets/js/event-track/apps-event-tracking.js");
+
 __webpack_require__(/*! ./import-resolver.scss */ "../core/app/modules/import-export/assets/js/pages/import/import-resolver/import-resolver.scss");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -11704,18 +11596,35 @@ function ImportResolver() {
       importContext = (0, _react.useContext)(_importContextProvider.ImportContext),
       navigate = (0, _router.useNavigate)(),
       conflicts = ((_importContext$data = importContext.data) === null || _importContext$data === void 0 ? void 0 : (_importContext$data$u = _importContext$data.uploadedData) === null || _importContext$data$u === void 0 ? void 0 : _importContext$data$u.conflicts) || {},
+      _ref = sharedContext.data || {},
+      referrer = _ref.referrer,
+      currentPage = _ref.currentPage,
+      eventTracking = function eventTracking(command) {
+    var sitePart = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+    if ('kit-library' === referrer) {
+      (0, _appsEventTracking.appsEventTrackingDispatch)(command, {
+        site_part: sitePart,
+        page_source: 'import',
+        step: currentPage,
+        event_type: 'click'
+      });
+    }
+  },
       getFooter = function getFooter() {
     return /*#__PURE__*/_react.default.createElement(_actionsFooter.default, null, /*#__PURE__*/_react.default.createElement(_button.default, {
       text: __('Previous', 'elementor'),
       variant: "contained",
       onClick: function onClick() {
-        return navigate('import/content');
+        eventTracking('kit-library/go-back');
+        navigate('import/content');
       }
     }), /*#__PURE__*/_react.default.createElement(_button.default, {
       text: __('Next', 'elementor'),
       variant: "contained",
       color: "primary",
       onClick: function onClick() {
+        eventTracking('kit-library/approve-selection');
         var url = importContext.data.plugins.length ? 'import/plugins-activation' : 'import/process';
         importContext.dispatch({
           type: 'SET_IS_RESOLVED',
@@ -11728,7 +11637,10 @@ function ImportResolver() {
       getLearnMoreLink = function getLearnMoreLink() {
     return /*#__PURE__*/_react.default.createElement(_inlineLink.default, {
       url: "https://go.elementor.com/app-what-are-kits",
-      italic: true
+      italic: true,
+      onClick: function onClick() {
+        return eventTracking('kit-library/seek-more-info');
+      }
     }, __('Learn More', 'elementor'));
   },
       isHomePageOverride = function isHomePageOverride() {
@@ -11748,6 +11660,11 @@ function ImportResolver() {
     if (!importContext.data.uploadedData) {
       navigate('import');
     }
+
+    sharedContext.dispatch({
+      type: 'SET_CURRENT_PAGE_NAME',
+      payload: ImportResolver.name
+    });
   }, []);
   return /*#__PURE__*/_react.default.createElement(_layout.default, {
     type: "import",
@@ -11774,10 +11691,10 @@ function ImportResolver() {
   }, /*#__PURE__*/_react.default.createElement(_list.default, {
     separated: true,
     className: "e-app-import-resolver-conflicts"
-  }, Object.entries(conflicts).map(function (_ref, index) {
-    var _ref2 = (0, _slicedToArray2.default)(_ref, 2),
-        id = _ref2[0],
-        conflict = _ref2[1];
+  }, Object.entries(conflicts).map(function (_ref2, index) {
+    var _ref3 = (0, _slicedToArray2.default)(_ref2, 2),
+        id = _ref3[0],
+        conflict = _ref3[1];
 
     return /*#__PURE__*/_react.default.createElement(_list.default.Item, {
       padding: "20",
@@ -11785,7 +11702,10 @@ function ImportResolver() {
       className: "e-app-import-resolver-conflicts__item"
     }, /*#__PURE__*/_react.default.createElement(_conflict.default, {
       importedId: parseInt(id),
-      conflictData: conflict[0]
+      conflictData: conflict[0],
+      onClick: function onClick(title) {
+        return eventTracking('kit-library/check-item', title);
+      }
     }));
   })))))));
 }
@@ -12105,13 +12025,30 @@ var _inlineLink = _interopRequireDefault(__webpack_require__(/*! elementor-app/u
 
 var _infoModal = _interopRequireDefault(__webpack_require__(/*! ./info-modal */ "../core/app/modules/import-export/assets/js/shared/info-modal/info-modal.js"));
 
+var _appsEventTracking = __webpack_require__(/*! elementor-app/event-track/apps-event-tracking */ "../core/app/assets/js/event-track/apps-event-tracking.js");
+
 function ImportInfoModal(props) {
+  var eventTracking = function eventTracking(element) {
+    return (0, _appsEventTracking.appsEventTrackingDispatch)('kit-library/seek-more-info', {
+      page_source: 'import',
+      modal_type: 'info',
+      event_type: 'click',
+      element: element
+    });
+  };
+
   return /*#__PURE__*/_react.default.createElement(_infoModal.default, (0, _extends2.default)({}, props, {
     title: __('Import a Template Kit', 'elementor')
   }), /*#__PURE__*/_react.default.createElement(_infoModal.default.Section, null, /*#__PURE__*/_react.default.createElement(_infoModal.default.Heading, null, __('What’s a Template Kit?', 'elementor')), /*#__PURE__*/_react.default.createElement(_infoModal.default.Text, null, /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, __('A Template Kit is a .zip file that contains all the parts of a complete site. It’s an easy way to get a site up and running quickly.', 'elementor'), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_inlineLink.default, {
-    url: "https://go.elementor.com/app-what-are-kits"
-  }, __(' Learn more about Template Kits', 'elementor'))))), /*#__PURE__*/_react.default.createElement(_infoModal.default.Section, null, /*#__PURE__*/_react.default.createElement(_infoModal.default.Heading, null, __('How does importing work?', 'elementor')), /*#__PURE__*/_react.default.createElement(_infoModal.default.Text, null, /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, __('Start by uploading the file and selecting the parts and plugins you want to apply. If there are any overlaps between the kit and your current design, you’ll be able to choose which imported parts you want to apply or ignore. Once the file is ready, the kit will be applied to your site and you’ll be able to see it live.', 'elementor'), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_inlineLink.default, {
-    url: "http://go.elementor.com/app-import-kit"
+    url: "https://go.elementor.com/app-what-are-kits",
+    onClick: function onClick() {
+      return eventTracking('Learn more about website kits');
+    }
+  }, __(' Learn more about Website Kits', 'elementor'))))), /*#__PURE__*/_react.default.createElement(_infoModal.default.Section, null, /*#__PURE__*/_react.default.createElement(_infoModal.default.Heading, null, __('How does importing work?', 'elementor')), /*#__PURE__*/_react.default.createElement(_infoModal.default.Text, null, /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, __('Start by uploading the file and selecting the parts and plugins you want to apply. If there are any overlaps between the kit and your current design, you’ll be able to choose which imported parts you want to apply or ignore. Once the file is ready, the kit will be applied to your site and you’ll be able to see it live.', 'elementor'), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_inlineLink.default, {
+    url: "http://go.elementor.com/app-import-kit",
+    onClick: function onClick() {
+      return eventTracking('learn more');
+    }
   }, __('Learn More', 'elementor'))))));
 }
 
@@ -12325,10 +12262,13 @@ exports.infoButtonProps = infoButtonProps;
 function InfoModal(props) {
   var attrs = {
     className: 'e-app-import-export-info-modal',
-    setShow: props.setShow
+    setShow: props.setShow,
+    onOpen: props.onOpen,
+    onClose: props.onClose,
+    referrer: props.referrer
   };
 
-  if (props.hasOwnProperty('show')) {
+  if (Object.prototype.hasOwnProperty.call(props, 'show')) {
     attrs.show = props.show;
   } else {
     attrs.toggleButtonProps = infoButtonProps;
@@ -12343,7 +12283,10 @@ InfoModal.propTypes = {
   show: PropTypes.bool,
   setShow: PropTypes.func,
   title: PropTypes.string,
-  children: PropTypes.any.isRequired
+  children: PropTypes.any.isRequired,
+  onOpen: PropTypes.func,
+  onClose: PropTypes.func,
+  referrer: PropTypes.string
 };
 InfoModal.Section = _infoModalSection.default;
 InfoModal.Heading = _infoModalHeading.default;
@@ -12433,8 +12376,11 @@ function KitContentCheckbox(props) {
     return sharedContext.data.includes.includes(props.type);
   },
       setIncludes = function setIncludes(event) {
+    var _props$onCheck;
+
     var isChecked = event.target.checked,
         actionType = isChecked ? 'ADD_INCLUDE' : 'REMOVE_INCLUDE';
+    (_props$onCheck = props.onCheck) === null || _props$onCheck === void 0 ? void 0 : _props$onCheck.call(props, event, props.type);
     sharedContext.dispatch({
       type: actionType,
       payload: props.type
@@ -12572,6 +12518,10 @@ var _text = _interopRequireDefault(__webpack_require__(/*! elementor-app/ui/atom
 
 var _grid = _interopRequireDefault(__webpack_require__(/*! elementor-app/ui/grid/grid */ "../core/app/assets/js/ui/grid/grid.js"));
 
+var _appsEventTracking = __webpack_require__(/*! elementor-app/event-track/apps-event-tracking */ "../core/app/assets/js/event-track/apps-event-tracking.js");
+
+var _sharedContextProvider = __webpack_require__(/*! ./../../context/shared-context/shared-context-provider.js */ "../core/app/modules/import-export/assets/js/context/shared-context/shared-context-provider.js");
+
 __webpack_require__(/*! ./kit-content.scss */ "../core/app/modules/import-export/assets/js/shared/kit-content/kit-content.scss");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -12590,6 +12540,10 @@ function KitContent(_ref) {
       _useState2 = (0, _slicedToArray2.default)(_useState, 2),
       containerHover = _useState2[0],
       setContainerHover = _useState2[1],
+      sharedContext = (0, _react.useContext)(_sharedContextProvider.SharedContext),
+      _sharedContext$data = sharedContext.data,
+      referrer = _sharedContext$data.referrer,
+      currentPage = _sharedContext$data.currentPage,
       isProExist = hasPro || elementorAppConfig.hasPro,
       getTemplateFeatures = function getTemplateFeatures(features, index) {
     if (!features) {
@@ -12606,6 +12560,17 @@ function KitContent(_ref) {
     setContainerHover(function (prevState) {
       return _objectSpread(_objectSpread({}, prevState), {}, (0, _defineProperty2.default)({}, index, state));
     });
+  },
+      eventTracking = function eventTracking(event, chosenPart) {
+    if ('kit-library' === referrer) {
+      var command = event.target.checked && event.target.checked ? 'check' : 'uncheck';
+      (0, _appsEventTracking.appsEventTrackingDispatch)("kit-library/".concat(command), {
+        page_source: 'import',
+        step: currentPage,
+        event_type: 'click',
+        site_part: chosenPart
+      });
+    }
   };
 
   if (!contentData.length) {
@@ -12637,7 +12602,10 @@ function KitContent(_ref) {
       noWrap: true
     }, /*#__PURE__*/_react.default.createElement(_kitContentCheckbox.default, {
       type: type,
-      className: "e-app-export-kit-content__checkbox"
+      className: "e-app-export-kit-content__checkbox",
+      onCheck: function onCheck(event, chosenPart) {
+        eventTracking(event, chosenPart);
+      }
     }), /*#__PURE__*/_react.default.createElement(_grid.default, {
       item: true,
       container: true
@@ -12648,7 +12616,8 @@ function KitContent(_ref) {
     }, data.title), /*#__PURE__*/_react.default.createElement(_grid.default, {
       item: true,
       container: true,
-      direction: "column"
+      direction: isLockedFeaturesNoPro ? 'row' : 'column',
+      alignItems: 'baseline'
     }, /*#__PURE__*/_react.default.createElement(_text.default, {
       variant: "sm",
       tag: "p",
@@ -12732,13 +12701,28 @@ var _icon = _interopRequireDefault(__webpack_require__(/*! elementor-app/ui/atom
 
 var _inlineLink = _interopRequireDefault(__webpack_require__(/*! elementor-app/ui/molecules/inline-link */ "../core/app/assets/js/ui/molecules/inline-link.js"));
 
+var _appsEventTracking = __webpack_require__(/*! elementor-app/event-track/apps-event-tracking */ "../core/app/assets/js/event-track/apps-event-tracking.js");
+
 function SiteArea(_ref) {
   var text = _ref.text,
       link = _ref.link;
+
+  var eventTracking = function eventTracking(command) {
+    var eventType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'click';
+    (0, _appsEventTracking.appsEventTrackingDispatch)(command, {
+      site_area: text,
+      page_source: 'import complete',
+      event_type: eventType
+    });
+  };
+
   return /*#__PURE__*/_react.default.createElement(_inlineLink.default, {
     url: link,
     color: "secondary",
-    underline: "none"
+    underline: "none",
+    onClick: function onClick() {
+      return eventTracking('kit-library/open-site-area');
+    }
   }, /*#__PURE__*/_react.default.createElement(_text.default, {
     className: "e-app-import-export-kit-data__site-area"
   }, text, " ", link && /*#__PURE__*/_react.default.createElement(_icon.default, {
@@ -13222,12 +13206,14 @@ exports["default"] = _default;
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
 
+var _typeof = __webpack_require__(/*! @babel/runtime/helpers/typeof */ "../node_modules/@babel/runtime/helpers/typeof.js");
+
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
 exports["default"] = ProcessFailedDialog;
 
-var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
+var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "react"));
 
 var _router = __webpack_require__(/*! @reach/router */ "../node_modules/@reach/router/es/index.js");
 
@@ -13236,6 +13222,10 @@ var _dialog = _interopRequireDefault(__webpack_require__(/*! elementor-app/ui/di
 var _useQueryParams = _interopRequireDefault(__webpack_require__(/*! elementor-app/hooks/use-query-params */ "../core/app/assets/js/hooks/use-query-params.js"));
 
 var _useAction = _interopRequireDefault(__webpack_require__(/*! elementor-app/hooks/use-action */ "../core/app/assets/js/hooks/use-action.js"));
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 var messagesContent = {
   general: {
@@ -13262,7 +13252,10 @@ function ProcessFailedDialog(_ref) {
       onApprove = _ref.onApprove,
       onDismiss = _ref.onDismiss,
       approveButton = _ref.approveButton,
-      dismissButton = _ref.dismissButton;
+      dismissButton = _ref.dismissButton,
+      onModalClose = _ref.onModalClose,
+      onError = _ref.onError,
+      onLearnMore = _ref.onLearnMore;
 
   var action = (0, _useAction.default)(),
       navigate = (0, _router.useNavigate)(),
@@ -13281,17 +13274,23 @@ function ProcessFailedDialog(_ref) {
     } else {
       window.open('https://elementor.com/help/how-to-fix-common-errors-with-import-export/', '_blank');
     }
+
+    onLearnMore === null || onLearnMore === void 0 ? void 0 : onLearnMore();
   },
-      handleOnDismiss = function handleOnDismiss() {
+      handleOnDismiss = function handleOnDismiss(event) {
     if ('general' === error && onDismiss) {
       onDismiss();
     } else if ('kit-library' === referrer) {
+      onModalClose === null || onModalClose === void 0 ? void 0 : onModalClose(event);
       navigate('/kit-library');
     } else {
       action.backToDashboard();
     }
   };
 
+  (0, _react.useEffect)(function () {
+    onError === null || onError === void 0 ? void 0 : onError();
+  }, []);
   return /*#__PURE__*/_react.default.createElement(_dialog.default, {
     title: dialogTitle,
     text: text,
@@ -13299,7 +13298,9 @@ function ProcessFailedDialog(_ref) {
     approveButtonText: isTryAgainAction ? tryAgainText : approveButton,
     approveButtonOnClick: handleOnApprove,
     dismissButtonText: dismissButton,
-    dismissButtonOnClick: handleOnDismiss,
+    dismissButtonOnClick: function dismissButtonOnClick(event) {
+      return handleOnDismiss(event);
+    },
     onClose: handleOnDismiss
   });
 }
@@ -13309,7 +13310,10 @@ ProcessFailedDialog.propTypes = {
   onDismiss: PropTypes.func,
   errorType: PropTypes.string,
   approveButton: PropTypes.string,
-  dismissButton: PropTypes.string
+  dismissButton: PropTypes.string,
+  onModalClose: PropTypes.func,
+  onError: PropTypes.func,
+  onLearnMore: PropTypes.func
 };
 ProcessFailedDialog.defaultProps = {
   errorType: 'general',
@@ -13357,6 +13361,10 @@ var _importInfoModal = _interopRequireDefault(__webpack_require__(/*! ../shared/
 
 var _exportInfoModal = _interopRequireDefault(__webpack_require__(/*! ../shared/info-modal/export-info-modal */ "../core/app/modules/import-export/assets/js/shared/info-modal/export-info-modal.js"));
 
+var _sharedContextProvider = __webpack_require__(/*! ../context/shared-context/shared-context-provider */ "../core/app/modules/import-export/assets/js/context/shared-context/shared-context-provider.js");
+
+var _appsEventTracking = __webpack_require__(/*! elementor-app/event-track/apps-event-tracking */ "../core/app/assets/js/event-track/apps-event-tracking.js");
+
 var _useQueryParams = _interopRequireDefault(__webpack_require__(/*! elementor-app/hooks/use-query-params */ "../core/app/assets/js/hooks/use-query-params.js"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -13374,25 +13382,70 @@ function Layout(props) {
       setShowInfoModal = _useState2[1],
       _useQueryParams$getAl = (0, _useQueryParams.default)().getAll(),
       referrer = _useQueryParams$getAl.referrer,
+      sharedContext = (0, _react.useContext)(_sharedContextProvider.SharedContext),
+      currentPage = sharedContext.data.currentPage,
+      eventTracking = function eventTracking(command) {
+    var elementPosition = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var element = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    var eventType = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'click';
+    var modalType = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
+
+    if ('kit-library' === sharedContext.data.referrer || referrer) {
+      (0, _appsEventTracking.appsEventTrackingDispatch)(command, {
+        element: element,
+        page_source: 'import',
+        event_type: eventType,
+        step: currentPage,
+        element_position: elementPosition,
+        modal_type: modalType
+      });
+    }
+  },
+      onModalClose = function onModalClose(e, command) {
+    var element = e.target.classList.contains('eps-modal__overlay') ? 'overlay' : 'x';
+    eventTracking(command, element, null, 'info');
+  },
       getContent = function getContent() {
     var infoModalProps = {
       show: showInfoModal,
       setShow: setShowInfoModal
     };
+
+    if ('kit-library' === sharedContext.data.referrer || referrer) {
+      infoModalProps = _objectSpread(_objectSpread({
+        referrer: referrer
+      }, infoModalProps), {}, {
+        onOpen: function onOpen() {
+          return eventTracking('kit-library/modal-open', null, null, 'load', 'info');
+        },
+        onClose: function onClose(e) {
+          return onModalClose(e, 'kit-library/modal-close');
+        }
+      });
+    }
+
     return /*#__PURE__*/_react.default.createElement(_contentLayout.default, null, props.children, 'import' === props.type ? /*#__PURE__*/_react.default.createElement(_importInfoModal.default, infoModalProps) : /*#__PURE__*/_react.default.createElement(_exportInfoModal.default, infoModalProps));
   },
       getInfoButtonProps = function getInfoButtonProps() {
     return _objectSpread(_objectSpread({}, _infoModal.infoButtonProps), {}, {
       onClick: function onClick() {
+        eventTracking('kit-library/seek-more-info', 'app_header');
         setShowInfoModal(true);
       }
     });
+  },
+      _onClose = function onClose() {
+    eventTracking('kit-library/close', 'app_header', null, 'click');
+    window.top.location = elementorAppConfig.admin_url;
   },
       config = {
     title: 'import' === props.type ? __('Import', 'elementor') : __('Export', 'elementor'),
     headerButtons: [getInfoButtonProps()].concat((0, _toConsumableArray2.default)(props.headerButtons)),
     content: getContent(),
-    footer: props.footer
+    footer: props.footer,
+    onClose: function onClose() {
+      return _onClose();
+    }
   },
       moduleAdminTab = '#tab-import-export-kit'; // Targeting the return_url value to the import-export dedicated admin tab (only when there is no specific referrer).
 
@@ -13401,6 +13454,14 @@ function Layout(props) {
     elementorAppConfig.return_url += moduleAdminTab;
   }
 
+  (0, _react.useEffect)(function () {
+    if (referrer) {
+      sharedContext.dispatch({
+        type: 'SET_REFERRER',
+        payload: referrer
+      });
+    }
+  }, [referrer]);
   return /*#__PURE__*/_react.default.createElement(_page.default, config);
 }
 
@@ -14059,6 +14120,81 @@ exports["default"] = Component;
 
 /***/ }),
 
+/***/ "../core/app/modules/kit-library/assets/js/e-component.js":
+/*!****************************************************************!*\
+  !*** ../core/app/modules/kit-library/assets/js/e-component.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = void 0;
+
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "../node_modules/@babel/runtime/helpers/defineProperty.js"));
+
+var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "../node_modules/@babel/runtime/helpers/classCallCheck.js"));
+
+var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ "../node_modules/@babel/runtime/helpers/createClass.js"));
+
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ "../node_modules/@babel/runtime/helpers/inherits.js"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js"));
+
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "../node_modules/@babel/runtime/helpers/getPrototypeOf.js"));
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2.default)(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2.default)(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2.default)(this, result); }; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+var EComponent = /*#__PURE__*/function (_$e$modules$Component) {
+  (0, _inherits2.default)(EComponent, _$e$modules$Component);
+
+  var _super = _createSuper(EComponent);
+
+  function EComponent() {
+    (0, _classCallCheck2.default)(this, EComponent);
+    return _super.apply(this, arguments);
+  }
+
+  (0, _createClass2.default)(EComponent, [{
+    key: "getNamespace",
+    value:
+    /**
+     * @return {string} the namespace of the component
+     */
+    function getNamespace() {
+      return 'kit-library';
+    }
+    /**
+     * @return {*} All the commands of the components
+     */
+
+  }, {
+    key: "defaultCommands",
+    value: function defaultCommands() {
+      var trackingCommands = ['apply-kit', 'approve-import', 'approve-selection', 'back-to-library', 'browse', 'change-sort-direction', 'change-sort-type', 'change-sort-value', 'check', 'check-item', 'check-out-kit', 'checking-a-checkbox', 'check-kits-on-theme-forest', 'checkbox-filtration', 'collapse', 'choose-file', 'choose-site-parts-to-import', 'clear-filter', 'close', 'drop', 'enable', 'expand', 'file-upload', 'filter', 'filter-selection', 'favorite-icon', 'go-back', 'go-back-to-view-kits', 'kit-free-search', 'kit-is-live-load', 'kit-import', 'logo', 'mark-as-favorite', 'modal-close', 'modal-load', 'modal-open', 'modal-error', 'open-site-area', 'refetch', 'responsive-controls', 'see-it-live', 'seek-more-info', 'sidebar-tag-filter', 'skip', 'select-organizing-category', 'top-bar-change-view', 'uncheck', 'unchecking-a-checkbox', 'view-demo-page', 'view-demo-part', 'view-overview-page'].reduce(function (allCommands, command) {
+        return _objectSpread(_objectSpread({}, allCommands), {}, (0, _defineProperty2.default)({}, command, function () {}));
+      }, {});
+      return _objectSpread({}, trackingCommands);
+    }
+  }]);
+  return EComponent;
+}($e.modules.ComponentBase);
+
+exports["default"] = EComponent;
+
+/***/ }),
+
 /***/ "../core/app/modules/kit-library/assets/js/module.js":
 /*!***********************************************************!*\
   !*** ../core/app/modules/kit-library/assets/js/module.js ***!
@@ -14086,6 +14222,8 @@ var _router = _interopRequireDefault(__webpack_require__(/*! @elementor/router *
 
 var _component2 = _interopRequireDefault(__webpack_require__(/*! ./data/taxonomies/component */ "../core/app/modules/kit-library/assets/js/data/taxonomies/component.js"));
 
+var _eComponent = _interopRequireDefault(__webpack_require__(/*! ./e-component */ "../core/app/modules/kit-library/assets/js/e-component.js"));
+
 var KitLibrary = /*#__PURE__*/function () {
   function KitLibrary() {
     (0, _classCallCheck2.default)(this, KitLibrary);
@@ -14096,6 +14234,7 @@ var KitLibrary = /*#__PURE__*/function () {
 
     $e.components.register(new _component.default());
     $e.components.register(new _component2.default());
+    $e.components.register(new _eComponent.default());
 
     _router.default.addRoute({
       path: '/kit-library/*',
@@ -16636,6 +16775,496 @@ module.exports = elementorAppPackages.siteEditor;
 "use strict";
 module.exports = wp.i18n;
 
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/arrayLikeToArray.js":
+/*!******************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/arrayLikeToArray.js ***!
+  \******************************************************************/
+/***/ ((module) => {
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+module.exports = _arrayLikeToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/arrayWithHoles.js":
+/*!****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/arrayWithHoles.js ***!
+  \****************************************************************/
+/***/ ((module) => {
+
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+module.exports = _arrayWithHoles, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/arrayWithoutHoles.js":
+/*!*******************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/arrayWithoutHoles.js ***!
+  \*******************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var arrayLikeToArray = __webpack_require__(/*! ./arrayLikeToArray.js */ "../node_modules/@babel/runtime/helpers/arrayLikeToArray.js");
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return arrayLikeToArray(arr);
+}
+
+module.exports = _arrayWithoutHoles, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/assertThisInitialized.js":
+/*!***********************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
+  \***********************************************************************/
+/***/ ((module) => {
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+module.exports = _assertThisInitialized, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/classCallCheck.js":
+/*!****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/classCallCheck.js ***!
+  \****************************************************************/
+/***/ ((module) => {
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+module.exports = _classCallCheck, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/createClass.js":
+/*!*************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/createClass.js ***!
+  \*************************************************************/
+/***/ ((module) => {
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  Object.defineProperty(Constructor, "prototype", {
+    writable: false
+  });
+  return Constructor;
+}
+
+module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/defineProperty.js":
+/*!****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/defineProperty.js ***!
+  \****************************************************************/
+/***/ ((module) => {
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/extends.js":
+/*!*********************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/extends.js ***!
+  \*********************************************************/
+/***/ ((module) => {
+
+function _extends() {
+  module.exports = _extends = Object.assign ? Object.assign.bind() : function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
+  return _extends.apply(this, arguments);
+}
+
+module.exports = _extends, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/get.js":
+/*!*****************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/get.js ***!
+  \*****************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var superPropBase = __webpack_require__(/*! ./superPropBase.js */ "../node_modules/@babel/runtime/helpers/superPropBase.js");
+
+function _get() {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    module.exports = _get = Reflect.get.bind(), module.exports.__esModule = true, module.exports["default"] = module.exports;
+  } else {
+    module.exports = _get = function _get(target, property, receiver) {
+      var base = superPropBase(target, property);
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(arguments.length < 3 ? target : receiver);
+      }
+
+      return desc.value;
+    }, module.exports.__esModule = true, module.exports["default"] = module.exports;
+  }
+
+  return _get.apply(this, arguments);
+}
+
+module.exports = _get, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/getPrototypeOf.js":
+/*!****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
+  \****************************************************************/
+/***/ ((module) => {
+
+function _getPrototypeOf(o) {
+  module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
+  return _getPrototypeOf(o);
+}
+
+module.exports = _getPrototypeOf, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/inherits.js":
+/*!**********************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/inherits.js ***!
+  \**********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ "../node_modules/@babel/runtime/helpers/setPrototypeOf.js");
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  Object.defineProperty(subClass, "prototype", {
+    writable: false
+  });
+  if (superClass) setPrototypeOf(subClass, superClass);
+}
+
+module.exports = _inherits, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js":
+/*!***********************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/interopRequireDefault.js ***!
+  \***********************************************************************/
+/***/ ((module) => {
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
+
+module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/iterableToArray.js":
+/*!*****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/iterableToArray.js ***!
+  \*****************************************************************/
+/***/ ((module) => {
+
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+}
+
+module.exports = _iterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/iterableToArrayLimit.js":
+/*!**********************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/iterableToArrayLimit.js ***!
+  \**********************************************************************/
+/***/ ((module) => {
+
+function _iterableToArrayLimit(arr, i) {
+  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+
+  if (_i == null) return;
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+
+  var _s, _e;
+
+  try {
+    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+
+module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/nonIterableRest.js":
+/*!*****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/nonIterableRest.js ***!
+  \*****************************************************************/
+/***/ ((module) => {
+
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+module.exports = _nonIterableRest, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/nonIterableSpread.js":
+/*!*******************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/nonIterableSpread.js ***!
+  \*******************************************************************/
+/***/ ((module) => {
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+module.exports = _nonIterableSpread, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js":
+/*!***************************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
+  \***************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _typeof = (__webpack_require__(/*! ./typeof.js */ "../node_modules/@babel/runtime/helpers/typeof.js")["default"]);
+
+var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ "../node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  } else if (call !== void 0) {
+    throw new TypeError("Derived constructors may only return object or undefined");
+  }
+
+  return assertThisInitialized(self);
+}
+
+module.exports = _possibleConstructorReturn, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/setPrototypeOf.js":
+/*!****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/setPrototypeOf.js ***!
+  \****************************************************************/
+/***/ ((module) => {
+
+function _setPrototypeOf(o, p) {
+  module.exports = _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
+  return _setPrototypeOf(o, p);
+}
+
+module.exports = _setPrototypeOf, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/slicedToArray.js":
+/*!***************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/slicedToArray.js ***!
+  \***************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var arrayWithHoles = __webpack_require__(/*! ./arrayWithHoles.js */ "../node_modules/@babel/runtime/helpers/arrayWithHoles.js");
+
+var iterableToArrayLimit = __webpack_require__(/*! ./iterableToArrayLimit.js */ "../node_modules/@babel/runtime/helpers/iterableToArrayLimit.js");
+
+var unsupportedIterableToArray = __webpack_require__(/*! ./unsupportedIterableToArray.js */ "../node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js");
+
+var nonIterableRest = __webpack_require__(/*! ./nonIterableRest.js */ "../node_modules/@babel/runtime/helpers/nonIterableRest.js");
+
+function _slicedToArray(arr, i) {
+  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
+}
+
+module.exports = _slicedToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/superPropBase.js":
+/*!***************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/superPropBase.js ***!
+  \***************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ "../node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+module.exports = _superPropBase, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/toConsumableArray.js":
+/*!*******************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/toConsumableArray.js ***!
+  \*******************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var arrayWithoutHoles = __webpack_require__(/*! ./arrayWithoutHoles.js */ "../node_modules/@babel/runtime/helpers/arrayWithoutHoles.js");
+
+var iterableToArray = __webpack_require__(/*! ./iterableToArray.js */ "../node_modules/@babel/runtime/helpers/iterableToArray.js");
+
+var unsupportedIterableToArray = __webpack_require__(/*! ./unsupportedIterableToArray.js */ "../node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js");
+
+var nonIterableSpread = __webpack_require__(/*! ./nonIterableSpread.js */ "../node_modules/@babel/runtime/helpers/nonIterableSpread.js");
+
+function _toConsumableArray(arr) {
+  return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
+}
+
+module.exports = _toConsumableArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/typeof.js":
+/*!********************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/typeof.js ***!
+  \********************************************************/
+/***/ ((module) => {
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  return (module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports), _typeof(obj);
+}
+
+module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js":
+/*!****************************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js ***!
+  \****************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var arrayLikeToArray = __webpack_require__(/*! ./arrayLikeToArray.js */ "../node_modules/@babel/runtime/helpers/arrayLikeToArray.js");
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
+}
+
+module.exports = _unsupportedIterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
 /***/ })
 
 /******/ 	});
@@ -16711,8 +17340,8 @@ module.exports = wp.i18n;
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
 /******/ 			if (chunkId === "vendors-node_modules_react-query_devtools_index_js") return "edef531b0a4575e08dcf.bundle.js";
-/******/ 			if (chunkId === "kit-library") return "" + chunkId + ".10fbb6c1e87e1129cb36.bundle.js";
-/******/ 			if (chunkId === "onboarding") return "" + chunkId + ".cde2e50eb0dd59cdc9c3.bundle.js";
+/******/ 			if (chunkId === "kit-library") return "" + chunkId + ".c5429de58e642ebfda4d.bundle.js";
+/******/ 			if (chunkId === "onboarding") return "" + chunkId + ".20750adf57c00716064b.bundle.js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
