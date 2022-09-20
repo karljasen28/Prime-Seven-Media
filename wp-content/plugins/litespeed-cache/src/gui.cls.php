@@ -70,29 +70,14 @@ class GUI extends Base {
 	}
 
 	/**
-	 * Get the lscache stats
-	 *
-	 * @since  3.0
-	 */
-	public function lscache_stats() {
-		return false;
-
-		$stat_titles = array(
-			'PUB_CREATES'		=> __( 'Public Caches', 'litespeed-cache' ),
-			'PUB_HITS'			=> __( 'Public Cache Hits', 'litespeed-cache' ),
-			'PVT_CREATES'		=> __( 'Private Caches', 'litespeed-cache' ),
-			'PVT_HITS'			=> __( 'Private Cache Hits', 'litespeed-cache' ),
-		);
-
-		// Build the readable format
-		$data = array();
-		foreach ( $stat_titles as $k => $v ) {
-			if ( array_key_exists( $k, $stats ) ) {
-				$data[ $v ] = number_format( $stats[ $k ] );
-			}
-		}
-
-		return $data;
+	* Print a loading message when redirecting CCSS/UCSS page to aviod whiteboard confusion
+	*/
+	public static function print_loading( $counter, $type ) {
+		echo '<div style="font-size: 25px; text-align: center; padding-top: 150px; width: 100%; position: absolute;">';
+		echo "<img width='35' src='" . LSWCP_PLUGIN_URL . "assets/img/Litespeed.icon.svg' />   ";
+		echo sprintf( __( '%1$s %2$s files left in queue', 'litespeed-cache' ), $counter, $type );
+		echo '<p><a href="' . admin_url( 'admin.php?page=litespeed-page_optm' ) . '">' . __( 'Cancel', 'litespeed-cache' ) . '</a></p>';
+		echo '</div>';
 	}
 
 	/**
@@ -400,10 +385,26 @@ class GUI extends Base {
 		$wp_admin_bar->add_menu( array(
 			'parent'	=> 'litespeed-menu',
 			'id'		=> 'litespeed-purge-single',
-			'title'		=> __( 'Purge this page', 'litespeed-cache' ),
+			'title'		=> __( 'Purge this page', 'litespeed-cache' ) . ' - LSCache',
 			'href'		=> Utility::build_url( Router::ACTION_PURGE, Purge::TYPE_PURGE_FRONT, false, true ),
 			'meta'		=> array( 'tabindex' => '0' ),
 		) );
+
+		if ( $this->has_cache_folder( 'ucss' ) ) {
+			$possible_url_tag = UCSS::get_url_tag();
+			$append_arr = array();
+			if ( $possible_url_tag ) {
+				$append_arr[ 'url_tag' ] = $possible_url_tag;
+			}
+
+			$wp_admin_bar->add_menu( array(
+				'parent'	=> 'litespeed-menu',
+				'id'		=> 'litespeed-purge-single-ucss',
+				'title'		=> __( 'Purge this page', 'litespeed-cache' ) . ' - UCSS',
+				'href'		=> Utility::build_url( Router::ACTION_PURGE, Purge::TYPE_PURGE_UCSS, false, true, $append_arr ),
+				'meta'		=> array( 'tabindex' => '0' ),
+			) );
+		}
 
 		$wp_admin_bar->add_menu( array(
 			'parent'	=> 'litespeed-menu',

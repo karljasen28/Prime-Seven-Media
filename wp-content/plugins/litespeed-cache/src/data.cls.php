@@ -11,6 +11,8 @@ namespace LiteSpeed;
 defined( 'WPINC' ) || exit;
 
 class Data extends Root {
+	const LOG_TAG = '[Data]';
+
 	private $_db_updater = array(
 		'3.5.0.3'	=> array(
 			'litespeed_update_3_5',
@@ -26,6 +28,9 @@ class Data extends Root {
 		),
 		'4.4.4-b1'	=> array(
 			'litespeed_update_4_4_4',
+		),
+		'5.3-a5'	=> array(
+			'litespeed_update_5_3',
 		),
 	);
 
@@ -450,7 +455,7 @@ class Data extends Root {
 	 * Generate filename based on URL, if content md5 existed, reuse existing file.
 	 * @since  4.0
 	 */
-	public function save_url( $request_url, $vary, $file_type, $filecon_md5, $path ) {
+	public function save_url( $request_url, $vary, $file_type, $filecon_md5, $path, $mobile = false, $webp = false ) {
 		global $wpdb;
 
 		if ( strlen( $vary ) > 32 ) {
@@ -493,8 +498,8 @@ class Data extends Root {
 		}
 
 		// New record needed
-		$q = "INSERT INTO `$tb_url_file` SET url_id=%d, vary=%s, filename=%s, type=%d, expired = 0";
-		$wpdb->query( $wpdb->prepare( $q, array( $url_id, $vary, $filecon_md5, $type ) ) );
+		$q = "INSERT INTO `$tb_url_file` SET url_id=%d, vary=%s, filename=%s, type=%d, mobile=%d, webp=%d, expired=0";
+		$wpdb->query( $wpdb->prepare( $q, array( $url_id, $vary, $filecon_md5, $type, $mobile?1:0, $webp?1:0 ) ) );
 
 		// Mark existing rows as expired
 		if ( $file_row ) {
@@ -541,6 +546,8 @@ class Data extends Root {
 
 		$type = $this->_url_file_types[ $file_type ];
 
+		self::debug2( 'load url file: ' . $request_url );
+
 		$tb_url = $this->tb( 'url' );
 		$q = "SELECT * FROM `$tb_url` WHERE url=%s";
 		$url_row = $wpdb->get_row( $wpdb->prepare( $q, $request_url ), ARRAY_A );
@@ -564,7 +571,7 @@ class Data extends Root {
 	 * Mark all entries of one URL to expired
 	 * @since 4.5
 	 */
-	public function mark_as_expired( $request_url ) {
+	public function mark_as_expired( $request_url, $auto_q = false ) {
 		global $wpdb;
 
 		Debug2::debug( '[Data] Try to mark as expired: ' . $request_url );
@@ -577,10 +584,20 @@ class Data extends Root {
 
 		Debug2::debug( '[Data] Mark url_id=' . $url_row[ 'id' ] . ' as expired' );
 
+		$tb_url = $this->tb( 'url' );
 		$tb_url_file = $this->tb( 'url_file' );
+
+		$existing_url_files = array();
+		if ( $auto_q ) {
+			$q = "SELECT a.*, b.url FROM `$tb_url_file` a LEFT JOIN `$tb_url` b ON b.id=a.url_id WHERE a.url_id=%d AND a.type=4 AND a.expired=0";
+			$q = $wpdb->prepare( $q, $url_row[ 'id' ] );
+			$existing_url_files = $wpdb->get_results( $q, ARRAY_A );
+		}
 		$q = "UPDATE `$tb_url_file` SET expired=%d WHERE url_id=%d AND type=4 AND expired=0";
 		$expired = time() + 86400 * apply_filters( 'litespeed_url_file_expired_days', 20 );
 		$wpdb->query( $wpdb->prepare( $q, array( $expired, $url_row[ 'id' ] ) ) );
+
+		return $existing_url_files;
 	}
 
 	/**
