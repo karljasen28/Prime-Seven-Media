@@ -708,6 +708,11 @@ $config = [
                     ],
                 ],
                 'js' => [
+	                [
+		                'file' => EAEL_PLUGIN_PATH . 'assets/front-end/js/lib-view/imagesloaded/imagesloaded.pkgd.min.js',
+		                'type' => 'lib',
+		                'context' => 'view',
+	                ],
                     [
                         'file' => EAEL_PLUGIN_PATH . 'assets/front-end/js/lib-view/isotope/isotope.pkgd.min.js',
                         'type' => 'lib',
@@ -846,8 +851,8 @@ $config = [
         'crowdfundly-organization' => [
 	        'class' => '\Essential_Addons_Elementor\Elements\Crowdfundly_Organization',
 	        'condition' => [
-		        'class_exists',
-		        'Crowdfundly',
+		        'defined',
+		        'CROWDFUNDLY_VERSION',
 		        true,
 	        ],
         ],
@@ -855,8 +860,8 @@ $config = [
         'crowdfundly-all-campaign' => [
 	        'class' => '\Essential_Addons_Elementor\Elements\Crowdfundly_All_Campaign',
 	        'condition' => [
-		        'class_exists',
-		        'Crowdfundly',
+		        'defined',
+		        'CROWDFUNDLY_VERSION',
 		        true,
 	        ],
         ],
@@ -864,8 +869,8 @@ $config = [
         'crowdfundly-single-campaign' => [
 	        'class' => '\Essential_Addons_Elementor\Elements\Crowdfundly_Single_Campaign',
 	        'condition' => [
-		        'class_exists',
-		        'Crowdfundly',
+		        'defined',
+		        'CROWDFUNDLY_VERSION',
 		        true,
 	        ],
         ],
