@@ -50,7 +50,7 @@ class Ai1wm_Status_Controller {
 			exit;
 		}
 
-		echo json_encode( get_option( AI1WM_STATUS, array() ) );
+		ai1wm_json_response( get_option( AI1WM_STATUS, array() ) );
 		exit;
 	}
 }

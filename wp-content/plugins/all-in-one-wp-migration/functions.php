@@ -38,6 +38,11 @@ function ai1wm_storage_path( $params ) {
 		throw new Ai1wm_Storage_Exception( __( 'Unable to locate storage path. <a href="https://help.servmask.com/knowledgebase/invalid-storage-path/" target="_blank">Technical details</a>', AI1WM_PLUGIN_NAME ) );
 	}
 
+	// Validate storage path
+	if ( ai1wm_validate_file( $params['storage'] ) !== 0 ) {
+		throw new Ai1wm_Storage_Exception( __( 'Your storage directory name contains invalid characters. It cannot contain: < > : " | ? * \0. <a href="https://help.servmask.com/knowledgebase/invalid-storage-name/" target="_blank">Technical details</a>', AI1WM_PLUGIN_NAME ) );
+	}
+
 	// Get storage path
 	$storage = AI1WM_STORAGE_PATH . DIRECTORY_SEPARATOR . basename( $params['storage'] );
 	if ( ! is_dir( $storage ) ) {
@@ -60,7 +65,7 @@ function ai1wm_backup_path( $params ) {
 
 	// Validate archive path
 	if ( ai1wm_validate_file( $params['archive'] ) !== 0 ) {
-		throw new Ai1wm_Archive_Exception( __( 'Invalid archive path. <a href="https://help.servmask.com/knowledgebase/invalid-archive-path/" target="_blank">Technical details</a>', AI1WM_PLUGIN_NAME ) );
+		throw new Ai1wm_Archive_Exception( __( 'Your archive file name contains invalid characters. It cannot contain: < > : " | ? * \0. <a href="https://help.servmask.com/knowledgebase/invalid-archive-name/" target="_blank">Technical details</a>', AI1WM_PLUGIN_NAME ) );
 	}
 
 	return AI1WM_BACKUPS_PATH . DIRECTORY_SEPARATOR . $params['archive'];
@@ -75,6 +80,17 @@ function ai1wm_backup_path( $params ) {
  */
 function ai1wm_validate_file( $file, $allowed_files = array() ) {
 	$file = str_replace( '\\', '/', $file );
+
+	// Validates special characters that are illegal in filenames on certain
+	// operating systems and special characters requiring special escaping
+	// to manipulate at the command line
+	$invalid_chars = array( '<', '>', ':', '"', '|', '?', '*', chr( 0 ) );
+	foreach ( $invalid_chars as $char ) {
+		if ( strpos( $file, $char ) !== false ) {
+			return 1;
+		}
+	}
+
 	return validate_file( $file, $allowed_files );
 }
 
@@ -91,7 +107,7 @@ function ai1wm_archive_path( $params ) {
 
 	// Validate archive path
 	if ( ai1wm_validate_file( $params['archive'] ) !== 0 ) {
-		throw new Ai1wm_Archive_Exception( __( 'Invalid archive path. <a href="https://help.servmask.com/knowledgebase/invalid-archive-path/" target="_blank">Technical details</a>', AI1WM_PLUGIN_NAME ) );
+		throw new Ai1wm_Archive_Exception( __( 'Your archive file name contains invalid characters. It cannot contain: < > : " | ? * \0. <a href="https://help.servmask.com/knowledgebase/invalid-archive-name/" target="_blank">Technical details</a>', AI1WM_PLUGIN_NAME ) );
 	}
 
 	// Get archive path
@@ -298,7 +314,15 @@ function ai1wm_archive_name( $params ) {
  * @return string
  */
 function ai1wm_backup_url( $params ) {
-	return AI1WM_BACKUPS_URL . '/' . ai1wm_replace_directory_separator_with_forward_slash( $params['archive'] );
+	static $backups_base_url = '';
+	if ( empty( $backups_base_url ) ) {
+		$backups_base_url = str_replace( untrailingslashit( ABSPATH ), '', AI1WM_BACKUPS_PATH );
+		$backups_base_url = site_url(
+			ai1wm_replace_directory_separator_with_forward_slash( $backups_base_url )
+		);
+	}
+
+	return $backups_base_url . '/' . ai1wm_replace_directory_separator_with_forward_slash( $params['archive'] );
 }
 
 /**
@@ -2062,4 +2086,20 @@ function ai1wm_is_decryption_password_valid( $encrypted_signature, $password ) {
 	} catch ( Ai1wm_Not_Decryptable_Exception $exception ) {
 		return false;
 	}
+}
+
+/**
+ * Set response header to json end echo data
+ *
+ * @param array $data
+ * @param int $options
+ * @param int $depth
+ * @return void
+ */
+function ai1wm_json_response( $data, $options = 0 ) {
+	if ( ! headers_sent() ) {
+		header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset', 'utf-8' ) );
+	}
+
+	echo json_encode( $data, $options );
 }

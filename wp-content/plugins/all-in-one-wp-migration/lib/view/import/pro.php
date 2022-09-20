@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <p>
 	<a href="https://help.servmask.com/2018/10/27/how-to-increase-maximum-upload-file-size-in-wordpress/" target="_blank"><?php _e( 'How-to: Increase maximum upload file size', AI1WM_PLUGIN_NAME ); ?></a>
 	<?php _e( 'or', AI1WM_PLUGIN_NAME ); ?>
-	<a href="https://import.wp-migration.com" target="_blank" class="ai1wm-label">
+	<a href="https://servmask.com/products/unlimited-extension" target="_blank" class="ai1wm-label">
 		<i class="ai1wm-icon-notification"></i>
 		<?php _e( 'Get unlimited', AI1WM_PLUGIN_NAME ); ?>
 	</a>

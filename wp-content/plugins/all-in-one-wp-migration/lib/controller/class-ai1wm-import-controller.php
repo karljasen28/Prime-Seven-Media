@@ -77,7 +77,7 @@ class Ai1wm_Import_Controller {
 								WP_CLI::error( sprintf( __( 'Unable to import. Error code: %s. %s', AI1WM_PLUGIN_NAME ), $e->getCode(), $e->getMessage() ) );
 							} else {
 								status_header( $e->getCode() );
-								echo json_encode( array( 'errors' => array( array( 'code' => $e->getCode(), 'message' => $e->getMessage() ) ) ) );
+								ai1wm_json_response( array( 'errors' => array( array( 'code' => $e->getCode(), 'message' => $e->getMessage() ) ) ) );
 							}
 							exit;
 						} catch ( Ai1wm_Database_Exception $e ) {
@@ -85,7 +85,7 @@ class Ai1wm_Import_Controller {
 								WP_CLI::error( sprintf( __( 'Unable to import. Error code: %s. %s', AI1WM_PLUGIN_NAME ), $e->getCode(), $e->getMessage() ) );
 							} else {
 								status_header( $e->getCode() );
-								echo json_encode( array( 'errors' => array( array( 'code' => $e->getCode(), 'message' => $e->getMessage() ) ) ) );
+								ai1wm_json_response( array( 'errors' => array( array( 'code' => $e->getCode(), 'message' => $e->getMessage() ) ) ) );
 							}
 							Ai1wm_Directory::delete( ai1wm_storage_path( $params ) );
 							exit;
@@ -116,7 +116,7 @@ class Ai1wm_Import_Controller {
 						}
 
 						if ( isset( $params['ai1wm_manual_import'] ) || isset( $params['ai1wm_manual_restore'] ) ) {
-							echo json_encode( $params );
+							ai1wm_json_response( $params );
 							exit;
 						}
 

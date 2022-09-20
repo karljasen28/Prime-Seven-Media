@@ -4,7 +4,7 @@ Tags: move, transfer, copy, migrate, backup, clone, restore, db migration, wordp
 Requires at least: 3.3
 Tested up to: 6.0
 Requires PHP: 5.2.17
-Stable tag: 7.62
+Stable tag: 7.65
 License: GPLv2 or later
 
 Move, transfer, copy, migrate, and backup a site with 1-click. Quick, easy, and reliable.
@@ -89,6 +89,21 @@ All-in-One WP Migration is in full compliance with General Data Protection Regul
 See our [GDPR Compliant Privacy Policy here](https://www.iubenda.com/privacy-policy/946881).
 
 == Changelog ==
+= 7.65 =
+**Added**
+
+* Improved support for single-letter prefixed databases
+
+= 7.64 =
+**Added**
+
+* Better support for database binary fields
+
+= 7.63 =
+**Fixed**
+
+* CSRF and XSS issue in the plugin. Thank you, WPScan, for reporting it
+
 = 7.62 =
 **Added**
 

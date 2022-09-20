@@ -91,11 +91,11 @@ class Ai1wm_Feedback_Controller {
 		try {
 			Ai1wm_Feedback::add( $type, $email, $message, $terms, implode( PHP_EOL, $purchases ) );
 		} catch ( Ai1wm_Feedback_Exception $e ) {
-			echo json_encode( array( 'errors' => array( $e->getMessage() ) ) );
+			ai1wm_json_response( array( 'errors' => array( $e->getMessage() ) ) );
 			exit;
 		}
 
-		echo json_encode( array( 'errors' => array() ) );
+		ai1wm_json_response( array( 'errors' => array() ) );
 		exit;
 	}
 }

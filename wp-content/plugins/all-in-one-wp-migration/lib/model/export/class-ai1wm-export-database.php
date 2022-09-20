@@ -111,20 +111,24 @@ class Ai1wm_Export_Database {
 		$old_table_prefixes = $old_column_prefixes = array();
 		$new_table_prefixes = $new_column_prefixes = array();
 
-		// Set table and column prefixes
+		// Set table prefixes
 		if ( ai1wm_table_prefix() ) {
-			$old_table_prefixes[] = $old_column_prefixes[] = ai1wm_table_prefix();
-			$new_table_prefixes[] = $new_column_prefixes[] = ai1wm_servmask_prefix();
+			$old_table_prefixes[] = ai1wm_table_prefix();
+			$new_table_prefixes[] = ai1wm_servmask_prefix();
 		} else {
-			// Set table prefixes based on table name
 			foreach ( $tables as $table_name ) {
 				$old_table_prefixes[] = $table_name;
 				$new_table_prefixes[] = ai1wm_servmask_prefix() . $table_name;
 			}
+		}
 
-			// Set table prefixes based on column name
+		// Set column prefixes
+		if ( strlen( ai1wm_table_prefix() ) > 1 ) {
+			$old_column_prefixes[] = ai1wm_table_prefix();
+			$new_column_prefixes[] = ai1wm_servmask_prefix();
+		} else {
 			foreach ( array( 'user_roles', 'capabilities', 'user_level', 'dashboard_quick_press_last_post_id', 'user-settings', 'user-settings-time' ) as $column_prefix ) {
-				$old_column_prefixes[] = $column_prefix;
+				$old_column_prefixes[] = ai1wm_table_prefix() . $column_prefix;
 				$new_column_prefixes[] = ai1wm_servmask_prefix() . $column_prefix;
 			}
 		}

@@ -77,7 +77,7 @@ class Ai1wm_Export_Controller {
 								WP_CLI::error( sprintf( __( 'Unable to export. Error code: %s. %s', AI1WM_PLUGIN_NAME ), $e->getCode(), $e->getMessage() ) );
 							} else {
 								status_header( $e->getCode() );
-								echo json_encode( array( 'errors' => array( array( 'code' => $e->getCode(), 'message' => $e->getMessage() ) ) ) );
+								ai1wm_json_response( array( 'errors' => array( array( 'code' => $e->getCode(), 'message' => $e->getMessage() ) ) ) );
 							}
 							Ai1wm_Directory::delete( ai1wm_storage_path( $params ) );
 							exit;
@@ -108,7 +108,7 @@ class Ai1wm_Export_Controller {
 						}
 
 						if ( isset( $params['ai1wm_manual_export'] ) ) {
-							echo json_encode( $params );
+							ai1wm_json_response( $params );
 							exit;
 						}
 

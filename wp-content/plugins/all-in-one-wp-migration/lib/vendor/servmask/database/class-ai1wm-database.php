@@ -1477,7 +1477,7 @@ abstract class Ai1wm_Database {
 		$search  = $this->get_old_table_prefixes();
 		$replace = $this->get_new_table_prefixes();
 
-		// Replace first occurance at a specified position
+		// Replace first occurrence at a specified position
 		if ( $position !== false ) {
 			for ( $i = 0; $i < count( $search ); $i++ ) {
 				$current = stripos( $input, $search[ $i ], $position );
@@ -1503,7 +1503,7 @@ abstract class Ai1wm_Database {
 		$search  = $this->get_old_column_prefixes();
 		$replace = $this->get_new_column_prefixes();
 
-		// Replace first occurance at a specified position
+		// Replace first occurrence at a specified position
 		if ( $position !== false ) {
 			for ( $i = 0; $i < count( $search ); $i++ ) {
 				$current = stripos( $input, $search[ $i ], $position );
@@ -1958,29 +1958,32 @@ abstract class Ai1wm_Database {
 	 * @return string
 	 */
 	protected function prepare_table_values( $input, $column_type ) {
-		if ( is_null( $input ) ) {
-			return 'NULL';
-		} elseif ( stripos( $column_type, 'tinyint' ) === 0 ) {
-			return $input;
-		} elseif ( stripos( $column_type, 'smallint' ) === 0 ) {
-			return $input;
-		} elseif ( stripos( $column_type, 'mediumint' ) === 0 ) {
-			return $input;
-		} elseif ( stripos( $column_type, 'int' ) === 0 ) {
-			return $input;
-		} elseif ( stripos( $column_type, 'bigint' ) === 0 ) {
-			return $input;
-		} elseif ( stripos( $column_type, 'float' ) === 0 ) {
-			return $input;
-		} elseif ( stripos( $column_type, 'double' ) === 0 ) {
-			return $input;
-		} elseif ( stripos( $column_type, 'decimal' ) === 0 ) {
-			return $input;
-		} elseif ( stripos( $column_type, 'bit' ) === 0 ) {
-			return $input;
-		}
+		switch ( true ) {
+			case is_null( $input ):
+				return 'NULL';
 
-		return "'" . $this->escape( $input ) . "'";
+			case stripos( $column_type, 'tinyint' ) === 0:
+			case stripos( $column_type, 'smallint' ) === 0:
+			case stripos( $column_type, 'mediumint' ) === 0:
+			case stripos( $column_type, 'int' ) === 0:
+			case stripos( $column_type, 'bigint' ) === 0:
+			case stripos( $column_type, 'float' ) === 0:
+			case stripos( $column_type, 'double' ) === 0:
+			case stripos( $column_type, 'decimal' ) === 0:
+			case stripos( $column_type, 'bit' ) === 0:
+				return $input;
+
+			case stripos( $column_type, 'binary' ) === 0:
+			case stripos( $column_type, 'varbinary' ) === 0:
+			case stripos( $column_type, 'tinyblob' ) === 0:
+			case stripos( $column_type, 'mediumblob' ) === 0:
+			case stripos( $column_type, 'longblob' ) === 0:
+			case stripos( $column_type, 'blob' ) === 0:
+				return '0x' . bin2hex( $input );
+
+			default:
+				return "'" . $this->escape( $input ) . "'";
+		}
 	}
 
 	/**

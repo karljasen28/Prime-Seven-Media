@@ -45,12 +45,25 @@ class Ai1wm_Import_Check_Encryption {
 		}
 
 		if ( ! ai1wm_can_decrypt() ) {
-			Ai1wm_Status::server_cannot_decrypt( __( 'Importing an encrypted backup is not supported on this server. <a href="https://help.servmask.com/knowledgebase/unable-to-encrypt-and-decrypt-backups/" target="_blank">Technical details</a>', AI1WM_PLUGIN_NAME ) );
-			exit;
+			$message = __( 'Importing an encrypted backup is not supported on this server. <a href="https://help.servmask.com/knowledgebase/unable-to-encrypt-and-decrypt-backups/" target="_blank">Technical details</a>', AI1WM_PLUGIN_NAME );
+
+			if ( defined( 'WP_CLI' ) ) {
+				WP_CLI::error( $message );
+			} else {
+				Ai1wm_Status::server_cannot_decrypt( $message );
+				exit;
+			}
 		}
 
 		if ( defined( 'WP_CLI' ) ) {
-			//TODO: ask to provide password from command line
+			$message = __(
+				'Backup is encrypted. Please provide decryption password: ',
+				AI1WM_PLUGIN_NAME
+			);
+
+			$params['decryption_password'] = readline( $message );
+
+			return $params;
 		}
 
 		Ai1wm_Status::backup_is_encrypted( null );

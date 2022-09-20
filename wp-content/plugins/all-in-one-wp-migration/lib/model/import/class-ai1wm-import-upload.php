@@ -91,7 +91,7 @@ class Ai1wm_Import_Upload {
 				throw new Ai1wm_Import_Retry_Exception( sprintf( __( 'Unrecognized error %s during upload.', AI1WM_PLUGIN_NAME ), $error ), 400 );
 		}
 
-		echo json_encode( array( 'errors' => array() ) );
+		ai1wm_json_response( array( 'errors' => array() ) );
 		exit;
 	}
 }

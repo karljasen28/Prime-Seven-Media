@@ -30,6 +30,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Ai1wm_Import_Check_Decryption_Password {
 
 	public static function execute( $params ) {
+		global $ai1wm_params;
+
 		// Read package.json file
 		$handle = ai1wm_open( ai1wm_package_path( $params ), 'r' );
 
@@ -48,13 +50,20 @@ class Ai1wm_Import_Check_Decryption_Password {
 				$archive->extract_by_files_array( ai1wm_storage_path( $params ), array( AI1WM_MULTISITE_NAME, AI1WM_DATABASE_NAME ), array(), array() );
 
 				Ai1wm_Status::info( __( 'Done validating the decryption password.', AI1WM_PLUGIN_NAME ) );
+
+				$ai1wm_params = $params;
+
 				return $params;
 			}
 
 			$decryption_password_error = __( 'The decryption password is not valid.', AI1WM_PLUGIN_NAME );
 
-			Ai1wm_Status::backup_is_encrypted( $decryption_password_error );
-			exit;
+			if ( defined( 'WP_CLI' ) ) {
+				WP_CLI::error( $decryption_password_error );
+			} else {
+				Ai1wm_Status::backup_is_encrypted( $decryption_password_error );
+				exit;
+			}
 		}
 
 		return $params;

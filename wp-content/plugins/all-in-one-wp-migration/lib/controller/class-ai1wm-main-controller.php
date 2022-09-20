@@ -929,7 +929,7 @@ class Ai1wm_Main_Controller {
 						AI1WM_PLUGIN_NAME
 					),
 					__(
-						'<a href="https://import.wp-migration.com" target="_blank">Get unlimited</a>',
+						'<a href="https://servmask.com/products/unlimited-extension" target="_blank">Get unlimited</a>',
 						AI1WM_PLUGIN_NAME
 					)
 				),
@@ -1119,6 +1119,13 @@ class Ai1wm_Main_Controller {
 				'archive_browser_download_error'      => __( 'Error while downloading file', AI1WM_PLUGIN_NAME ),
 				'archive_browser_title'               => __( 'List the content of the backup', AI1WM_PLUGIN_NAME ),
 				'progress_bar_title'                  => __( 'Reading...', AI1WM_PLUGIN_NAME ),
+				'backup_encrypted'                    => __( 'The backup is encrypted', AI1WM_PLUGIN_NAME ),
+				'backup_encrypted_message'            => __( 'Please enter a password to import the file', AI1WM_PLUGIN_NAME ),
+				'submit'                              => __( 'Submit', AI1WM_PLUGIN_NAME ),
+				'enter_password'                      => __( 'Enter a password', AI1WM_PLUGIN_NAME ),
+				'repeat_password'                     => __( 'Repeat the password', AI1WM_PLUGIN_NAME ),
+				'passwords_do_not_match'              => __( 'The passwords do not match', AI1WM_PLUGIN_NAME ),
+
 			)
 		);
 	}
