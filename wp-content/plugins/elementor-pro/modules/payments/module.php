@@ -3,6 +3,7 @@ namespace ElementorPro\Modules\Payments;
 
 use Elementor\Settings;
 use ElementorPro\Base\Module_Base;
+use ElementorPro\Core\Utils;
 use ElementorPro\Plugin;
 use ElementorPro\Modules\Payments\Classes\Stripe_Handler;
 
@@ -82,17 +83,20 @@ class Module extends Module_Base {
 	 */
 	public function ajax_validate_secret_key() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing
-		$nonce_action = ( ! strpos( $_POST['action'], 'test' ) ? self::STRIPE_LIVE_SECRET_KEY : self::STRIPE_TEST_SECRET_KEY );
+		$action = Utils::_unstable_get_super_global_value( $_POST, 'action' );
+		$nonce_action = ( ! strpos( $action, 'test' ) ? self::STRIPE_LIVE_SECRET_KEY : self::STRIPE_TEST_SECRET_KEY );
 
-		if ( ! isset( $_POST['_nonce'] ) || ! wp_verify_nonce( $_POST['_nonce'], $nonce_action ) ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$nonce = Utils::_unstable_get_super_global_value( $_POST, '_nonce' );
+		if ( ! $nonce || ! wp_verify_nonce( $nonce, $nonce_action ) ) {
 			$this->error_handler( 403, esc_html__( 'Something went wrong, please refresh the page.', 'elementor-pro' ) );
 			die();
 		}
 
-		if ( empty( $_POST['secret_key'] ) ) {
+		if ( ! Utils::_unstable_get_super_global_value( $_POST, 'secret_key' ) ) {
 			wp_send_json_error();
 		} else {
-			$this->secret_key = $_POST['secret_key'];
+			$this->secret_key = Utils::_unstable_get_super_global_value( $_POST, 'secret_key' );
 		}
 
 		$stripe_handler = new Stripe_handler();
@@ -272,16 +276,18 @@ class Module extends Module_Base {
 	 * @since 3.7.0
 	 */
 	public function submit_stripe_form() {
-		if ( ! isset( $_POST['data']['nonce'] ) || ! wp_verify_nonce( $_POST['data']['nonce'], 'stripe_form_submit' ) ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$data = Utils::_unstable_get_super_global_value( $_POST, 'data' );
+		if ( ! isset( $data['nonce'] ) || ! wp_verify_nonce( $data['nonce'], 'stripe_form_submit' ) ) {
 			$this->error_handler( 403, esc_html__( 'Something went wrong, please refresh the page.', 'elementor-pro' ) );
 			die();
 		}
 		$args = [];
-		$widget_id = $_POST['data']['widgetId'] ? $_POST['data']['widgetId'] : null;
-		$args['page_url'] = $_POST['data']['pageUrl'] ? $_POST['data']['pageUrl'] : null;
+		$widget_id = $data['widgetId'] ?? null;
+		$args['page_url'] = $data['pageUrl'] ?? null;
 
-		Plugin::elementor()->db->switch_to_post( $_POST['data']['postId'] );
-		$document = Plugin::elementor()->documents->get( $_POST['data']['postId'] );
+		Plugin::elementor()->db->switch_to_post( $data['postId'] );
+		$document = Plugin::elementor()->documents->get( $data['postId'] );
 
 		// Retrieve data from widget document
 		if ( $document ) {
@@ -389,8 +395,8 @@ class Module extends Module_Base {
 					'label' => esc_html__( 'Test Secret key', 'elementor-pro' ),
 					'field_args' => [
 						'type' => 'text',
-						/* translators: 1: Link to stripe api key explanation, 2: Link closing tag. */
 						'desc' => sprintf(
+							/* translators: 1: Link to stripe api key explanation, 2: Link closing tag. */
 							esc_html__( 'Enter your test secret key %1$slink%2$s.', 'elementor-pro' ),
 							'<a href=" ' . self::WP_DASH_STRIPE_API_KEYS_LINK . ' " target="_blank">',
 							'</a>'
@@ -407,8 +413,8 @@ class Module extends Module_Base {
 					'label' => esc_html__( 'Live Secret key', 'elementor-pro' ),
 					'field_args' => [
 						'type' => 'text',
-						/* translators: %1$s: Link to stripe api key explanation, %2$s: Link closing tag. */
 						'desc' => sprintf(
+							/* translators: 1: Link to stripe api key explanation, 2: Link closing tag. */
 							esc_html__( 'Enter your Live secret key %1$slink%2$s.', 'elementor-pro' ),
 							'<a href=" ' . self::WP_DASH_STRIPE_API_KEYS_LINK . ' " target="_blank">',
 							'</a>'
@@ -424,9 +430,9 @@ class Module extends Module_Base {
 				'stripe_legal_disclaimer' => [
 					'field_args' => [
 						'type' => 'raw_html',
-						/* translators: %1$s: <br />. */
 						'html' => sprintf(
-							esc_html__( ' Please note: The Stripe name and logos are trademarks or service marks of Stripe, Inc.or its affiliates in the U.S. and other countries.  %1$s Other names may be trademarks of their respective owners.', 'elementor-pro' ),
+							/* translators: %s: <br />. */
+							esc_html__( ' Please note: The Stripe name and logos are trademarks or service marks of Stripe, Inc. or its affiliates in the U.S. and other countries. %s Other names may be trademarks of their respective owners.', 'elementor-pro' ),
 							'<br />'
 						),
 					],

@@ -2,9 +2,9 @@
 Contributors: yani.iliev, bangelov, pimjitsawang
 Tags: move, transfer, copy, migrate, backup, clone, restore, db migration, wordpress migration, website migration, database export, database import, apoyo, sauvegarde, di riserva, バックアップ
 Requires at least: 3.3
-Tested up to: 6.0
-Requires PHP: 5.2.17
-Stable tag: 7.65
+Tested up to: 6.1
+Requires PHP: 5.3
+Stable tag: 7.70
 License: GPLv2 or later
 
 Move, transfer, copy, migrate, and backup a site with 1-click. Quick, easy, and reliable.
@@ -24,7 +24,7 @@ Follow these three simple steps, and your site will be live at its new location 
 
 One feature that makes All-in-One WP Migration widely loved (to the tune of over 6,000 5-star user reviews) is that the technical requirements for installing the plugin are simple.
 
-If you have WordPress version between 3.3 and 6.0 and PHP version between 5.2.17 and 8.1.6, you are good to go. All-in-One WP Migration also supports all versions of MySQL and MariaDB.
+If you have WordPress version between 3.3 and 6.0 and PHP version between 5.3 and 8.1.12, you are good to go. All-in-One WP Migration also supports all versions of MySQL and MariaDB.
 
 **Features Spotlight:**
 
@@ -45,8 +45,7 @@ Here are other reasons to use All-in-One WP Migration ...
 
 **Trusted by the Government and Big Corporations:**
 
-Many enterprise customers, government organizations, and universities use,
-love, and trust All-in-One WP Migration. Here are some: Boeing, NASA, VW, IBM, Harvard University, Stanford University, Lego, P&G, Automattic, State of California, State of Hawaii.
+Many enterprise customers, government organizations, and universities use, love, and trust All-in-One WP Migration. Here are some: Boeing, NASA, VW, IBM, Harvard University, Stanford University, Lego, P&G, Automattic, State of California, State of Hawaii.
 This broad adoption and usage of All-in-One WP Migration demonstrate how **safe, reliable and adaptable** the plugin is for just about any website migration need.
 
 **Full Compatibility and Support:**
@@ -89,6 +88,31 @@ All-in-One WP Migration is in full compliance with General Data Protection Regul
 See our [GDPR Compliant Privacy Policy here](https://www.iubenda.com/privacy-policy/946881).
 
 == Changelog ==
+= 7.70 =
+**Added**
+
+* Hooks that allow excluding specific database tables on export
+
+= 7.69 =
+**Added**
+
+* Improved support for custom backups location
+
+= 7.68 =
+**Added**
+
+* Better support for PHP 8.1
+
+= 7.67 =
+**Fixed**
+
+* Backups with a modified wp-content path cannot be downloaded
+
+= 7.66 =
+**Added**
+
+* Better support for WordPress v6.0.2
+
 = 7.65 =
 **Added**
 

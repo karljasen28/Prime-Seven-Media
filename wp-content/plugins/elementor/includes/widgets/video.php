@@ -388,9 +388,9 @@ class Widget_Video extends Widget_Base {
 			[
 				'label' => esc_html__( 'Privacy Mode', 'elementor' ),
 				'type' => Controls_Manager::SWITCHER,
-				'description' => esc_html__( 'When you turn on privacy mode, YouTube won\'t store information about visitors on your website unless they play the video.', 'elementor' ),
+				'description' => esc_html__( 'When you turn on privacy mode, YouTube/Vimeo won\'t store information about visitors on your website unless they play the video.', 'elementor' ),
 				'condition' => [
-					'video_type' => 'youtube',
+					'video_type' => [ 'youtube', 'vimeo' ],
 				],
 				'frontend_available' => true,
 			]
@@ -509,6 +509,29 @@ class Widget_Video extends Widget_Base {
 				'label_on' => esc_html__( 'Show', 'elementor' ),
 				'condition' => [
 					'video_type' => 'hosted',
+				],
+			]
+		);
+
+		$this->add_control(
+			'preload',
+			[
+				'label' => esc_html__( 'Preload', 'elementor' ),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'metadata' => esc_html__( 'Metadata', 'elementor' ),
+					'auto' => esc_html__( 'Auto', 'elementor' ),
+					'none' => esc_html__( 'None', 'elementor' ),
+				],
+				'description' => sprintf(
+					esc_html__( 'Preload attribute lets you specify how the video should be loaded when the page loads. %1$sLearn More%2$s', 'elementor' ),
+					'<a target="_blank" href="https://go.elementor.com/preload-video/">',
+					'</a>'
+				),
+				'default' => 'metadata',
+				'condition' => [
+					'video_type' => 'hosted',
+					'autoplay' => '',
 				],
 			]
 		);
@@ -746,7 +769,7 @@ class Widget_Video extends Widget_Base {
 				'selector' => '{{WRAPPER}} .elementor-custom-embed-play i',
 				'fields_options' => [
 					'text_shadow_type' => [
-						'label' => _x( 'Shadow', 'Text Shadow Control', 'elementor' ),
+						'label' => esc_html_x( 'Shadow', 'Text Shadow Control', 'elementor' ),
 					],
 				],
 				'condition' => [
@@ -1084,6 +1107,10 @@ class Widget_Video extends Widget_Base {
 			$params['color'] = str_replace( '#', '', $settings['color'] );
 
 			$params['autopause'] = '0';
+
+			if ( ! empty( $settings['yt_privacy'] ) ) {
+				$params['dnt'] = 'true';
+			}
 		} elseif ( 'dailymotion' === $settings['video_type'] ) {
 			$params_dictionary = [
 				'controls',
@@ -1163,6 +1190,10 @@ class Widget_Video extends Widget_Base {
 			if ( $settings[ $option_name ] ) {
 				$video_params[ $option_name ] = '';
 			}
+		}
+
+		if ( $settings['preload'] ) {
+			$video_params['preload'] = $settings['preload'];
 		}
 
 		if ( $settings['mute'] ) {

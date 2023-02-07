@@ -481,6 +481,19 @@ class Woo_Product_Gallery extends Widget_Base {
 		] );
 
 		$this->add_control(
+			'eael_product_gallery_show_secondary_image',
+			[
+				'label'        => __( 'Show Secondary Image on Hover', 'essential-addons-for-elementor-lite' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'default'      => 'no',
+				'label_on'     => __( 'Yes', 'essential-addons-for-elementor-lite' ),
+				'label_off'    => __( 'No', 'essential-addons-for-elementor-lite' ),
+				'return_value' => 'yes',
+				'description'  => __( 'Enable to show a secondary image from the product gallery on hover.', 'essential-addons-for-elementor-lite' ),
+			]
+		);
+
+		$this->add_control(
 			'eael_product_gallery_price',
 			[
 				'label'        => esc_html__( 'Show Product Price?', 'essential-addons-for-elementor-lite' ),
@@ -975,7 +988,8 @@ class Woo_Product_Gallery extends Widget_Base {
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
 					'{{WRAPPER}} .eael-product-gallery .woocommerce li.product .button,
-                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button,
+                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .added_to_cart' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);
@@ -988,7 +1002,8 @@ class Woo_Product_Gallery extends Widget_Base {
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
 					'{{WRAPPER}} .eael-product-gallery .woocommerce li.product .button,
-                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button,
+                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .added_to_cart' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);
@@ -1015,7 +1030,8 @@ class Woo_Product_Gallery extends Widget_Base {
 				'default'   => '#fff',
 				'selectors' => [
 					'{{WRAPPER}} .eael-product-gallery .woocommerce li.product .button, 
-                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button' => 'color: {{VALUE}};',
+                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button, 
+                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .added_to_cart' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -1027,7 +1043,8 @@ class Woo_Product_Gallery extends Widget_Base {
 				'label'     => __( 'Background', 'essential-addons-for-elementor-lite' ),
 				'types'     => [ 'classic', 'gradient' ],
 				'selector'  => '{{WRAPPER}} .eael-product-gallery .woocommerce li.product .button,
-                {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button',
+                {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button,
+                {{WRAPPER}} .eael-product-gallery .woocommerce li.product .added_to_cart',
 				'condition' => [
 					'eael_product_gallery_add_to_cart_is_gradient_bg' => 'yes'
 				]
@@ -1042,7 +1059,8 @@ class Woo_Product_Gallery extends Widget_Base {
 				'default'   => '#4045AE',
 				'selectors' => [
 					'{{WRAPPER}} .eael-product-gallery .woocommerce li.product .button, 
-                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button' => 'background-color: {{VALUE}};',
+                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button, 
+                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .added_to_cart' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
 					'eael_product_gallery_add_to_cart_is_gradient_bg' => ''
@@ -1055,7 +1073,8 @@ class Woo_Product_Gallery extends Widget_Base {
 			[
 				'name'     => 'eael_product_gallery_add_to_cart_border',
 				'selector' => '{{WRAPPER}} .eael-product-gallery .woocommerce li.product .button, 
-                {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button',
+                {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button, 
+                {{WRAPPER}} .eael-product-gallery .woocommerce li.product .added_to_cart',
 			]
 		);
 
@@ -1064,7 +1083,8 @@ class Woo_Product_Gallery extends Widget_Base {
 			[
 				'name'      => 'eael_product_gallery_add_to_cart_typography',
 				'selector'  => '{{WRAPPER}} .eael-product-gallery .woocommerce li.product .button,
-                {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button',
+                {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button,
+                {{WRAPPER}} .eael-product-gallery .woocommerce li.product .added_to_cart',
 				'condition' => [
 					'eael_product_gallery_style_preset' => [ 'eael-product-preset-4' ],
 				],
@@ -1083,7 +1103,8 @@ class Woo_Product_Gallery extends Widget_Base {
 				'default'   => '#fff',
 				'selectors' => [
 					'{{WRAPPER}} .eael-product-gallery .woocommerce li.product .button:hover,
-                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button:hover' => 'color: {{VALUE}};',
+                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button:hover,
+                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .added_to_cart:hover' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -1094,7 +1115,8 @@ class Woo_Product_Gallery extends Widget_Base {
 				'label'     => __( 'Background', 'essential-addons-for-elementor-lite' ),
 				'types'     => [ 'classic', 'gradient' ],
 				'selector'  => '{{WRAPPER}} .eael-product-gallery .woocommerce li.product .button:hover,
-                {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button:hover',
+                {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button:hover,
+                {{WRAPPER}} .eael-product-gallery .woocommerce li.product .added_to_cart:hover',
 				'condition' => [
 					'eael_product_gallery_add_to_cart_is_gradient_bg' => 'yes'
 				]
@@ -1108,7 +1130,8 @@ class Woo_Product_Gallery extends Widget_Base {
 				'default'   => '#4045AE',
 				'selectors' => [
 					'{{WRAPPER}} .eael-product-gallery .woocommerce li.product .button:hover,
-                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button:hover' => 'background-color: {{VALUE}};',
+                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button:hover,
+                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .added_to_cart:hover' => 'background-color: {{VALUE}};',
 				],
 				'condition' => [
 					'eael_product_gallery_add_to_cart_is_gradient_bg' => '',
@@ -1124,7 +1147,8 @@ class Woo_Product_Gallery extends Widget_Base {
 				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} .eael-product-gallery .woocommerce li.product .button:hover,
-                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button:hover' => 'border-color: {{VALUE}};',
+                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .button.add_to_cart_button:hover,
+                    {{WRAPPER}} .eael-product-gallery .woocommerce li.product .added_to_cart:hover' => 'border-color: {{VALUE}};',
 				],
 			]
 		);
@@ -2377,8 +2401,10 @@ class Woo_Product_Gallery extends Widget_Base {
 						$found_posts      = $query->found_posts;
 						$max_page         = ceil( $found_posts / absint( $args['posts_per_page'] ) );
 						$args['max_page'] = $max_page;
+						
+						$show_secondary_image = isset( $settings['eael_product_gallery_show_secondary_image'] ) && 'yes' === $settings['eael_product_gallery_show_secondary_image'];
 
-						echo '<ul class="products eael-post-appender eael-post-appender-' . $this->get_id() . '" data-layout-mode="' . $settings[ "eael_product_gallery_items_layout" ] . '">';
+						echo '<ul class="products eael-post-appender eael-post-appender-' . $this->get_id() . '" data-layout-mode="' . $settings[ "eael_product_gallery_items_layout" ] . '" data-show-secondary-image="' . intval($show_secondary_image) . '" >';
 						while ( $query->have_posts() ) {
 							$query->the_post();
 							include( $template );

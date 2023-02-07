@@ -163,8 +163,20 @@ class Ai1wm_Backups {
 	 * Check if backups are downloadable
 	 */
 	public static function are_downloadable() {
-		$path = untrailingslashit( ABSPATH );
+		static $downloadable = null;
+		if ( is_null( $downloadable ) ) {
+			$downloadable = Ai1wm_Backups::are_in_wp_content_folder() || strpos( AI1WM_BACKUPS_PATH, untrailingslashit( ABSPATH ) ) === 0;
+		}
 
-		return substr( AI1WM_BACKUPS_PATH, 0, strlen( $path ) ) === $path;
+		return $downloadable;
+	}
+
+	public static function are_in_wp_content_folder() {
+		static $in_wp_content = null;
+		if ( is_null( $in_wp_content ) ) {
+			$in_wp_content = strpos( AI1WM_BACKUPS_PATH, untrailingslashit( WP_CONTENT_DIR ) ) === 0;
+		}
+
+		return $in_wp_content;
 	}
 }

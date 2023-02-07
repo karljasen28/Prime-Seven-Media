@@ -1050,8 +1050,10 @@ class Ai1wm_Import_Database {
 		// Set the new sites links
 		update_option( AI1WM_SITES_LINKS, $sites_links );
 
-		// Set new backups path
-		update_option( AI1WM_BACKUPS_PATH_OPTION, AI1WM_BACKUPS_PATH );
+		if ( AI1WM_DEFAULT_BACKUPS_PATH !== AI1WM_BACKUPS_PATH ) {
+			// Set new backups path
+			update_option( AI1WM_BACKUPS_PATH_OPTION, AI1WM_BACKUPS_PATH );
+		}
 
 		return $params;
 	}

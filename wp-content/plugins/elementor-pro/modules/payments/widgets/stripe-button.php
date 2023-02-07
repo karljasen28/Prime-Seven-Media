@@ -6,6 +6,7 @@ use Elementor\Controls_Manager;
 use Elementor\Widget_Base;
 use Elementor\Plugin;
 use Elementor\Utils;
+use ElementorPro\Core\Utils as ProUtils;
 use ElementorPro\Modules\Payments\Classes\Payment_Button;
 use ElementorPro\Modules\Payments\Module;
 
@@ -247,9 +248,8 @@ class Stripe_Button extends Payment_Button {
 		<form class="elementor-stripe-form">
 			<input type="hidden" name="url" value="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>">
 			<input type="hidden" name="action" value="submit_stripe_form"/>
-			<input type="hidden" name="post_id" value="<?php echo get_the_ID(); ?>"/>
 			<input type="hidden" name="widget_id" value="<?php echo esc_attr( $this->get_id() ); ?>"/>
-			<input type="hidden" name="current_url" value="<?php echo esc_attr( $_SERVER['PHP_SELF'] ); ?>"/>
+			<input type="hidden" name="current_url" value="<?php echo esc_attr( ProUtils::_unstable_get_super_global_value( $_SERVER, 'PHP_SELF' ) ); ?>"/>
 			<input type="hidden" name="custom_error_msg" value="<?php echo esc_attr( $settings['custom_messages'] ); ?>" />
 			<input type="hidden" name="custom_error_msg_global" value="<?php echo esc_attr( $settings['error_message_global'] ); ?>" />
 			<input type="hidden" name="custom_error_msg_payment" value="<?php echo esc_attr( $settings['error_message_payment'] ); ?>" />
@@ -289,10 +289,10 @@ class Stripe_Button extends Payment_Button {
 			'test_environment_msg',
 			[
 				'type' => Controls_Manager::RAW_HTML,
-				/* translators: 1: Link to Elementor's Settings Integrations tab, 2: Link closing tag. */
 				'raw' => sprintf(
+					/* translators: 1: Elementor's integrations settings link opening tab, 2: Link closing tag. */
 					esc_html__( 'For this widget to work, you need to set your Stripe API keys in the %1$sIntegrations Settings%2$s.', 'elementor-pro' ),
-					'<a href="/wp-admin/admin.php?page=elementor#tab-integrations" target="_blank">',
+					sprintf( '<a href="%s" target="_blank">', admin_url( 'admin.php?page=elementor#tab-integrations' ) ),
 					'</a>'
 				),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
@@ -331,10 +331,10 @@ class Stripe_Button extends Payment_Button {
 				'frontend_available' => true,
 				'multiple' => false,
 				'default' => 'USD',
-				/* translators: 1: Link to stripe api key explanation, 2: Link closing tag. */
 				'description' => sprintf(
+					/* translators: 1: Stripe api key explanation link opening tag, 2: Link closing tag. */
 					esc_html__( 'Notice! Please make sure to meet Stripe\'s guidelines regarding minimum charge amounts. %1$s Learn more. %2$s', 'elementor-pro' ),
-					'<a href=" ' . Module::STRIPE_TRANSACTIONS_LINK . ' " target="_blank">',
+					sprintf( '<a href="%s" target="_blank">', Module::STRIPE_TRANSACTIONS_LINK ),
 					'</a>'
 				),
 				'render_type' => 'none',
@@ -515,10 +515,10 @@ class Stripe_Button extends Payment_Button {
 			'sandbox_mode_on_notice',
 			[
 				'type' => Controls_Manager::RAW_HTML,
-				/* translators: 1: <br /> 2: Link to Elementor's Settings Integrations tab, 3: Link closing tag. */
 				'raw' => sprintf(
+					/* translators: 1: Elementor's integrations settings link opening tab, 2: Link closing tag. */
 					esc_html__( 'Complete the entire checkout experience on your site with a mock payment method, using the Stripe Test key in the %1$sIntegrations Settings%2$s.', 'elementor-pro' ),
-					'<a href="/wp-admin/admin.php?page=elementor#tab-integrations" target="_blank">',
+					sprintf( '<a href="%s" target="_blank">', admin_url( 'admin.php?page=elementor#tab-integrations' ) ),
 					'</a>'
 				),
 				'content_classes' => 'elementor-descriptor',
@@ -531,6 +531,3 @@ class Stripe_Button extends Payment_Button {
 		$this->remove_control( 'sandbox_email' );
 	}
 }
-
-
-

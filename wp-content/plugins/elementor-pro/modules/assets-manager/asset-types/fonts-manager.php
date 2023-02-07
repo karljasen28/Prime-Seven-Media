@@ -3,6 +3,7 @@ namespace ElementorPro\Modules\AssetsManager\AssetTypes;
 
 use Elementor\Core\Admin\Menu\Admin_Menu_Manager;
 use Elementor\Utils;
+use ElementorPro\Core\Utils as Pro_Utils;
 use Elementor\Core\Common\Modules\Ajax\Module as Ajax;
 use ElementorPro\Core\Behaviors\Feature_Lock;
 use ElementorPro\License\API;
@@ -38,6 +39,8 @@ class Fonts_Manager {
 	private $enqueued_fonts = [];
 
 	protected $font_types = [];
+
+	private $has_fonts = null;
 
 	/**
 	 * get a font type object for a given type
@@ -141,7 +144,7 @@ class Fonts_Manager {
 			2 => esc_html__( 'Custom field updated.', 'elementor-pro' ),
 			3 => esc_html__( 'Custom field deleted.', 'elementor-pro' ),
 			4 => esc_html__( 'Font updated.', 'elementor-pro' ),
-			/* translators: %s: date and time of the revision */
+			/* translators: %s: Date and time of the revision. */
 			5 => isset( $_GET['revision'] ) ? sprintf( esc_html__( 'Font restored to revision from %s', 'elementor-pro' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 			6 => esc_html__( 'Font saved.', 'elementor-pro' ),
 			7 => esc_html__( 'Font saved.', 'elementor-pro' ),
@@ -198,12 +201,18 @@ class Fonts_Manager {
 	}
 
 	private function has_fonts() {
-		$fonts = get_posts( [
+		if ( null !== $this->has_fonts ) {
+			return $this->has_fonts;
+		}
+
+		$existing_fonts = new \WP_Query( [
 			'post_type' => static::CPT,
-			'posts_per_page' => 1, // Avoid fetching too much data
+			'posts_per_page' => 1,
 		] );
 
-		return ! empty( $fonts );
+		$this->has_fonts = $existing_fonts->post_count > 0;
+
+		return $this->has_fonts;
 	}
 
 	public function redirect_admin_old_page_to_new() {
@@ -241,17 +250,17 @@ class Fonts_Manager {
 	 */
 	public function assets_manager_panel_action_data( array $data ) {
 		if ( empty( $data['type'] ) ) {
-			throw new \Exception( 'font_type_is_required' );
+			throw new \Exception( 'Font type is required.' );
 		}
 
 		if ( empty( $data['font'] ) ) {
-			throw new \Exception( 'font_is_required' );
+			throw new \Exception( 'Font is required.' );
 		}
 
 		$asset = $this->get_font_type_object( $data['type'] );
 
 		if ( ! $asset ) {
-			throw new \Exception( 'font_type_not_found' );
+			throw new \Exception( 'Font type not found.' );
 		}
 
 		try {
@@ -433,7 +442,10 @@ class Fonts_Manager {
 		}
 
 		// Verify that the nonce is valid.
-		if ( ! wp_verify_nonce( $_POST[ self::CPT . '_nonce' ], self::CPT ) ) {
+		if ( ! wp_verify_nonce(
+			Pro_Utils::_unstable_get_super_global_value( $_POST, self::CPT . '_nonce' ),
+			self::CPT
+		) ) {
 			return $post_id;
 		}
 
@@ -444,7 +456,8 @@ class Fonts_Manager {
 		wp_set_object_terms( $post_id, $custom_font->get_type(), self::TAXONOMY );
 
 		// Let Font type handle saving
-		$custom_font->save_meta( $post_id, $_POST );
+		// Sanitize the whole $_POST array
+		$custom_font->save_meta( $post_id, Pro_Utils::_unstable_get_super_global_value( [ 'data' => $_POST ], 'data' ) );
 	}
 
 	/**

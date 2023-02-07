@@ -31,10 +31,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="ai1wm-whats-new-container">
 	<div class="ai1wm-whats-new-hero-container">
 		<img src="<?php echo wp_make_link_relative( AI1WM_URL ); ?>/lib/view/assets/img/whats-new/hero.png?v=<?php echo AI1WM_VERSION; ?>" />
-		<div class="ai1wm-whats-hew-hero-text">
-			<div class="ai1wm-whats-new-hero-date">06/30/2022</div>
-			<div class="ai1wm-whats-new-hero-title">Introducing password-protected backups</div>
-			<div class="ai1wm-whats-new-hero-content">Keep your backups safe and secure with password protection. You can rest assured that your backups are well protected. The contents of the backups are encrypted with the industry-tested and accepted <strong>AES-256-CBC</strong> algorithm. This feature is completely <strong>free</strong>.</div>
+		<div class="ai1wm-whats-new-hero-text">
+			<div class="ai1wm-whats-new-hero-date">01/17/2023</div>
+			<div class="ai1wm-whats-new-hero-title"><span style="color: #A06AB4">Premium:</span> Exclude database tables from exported files</div>
+			<div class="ai1wm-whats-new-hero-content">
+				With this new feature, you now have even more control over your migration process. You can choose to leave out any unnecessary or sensitive data, resulting in smaller, more manageable export files. This can be especially useful for users who have a large amount of data, and want to avoid hitting server limits during the migration process.<br /><br />
+				Using the feature is easy: simply select the tables you want to exclude from the export page and the plugin will take care of the rest.<br /><br />
+				Whether you're migrating a website to a new host, transferring data between sites, or creating a backup, All-in-One WP Migration's new table exclusion feature has got you covered. Try it out today and see the difference it makes!
+			</div>
 		</div>
 	</div>
 </div>

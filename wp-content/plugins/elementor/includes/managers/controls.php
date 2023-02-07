@@ -1066,7 +1066,7 @@ class Controls_Manager {
 				<div class="elementor-nerd-box-message"><?php Utils::print_unescaped_internal_string( $message ); ?></div>
 			<?php }
 
-			// Show a `Go Pro` button only if the user doesn't have Pro.
+			// Show the upgrade button only if the user doesn't have Pro.
 			if ( $texts['link'] && ! Utils::has_pro() ) { ?>
 				<a class="elementor-nerd-box-link elementor-button elementor-button-default elementor-button-go-pro" href="<?php echo esc_url( ( $texts['link'] ) ); ?>" target="_blank">
 					<?php echo esc_html__( 'Upgrade Now', 'elementor' ); ?>
@@ -1076,6 +1076,24 @@ class Controls_Manager {
 		<?php
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * Get Responsive Control Device Suffix
+	 *
+	 * @param array $control
+	 * @return string $device suffix
+	 */
+	public static function get_responsive_control_device_suffix( array $control ): string {
+		if ( ! empty( $control['responsive']['max'] ) ) {
+			$query_device = $control['responsive']['max'];
+		} elseif ( ! empty( $control['responsive']['min'] ) ) {
+			$query_device = $control['responsive']['min'];
+		} else {
+			return '';
+		}
+
+		return 'desktop' === $query_device ? '' : '_' . $query_device;
 	}
 
 	/**

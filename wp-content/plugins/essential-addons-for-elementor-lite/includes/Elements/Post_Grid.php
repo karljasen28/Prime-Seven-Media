@@ -470,6 +470,7 @@ class Post_Grid extends Widget_Base
                 'default' => '',
                 'selectors' => [
                     '{{WRAPPER}} .eael-entry-meta .eael-posted-on' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .eael-post-grid-style-two .eael-entry-meta .eael-meta-posted-on' => 'color: {{VALUE}};',
                 ],
                 'condition' => [
 	                'eael_show_date' => 'yes',
@@ -498,7 +499,8 @@ class Post_Grid extends Widget_Base
                 ],
                 'default' => 'flex-start',
                 'selectors' => [
-                    '{{WRAPPER}} .eael-grid-post .eael-entry-footer, {{WRAPPER}} .eael-grid-post .eael-entry-meta' => 'justify-content: {{VALUE}}',
+                    '{{WRAPPER}} .eael-grid-post .eael-entry-footer' => 'justify-content: {{VALUE}};',
+                    '{{WRAPPER}} .eael-grid-post .eael-entry-header-after' => 'justify-content: {{VALUE}}; align-items: center;',
                 ],
             ]
         );
@@ -535,7 +537,7 @@ class Post_Grid extends Widget_Base
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em'],
                 'selectors' => [
-                    '{{WRAPPER}} .eael-entry-meta' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .eael-entry-header-after' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
                 'condition' => [
                     'meta_position' => 'meta-entry-header',
@@ -551,6 +553,7 @@ class Post_Grid extends Widget_Base
                 'size_units' => ['px', '%', 'em'],
                 'selectors' => [
                     '{{WRAPPER}} .eael-entry-footer' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .eael-entry-header-after' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
                 'condition' => [
                     'meta_position' => 'meta-entry-footer',
@@ -578,11 +581,10 @@ class Post_Grid extends Widget_Base
             $this,
             'eael_meta_header_',
             __('Meta Position', 'essential-addons-for-elementor-lite'),
-            '.eael-grid-post .eael-entry-meta',
+            '.eael-grid-post .eael-entry-header-after',
             [
                 'eael_show_meta' => 'yes',
                 'meta_position' => ['meta-entry-header'],
-                'eael_post_grid_preset_style!' => 'three',
             ]
         );
 
@@ -1086,6 +1088,11 @@ class Post_Grid extends Widget_Base
 	    $dir_name = $this->get_temp_dir_name($settings['loadable_file_name']);
 	    $found_posts = 0;
         $posts_per_page = isset($args['posts_per_page']) && $args['posts_per_page'] > 0 ? $args['posts_per_page'] : -1 ;
+
+        set_transient( 'eael_post_grid_read_more_button_text_'. $this->get_id(), $this->get_settings_for_display('read_more_button_text'), DAY_IN_SECONDS );
+        set_transient( 'eael_post_grid_excerpt_expanison_indicator_'. $this->get_id(), $this->get_settings_for_display('excerpt_expanison_indicator'), DAY_IN_SECONDS );
+        $settings['read_more_button_text'] = $this->get_settings_for_display('read_more_button_text');
+        $settings['excerpt_expanison_indicator'] = $this->get_settings_for_display('excerpt_expanison_indicator');
 
         if(file_exists($template)){
             $query = new \WP_Query( $args );

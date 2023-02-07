@@ -3,16 +3,17 @@ namespace ElementorPro\Modules\CustomCode;
 
 use Elementor\Core\Admin\Menu\Admin_Menu_Manager;
 use Elementor\Core\Documents_Manager;
-use ElementorPro\License\API;
-use ElementorPro\Modules\CustomCode\AdminMenuItems\Custom_Code_Menu_Item;
-use ElementorPro\Modules\CustomCode\AdminMenuItems\Custom_Code_Promotion_Menu_Item;
-use ElementorPro\Plugin;
+use Elementor\Icons_Manager;
 use Elementor\Settings;
 use Elementor\TemplateLibrary\Source_Local;
 use Elementor\Utils;
 use ElementorPro\Base\Module_Base;
+use ElementorPro\License\API;
+use ElementorPro\Modules\CustomCode\AdminMenuItems\Custom_Code_Menu_Item;
+use ElementorPro\Modules\CustomCode\AdminMenuItems\Custom_Code_Promotion_Menu_Item;
 use ElementorPro\Modules\ThemeBuilder\Classes\Conditions_Manager;
 use ElementorPro\Modules\ThemeBuilder\Classes\Locations_Manager;
+use ElementorPro\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -179,7 +180,8 @@ class Module extends Module_Base {
 					__( 'Custom code saved.', 'elementor-pro' ),
 					__( 'Custom code submitted.', 'elementor-pro' ),
 					sprintf(
-						__( 'Custom code scheduled for: %1$s.', 'elementor-pro' ),
+						/* translators: %s: The scheduled date. */
+						__( 'Custom code scheduled for %s.', 'elementor-pro' ),
 						'<strong>' . date_i18n( esc_html__( 'M j, Y @ G:i', 'elementor-pro' ), strtotime( $post->post_date ) ) . '</strong>'
 					),
 					__( 'Custom code draft updated.', 'elementor-pro' ),
@@ -248,7 +250,7 @@ class Module extends Module_Base {
 			'elementor-icons',
 			$this->get_css_assets_url( 'elementor-icons', 'assets/lib/eicons/css/' ),
 			[],
-			'5.6.2'
+			Icons_Manager::ELEMENTOR_ICONS_VERSION
 		);
 
 		wp_enqueue_script( 'react' );

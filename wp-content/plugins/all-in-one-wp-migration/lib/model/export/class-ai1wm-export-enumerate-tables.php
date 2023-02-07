@@ -59,23 +59,25 @@ class Ai1wm_Export_Enumerate_Tables {
 		// Include table prefixes
 		if ( ai1wm_table_prefix() ) {
 			$mysql->add_table_prefix_filter( ai1wm_table_prefix() );
-		} else {
-			foreach ( $mysql->get_tables() as $table_name ) {
+
+			// Include table prefixes (Webba Booking)
+			foreach ( array( 'wbk_services', 'wbk_days_on_off', 'wbk_locked_time_slots', 'wbk_appointments', 'wbk_cancelled_appointments', 'wbk_email_templates', 'wbk_service_categories', 'wbk_gg_calendars', 'wbk_coupons' ) as $table_name ) {
 				$mysql->add_table_prefix_filter( $table_name );
 			}
-		}
-
-		// Include table prefixes (Webba Booking)
-		foreach ( array( 'wbk_services', 'wbk_days_on_off', 'wbk_locked_time_slots', 'wbk_appointments', 'wbk_cancelled_appointments', 'wbk_email_templates', 'wbk_service_categories', 'wbk_gg_calendars', 'wbk_coupons' ) as $table_name ) {
-			$mysql->add_table_prefix_filter( $table_name );
 		}
 
 		// Create tables list file
 		$tables_list = ai1wm_open( ai1wm_tables_list_path( $params ), 'w' );
 
+		// Exclude selected db tables
+		$excluded_db_tables = array();
+		if ( isset( $params['options']['exclude_db_tables'], $params['excluded_db_tables'] ) ) {
+			$excluded_db_tables = explode( ',', $params['excluded_db_tables'] );
+		}
+
 		// Write table line
 		foreach ( $mysql->get_tables() as $table_name ) {
-			if ( ai1wm_putcsv( $tables_list, array( $table_name ) ) ) {
+			if ( ! in_array( $table_name, $excluded_db_tables ) && ai1wm_putcsv( $tables_list, array( $table_name ) ) ) {
 				$total_tables_count++;
 			}
 		}

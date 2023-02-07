@@ -52,7 +52,7 @@ class Recaptcha_Handler {
 			'label' => esc_html__( 'reCAPTCHA', 'elementor-pro' ),
 			'callback' => function () {
 				echo sprintf(
-					/* translators: 1: Link open tag, 2: Link closing tag. */
+					/* translators: 1: Link opening tag, 2: Link closing tag. */
 					esc_html__( '%1$sreCAPTCHA%2$s is a free service by Google that protects your website from spam and abuse. It does this while letting your valid users pass through with ease.', 'elementor-pro' ),
 					'<a href="https://www.google.com/recaptcha/" target="_blank">',
 					'</a>'
@@ -127,7 +127,10 @@ class Recaptcha_Handler {
 
 		$field = current( $fields );
 
-		if ( empty( $_POST['g-recaptcha-response'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		// PHPCS - response protected by recaptcha secret
+		$recaptcha_response = Utils::_unstable_get_super_global_value( $_POST, 'g-recaptcha-response' ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+
+		if ( empty( $recaptcha_response ) ) {
 			$ajax_handler->add_error( $field['id'], esc_html__( 'The Captcha field cannot be blank. Please enter a value.', 'elementor-pro' ) );
 
 			return;
@@ -140,8 +143,6 @@ class Recaptcha_Handler {
 			'invalid-input-response' => esc_html__( 'The response parameter is invalid or malformed.', 'elementor-pro' ),
 		];
 
-		// PHPCS - response protected by recaptcha secret
-		$recaptcha_response = $_POST['g-recaptcha-response']; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$recaptcha_secret = static::get_secret_key();
 		$client_ip = Utils::get_client_ip();
 
@@ -169,7 +170,7 @@ class Recaptcha_Handler {
 		$result = json_decode( $body, true );
 
 		if ( ! $this->validate_result( $result, $field ) ) {
-			$message = esc_html__( 'Invalid Form - reCAPTCHA validation failed', 'elementor-pro' );
+			$message = esc_html__( 'Invalid form, reCAPTCHA validation failed.', 'elementor-pro' );
 
 			if ( isset( $result['error-codes'] ) ) {
 				$result_errors = array_flip( $result['error-codes'] );

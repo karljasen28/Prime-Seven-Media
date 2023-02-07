@@ -85,6 +85,11 @@ trait Ajax_Handler {
 		$ajax = wp_doing_ajax();
 
 		wp_parse_str( $_POST['args'], $args );
+
+		if ( isset( $args['date_query']['relation'] ) ) {
+			$args['date_query']['relation'] = HelperClass::eael_sanitize_relation( $args['date_query']['relation'] );
+		}
+
 		if ( empty( $_POST['nonce'] ) ) {
 			$err_msg = __( 'Insecure form submitted without security token', 'essential-addons-for-elementor-lite' );
 			if ( $ajax ) {
@@ -143,9 +148,14 @@ trait Ajax_Handler {
 			];
 		}
 
-		if ( $class == '\Essential_Addons_Elementor\Elements\Post_Grid' && $settings['orderby'] === 'rand' ) {
-			$args['post__not_in'] = array_map( 'intval', array_unique( $_REQUEST['post__not_in'] ) );
-			unset( $args['offset'] );
+		if ( $class == '\Essential_Addons_Elementor\Elements\Post_Grid' ) {
+			$settings['read_more_button_text']       = get_transient( 'eael_post_grid_read_more_button_text_' . $widget_id );
+			$settings['excerpt_expanison_indicator'] = get_transient( 'eael_post_grid_excerpt_expanison_indicator_' . $widget_id );
+
+			if ( $settings['orderby'] === 'rand' ) {
+				$args['post__not_in'] = array_map( 'intval', array_unique( $_REQUEST['post__not_in'] ) );
+				unset( $args['offset'] );
+			}
 		}
 
 		// ensure control name compatibility to old code if it is post block
@@ -303,6 +313,10 @@ trait Ajax_Handler {
 		$settings['eael_widget_id'] = $widget_id;
 		wp_parse_str( $_REQUEST['args'], $args );
 
+		if ( isset( $args['date_query']['relation'] ) ) {
+			$args['date_query']['relation'] = HelperClass::eael_sanitize_relation( $args['date_query']['relation'] );
+		}
+
 		$paginationNumber = absint( $_POST['number'] );
 		$paginationLimit  = absint( $_POST['limit'] );
 
@@ -369,6 +383,10 @@ trait Ajax_Handler {
 		$settings['eael_page_id'] = $page_id;
 		wp_parse_str( $_REQUEST['args'], $args );
 
+		if ( isset( $args['date_query']['relation'] ) ) {
+			$args['date_query']['relation'] = HelperClass::eael_sanitize_relation( $args['date_query']['relation'] );
+		}
+		
 		$paginationNumber          = absint( $_POST['number'] );
 		$paginationLimit           = absint( $_POST['limit'] );
 		$pagination_Count          = intval( $args['total_post'] );
@@ -562,6 +580,10 @@ trait Ajax_Handler {
 
 		wp_parse_str( $_POST['args'], $args );
 
+		if ( isset( $args['date_query']['relation'] ) ) {
+			$args['date_query']['relation'] = HelperClass::eael_sanitize_relation( $args['date_query']['relation'] );
+		}
+
 		if ( empty( $_POST['nonce'] ) ) {
 			$err_msg = __( 'Insecure form submitted without security token', 'essential-addons-for-elementor-lite' );
 			if ( $ajax ) {
@@ -654,6 +676,7 @@ trait Ajax_Handler {
 						$query->the_post();
 						$html .= HelperClass::include_with_variable( $file_path, [ 'settings' => $settings ] );
 					}
+					$html .= '<div class="eael-max-page" style="display:none;">'. ceil($query->found_posts / absint( $args['posts_per_page'] ) ) . '</div>';
 					printf( '%1$s', $html );
 					wp_reset_postdata();
 				}
@@ -817,6 +840,17 @@ trait Ajax_Handler {
 				update_option( 'eael_recaptcha_language', sanitize_text_field( $settings['recaptchaLanguage'] ) );
 			}
 
+			//reCAPTCHA V3
+			if ( isset( $settings['recaptchaSiteKeyV3'] ) ) {
+				update_option( 'eael_recaptcha_sitekey_v3', sanitize_text_field( $settings['recaptchaSiteKeyV3'] ) );
+			}
+			if ( isset( $settings['recaptchaSiteSecretV3'] ) ) {
+				update_option( 'eael_recaptcha_secret_v3', sanitize_text_field( $settings['recaptchaSiteSecretV3'] ) );
+			}
+			if ( isset( $settings['recaptchaLanguageV3'] ) ) {
+				update_option( 'eael_recaptcha_language_v3', sanitize_text_field( $settings['recaptchaLanguageV3'] ) );
+			}
+
 			//pro settings
 			if ( isset( $settings['gClientId'] ) ) {
 				update_option( 'eael_g_client_id', sanitize_text_field( $settings['gClientId'] ) );
@@ -841,6 +875,22 @@ trait Ajax_Handler {
 		if ( isset( $settings['lr_recaptcha_language'] ) ) {
 			update_option( 'eael_recaptcha_language', sanitize_text_field( $settings['lr_recaptcha_language'] ) );
 		}
+		//reCAPTCHA v3
+		if ( isset( $settings['lr_recaptcha_sitekey_v3'] ) ) {
+			update_option( 'eael_recaptcha_sitekey_v3', sanitize_text_field( $settings['lr_recaptcha_sitekey_v3'] ) );
+		}
+		if ( isset( $settings['lr_recaptcha_secret_v3'] ) ) {
+			update_option( 'eael_recaptcha_secret_v3', sanitize_text_field( $settings['lr_recaptcha_secret_v3'] ) );
+		}
+		if ( isset( $settings['lr_recaptcha_language_v3'] ) ) {
+			update_option( 'eael_recaptcha_language_v3', sanitize_text_field( $settings['lr_recaptcha_language_v3'] ) );
+		}
+
+		if ( isset( $settings['lr_custom_profile_fields'] ) ) {
+			update_option( 'eael_custom_profile_fields', sanitize_text_field( $settings['lr_custom_profile_fields'] ) );
+		} else {
+			update_option( 'eael_custom_profile_fields', '' );
+		}
 
 		//pro settings
 		if ( isset( $settings['lr_g_client_id'] ) ) {
@@ -861,6 +911,11 @@ trait Ajax_Handler {
 		// Saving Mailchimp Api Key
 		if ( isset( $settings['mailchimp-api'] ) ) {
 			update_option( 'eael_save_mailchimp_api', sanitize_text_field( $settings['mailchimp-api'] ) );
+		}
+		
+		// Saving Mailchimp Api Key for EA Login | Register Form
+		if ( isset( $settings['lr_mailchimp_api_key'] ) ) {
+			update_option( 'eael_lr_mailchimp_api_key', sanitize_text_field( $settings['lr_mailchimp_api_key'] ) );
 		}
 
 		// Saving TYpeForm token
@@ -922,6 +977,9 @@ trait Ajax_Handler {
 
 		// Purge All LS Cache
 		do_action( 'litespeed_purge_all', '3rd Essential Addons for Elementor' );
+
+		// After clear the cache hook
+		do_action( 'eael_after_clear_cache_files' );
 
 		wp_send_json( true );
 	}

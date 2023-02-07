@@ -393,7 +393,7 @@ class Mailchimp extends Integration_Base {
 			wp_send_json_error();
 		}
 		try {
-			new Mailchimp_Handler( $_POST['api_key'] );
+			new Mailchimp_Handler( $_POST['api_key'] ); // phpcs:ignore -- No need to sanitize to support special characters.
 		} catch ( \Exception $exception ) {
 			wp_send_json_error();
 		}
@@ -414,7 +414,7 @@ class Mailchimp extends Integration_Base {
 		}
 
 		if ( empty( $api_key ) ) {
-			throw new \Exception( '`api_key` is required', 400 );
+			throw new \Exception( '`api_key` is required.', 400 );
 		}
 
 		$handler = new Mailchimp_Handler( $api_key );
@@ -445,7 +445,7 @@ class Mailchimp extends Integration_Base {
 					'field_args' => [
 						'type' => 'text',
 						'desc' => sprintf(
-							/* translators: 1: Link open tag, 2: Link closing tag. */
+							/* translators: 1: Link opening tag, 2: Link closing tag. */
 							esc_html__( 'To integrate with our forms you need an %1$sAPI Key%2$s.', 'elementor-pro' ),
 							'<a href="https://kb.mailchimp.com/integrations/api-integrations/about-api-keys" target="_blank">',
 							'</a>'

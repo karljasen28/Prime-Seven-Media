@@ -139,6 +139,9 @@ class Ai1wm_Export_Database {
 			->set_old_column_prefixes( $old_column_prefixes )
 			->set_new_column_prefixes( $new_column_prefixes );
 
+		// Exclude column prefixes
+		$mysql->set_reserved_column_prefixes( array( 'wp_force_deactivated_plugins', 'wp_page_for_privacy_policy' ) );
+
 		// Exclude site options
 		$mysql->set_table_where_query( ai1wm_table_prefix() . 'options', sprintf( "`option_name` NOT IN ('%s', '%s', '%s', '%s', '%s', '%s')", AI1WM_STATUS, AI1WM_SECRET_KEY, AI1WM_AUTH_USER, AI1WM_AUTH_PASSWORD, AI1WM_BACKUPS_LABELS, AI1WM_SITES_LINKS ) );
 

@@ -124,6 +124,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</li>
 
 			<?php do_action( 'ai1wm_export_advanced_settings' ); ?>
+
+			<?php do_action( 'ai1wm_export_exclude_db_tables' ); ?>
 		</ul>
 	</div>
 </div>

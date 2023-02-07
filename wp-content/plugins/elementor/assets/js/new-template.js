@@ -1,4 +1,4 @@
-/*! elementor - v3.7.6 - 15-09-2022 */
+/*! elementor - v3.10.2 - 29-01-2023 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -12,38 +12,33 @@
 
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
 exports["default"] = void 0;
-
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "../node_modules/@babel/runtime/helpers/classCallCheck.js"));
-
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ "../node_modules/@babel/runtime/helpers/createClass.js"));
-
 var LockPro = /*#__PURE__*/function () {
   function LockPro(elements) {
     (0, _classCallCheck2.default)(this, LockPro);
     this.elements = elements;
   }
-
   (0, _createClass2.default)(LockPro, [{
     key: "bindEvents",
     value: function bindEvents() {
       var _this$elements = this.elements,
-          form = _this$elements.form,
-          templateType = _this$elements.templateType;
+        form = _this$elements.form,
+        templateType = _this$elements.templateType;
       form.addEventListener('submit', this.onFormSubmit.bind(this));
-      templateType.addEventListener('change', this.onTemplateTypeChange.bind(this)); // Force checking on render, to make sure that default values are also checked.
+      templateType.addEventListener('change', this.onTemplateTypeChange.bind(this));
 
+      // Force checking on render, to make sure that default values are also checked.
       this.onTemplateTypeChange();
     }
   }, {
     key: "onFormSubmit",
     value: function onFormSubmit(e) {
       var lockOptions = this.getCurrentLockOptions();
-
       if (lockOptions.is_locked) {
         e.preventDefault();
       }
@@ -52,7 +47,6 @@ var LockPro = /*#__PURE__*/function () {
     key: "onTemplateTypeChange",
     value: function onTemplateTypeChange() {
       var lockOptions = this.getCurrentLockOptions();
-
       if (lockOptions.is_locked) {
         this.lock(lockOptions);
       } else {
@@ -63,7 +57,7 @@ var LockPro = /*#__PURE__*/function () {
     key: "getCurrentLockOptions",
     value: function getCurrentLockOptions() {
       var templateType = this.elements.templateType,
-          currentOption = templateType.options[templateType.selectedIndex];
+        currentOption = templateType.options[templateType.selectedIndex];
       return JSON.parse(currentOption.dataset.lock || '{}');
     }
   }, {
@@ -84,9 +78,9 @@ var LockPro = /*#__PURE__*/function () {
     key: "showLockBadge",
     value: function showLockBadge(badgeConfig) {
       var _this$elements2 = this.elements,
-          lockBadge = _this$elements2.lockBadge,
-          lockBadgeText = _this$elements2.lockBadgeText,
-          lockBadgeIcon = _this$elements2.lockBadgeIcon;
+        lockBadge = _this$elements2.lockBadge,
+        lockBadgeText = _this$elements2.lockBadgeText,
+        lockBadgeIcon = _this$elements2.lockBadgeIcon;
       lockBadgeText.innerText = badgeConfig.text;
       lockBadgeIcon.className = badgeConfig.icon;
       lockBadge.classList.remove('e-hidden');
@@ -127,7 +121,6 @@ var LockPro = /*#__PURE__*/function () {
   }]);
   return LockPro;
 }();
-
 exports["default"] = LockPro;
 
 /***/ }),
@@ -143,11 +136,8 @@ exports["default"] = LockPro;
 
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-
 var _lockPro = _interopRequireDefault(__webpack_require__(/*! ./behaviors/lock-pro */ "../assets/dev/js/admin/new-template/behaviors/lock-pro.js"));
-
 var NewTemplateView = __webpack_require__(/*! elementor-admin/new-template/view */ "../assets/dev/js/admin/new-template/view.js");
-
 module.exports = elementorModules.common.views.modal.Layout.extend({
   getModalOptions: function getModalOptions() {
     return {
@@ -161,15 +151,27 @@ module.exports = elementorModules.common.views.modal.Layout.extend({
   },
   initialize: function initialize() {
     elementorModules.common.views.modal.Layout.prototype.initialize.apply(this, arguments);
+    var lookupControlIdPrefix = 'elementor-new-template__form__';
+    var templateTypeSelectId = "".concat(lookupControlIdPrefix, "template-type");
     this.showLogo();
     this.showContentView();
     this.initElements();
     this.lockProBehavior = new _lockPro.default(this.elements);
     this.lockProBehavior.bindEvents();
+    var dynamicControlsVisibilityListener = function dynamicControlsVisibilityListener() {
+      elementorAdmin.templateControls.setDynamicControlsVisibility(lookupControlIdPrefix, elementor_new_template_form_controls);
+    };
+    this.getModal().onShow = function () {
+      dynamicControlsVisibilityListener();
+      document.getElementById(templateTypeSelectId).addEventListener('change', dynamicControlsVisibilityListener);
+    };
+    this.getModal().onHide = function () {
+      document.getElementById(templateTypeSelectId).removeEventListener('change', dynamicControlsVisibilityListener);
+    };
   },
   initElements: function initElements() {
     var container = this.$el[0],
-        root = '#elementor-new-template__form';
+      root = '#elementor-new-template__form';
     this.elements = {
       form: container.querySelector(root),
       submitButton: container.querySelector("".concat(root, "__submit")),
@@ -228,7 +230,6 @@ function _classCallCheck(instance, Constructor) {
     throw new TypeError("Cannot call a class as a function");
   }
 }
-
 module.exports = _classCallCheck, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
@@ -248,7 +249,6 @@ function _defineProperties(target, props) {
     Object.defineProperty(target, descriptor.key, descriptor);
   }
 }
-
 function _createClass(Constructor, protoProps, staticProps) {
   if (protoProps) _defineProperties(Constructor.prototype, protoProps);
   if (staticProps) _defineProperties(Constructor, staticProps);
@@ -257,7 +257,6 @@ function _createClass(Constructor, protoProps, staticProps) {
   });
   return Constructor;
 }
-
 module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
@@ -273,7 +272,6 @@ function _interopRequireDefault(obj) {
     "default": obj
   };
 }
-
 module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ })
@@ -315,7 +313,6 @@ var __webpack_exports__ = {};
 
 
 var NewTemplateLayout = __webpack_require__(/*! elementor-admin/new-template/layout */ "../assets/dev/js/admin/new-template/layout.js");
-
 var NewTemplateModule = elementorModules.ViewModule.extend({
   getDefaultSettings: function getDefaultSettings() {
     return {

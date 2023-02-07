@@ -142,6 +142,13 @@ class Ai1wm_Export_Config {
 			'Prefix'  => $table_prefix,
 		);
 
+		// Exclude selected db tables
+		if ( isset( $params['options']['exclude_db_tables'], $params['excluded_db_tables'] ) ) {
+			if ( ( $excluded_db_tables = explode( ',', $params['excluded_db_tables'] ) ) ) {
+				$config['Database']['ExcludedTables'] = $excluded_db_tables;
+			}
+		}
+
 		// Set PHP version
 		$config['PHP'] = array( 'Version' => PHP_VERSION, 'System' => PHP_OS, 'Integer' => PHP_INT_SIZE );
 

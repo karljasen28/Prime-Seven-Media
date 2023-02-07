@@ -162,7 +162,7 @@ class Activecampaign extends Integration_Base {
 		$subscriber = $this->create_subscriber_object( $record );
 
 		if ( ! $subscriber ) {
-			throw new \Exception( esc_html__( 'Integration requires an email field and a selected list', 'elementor-pro' ) );
+			throw new \Exception( 'Integration requires an email field and a selected list.' );
 		}
 
 		if ( 'default' === $form_settings['activecampaign_api_credentials_source'] ) {
@@ -250,11 +250,11 @@ class Activecampaign extends Integration_Base {
 		}
 
 		if ( empty( $api_key ) ) {
-			throw new \Exception( '`api_key` is required', 400 );
+			throw new \Exception( '`api_key` is required.', 400 );
 		}
 
 		if ( empty( $api_url ) ) {
-			throw new \Exception( '`api_url` is required', 400 );
+			throw new \Exception( '`api_url` is required.', 400 );
 		}
 
 		$handler = new Classes\Activecampaign_Handler( $api_key, $api_url );
@@ -291,8 +291,8 @@ class Activecampaign extends Integration_Base {
 					'label' => esc_html__( 'API URL', 'elementor-pro' ),
 					'field_args' => [
 						'type' => 'url',
-						/* translators: 1: Link open tag, 2: Link closing tag. */
 						'desc' => sprintf(
+							/* translators: 1: Link opening tag, 2: Link closing tag. */
 							esc_html__( 'To integrate with our forms you need an %1$sAPI Key%2$s.', 'elementor-pro' ),
 							'<a href="https://help.activecampaign.com/hc/en-us/articles/207317590-Getting-started-with-the-API" target="_blank">',
 							'</a>'

@@ -236,6 +236,18 @@ class Filterable_Gallery extends Widget_Base
                 ]
             ]
         );
+
+        $this->add_control(
+            'eael_section_fg_full_image_clickable',
+            [
+                'label' => __('Full Image Clickable?', 'essential-addons-for-elementor-lite'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __('Yes', 'essential-addons-for-elementor-lite'),
+                'label_off' => __('No', 'essential-addons-for-elementor-lite'),
+                'return_value' => 'yes',
+                'default' => ''
+            ]
+        );
         
         $this->add_control(
             'eael_section_fg_zoom_icon_new',
@@ -249,6 +261,7 @@ class Filterable_Gallery extends Widget_Base
                 ],
                 'condition' => [
                     'eael_fg_show_popup' => 'buttons',
+                    'eael_section_fg_full_image_clickable!' => 'yes',
                 ],
             ]
         );
@@ -265,6 +278,7 @@ class Filterable_Gallery extends Widget_Base
                 ],
                 'condition' => [
                     'eael_fg_show_popup' => 'buttons',
+                    'eael_section_fg_full_image_clickable!' => 'yes',
                 ],
             ]
         );
@@ -276,18 +290,6 @@ class Filterable_Gallery extends Widget_Base
                 'type' => Controls_Manager::SWITCHER,
                 'label_on' => __('Show', 'essential-addons-for-elementor-lite'),
                 'label_off' => __('Hide', 'essential-addons-for-elementor-lite'),
-                'return_value' => 'yes',
-                'default' => ''
-            ]
-        );
-        
-        $this->add_control(
-            'eael_section_fg_full_image_clickable',
-            [
-                'label' => __('Full Image Clickable?', 'essential-addons-for-elementor-lite'),
-                'type' => Controls_Manager::SWITCHER,
-                'label_on' => __('Yes', 'essential-addons-for-elementor-lite'),
-                'label_off' => __('No', 'essential-addons-for-elementor-lite'),
                 'return_value' => 'yes',
                 'default' => ''
             ]
@@ -2808,7 +2810,7 @@ class Filterable_Gallery extends Widget_Base
                         $sorter_filter = $this->sorter_class($control['eael_fg_control']);
                     ?><li data-load-more-status="0" data-first-init="0" class="control <?php if ($key == 0 && empty($settings['eael_fg_all_label_text'])) {
                             echo 'active';
-                        } ?>" data-filter=".eael-cf-<?php echo esc_attr($sorter_filter); ?>"><?php echo esc_html__($control['eael_fg_control']); ?></li><?php
+                        } ?>" data-filter=".eael-cf-<?php echo esc_attr($sorter_filter); ?>"><?php echo esc_html( $control['eael_fg_control'] ); ?></li><?php
                     endforeach;
                 ?></ul>
             </div>

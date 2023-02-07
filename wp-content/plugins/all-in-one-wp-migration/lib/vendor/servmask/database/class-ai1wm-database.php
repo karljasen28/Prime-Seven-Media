@@ -86,6 +86,13 @@ abstract class Ai1wm_Database {
 	protected $new_column_prefixes = array();
 
 	/**
+	 * Reserved column prefixes
+	 *
+	 * @var array
+	 */
+	protected $reserved_column_prefixes = array();
+
+	/**
 	 * Old replace values
 	 *
 	 * @var array
@@ -303,6 +310,27 @@ abstract class Ai1wm_Database {
 	 */
 	public function get_new_column_prefixes() {
 		return $this->new_column_prefixes;
+	}
+
+	/**
+	 * Set reserved column prefixes
+	 *
+	 * @param  array  $prefixes List of column prefixes
+	 * @return object
+	 */
+	public function set_reserved_column_prefixes( $prefixes ) {
+		$this->reserved_column_prefixes = $prefixes;
+
+		return $this;
+	}
+
+	/**
+	 * Get reserved column prefixes
+	 *
+	 * @return array
+	 */
+	public function get_reserved_column_prefixes() {
+		return $this->reserved_column_prefixes;
 	}
 
 	/**
@@ -1500,11 +1528,19 @@ abstract class Ai1wm_Database {
 	 * @return string
 	 */
 	protected function replace_column_prefixes( $input, $position = false ) {
-		$search  = $this->get_old_column_prefixes();
-		$replace = $this->get_new_column_prefixes();
+		$search   = $this->get_old_column_prefixes();
+		$replace  = $this->get_new_column_prefixes();
+		$reserved = $this->get_reserved_column_prefixes();
 
 		// Replace first occurrence at a specified position
 		if ( $position !== false ) {
+			for ( $i = 0; $i < count( $reserved ); $i++ ) {
+				$current = stripos( $input, $reserved[ $i ], $position );
+				if ( $current === $position ) {
+					return $input;
+				}
+			}
+
 			for ( $i = 0; $i < count( $search ); $i++ ) {
 				$current = stripos( $input, $search[ $i ], $position );
 				if ( $current === $position ) {
