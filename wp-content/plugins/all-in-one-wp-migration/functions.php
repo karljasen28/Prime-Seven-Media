@@ -484,10 +484,10 @@ function ai1wm_archive_file( $blog_id = null ) {
 	}
 
 	// Add year, month and day
-	$name[] = date( 'Ymd' );
+	$name[] = date_i18n( 'Ymd' );
 
 	// Add hours, minutes and seconds
-	$name[] = date( 'His' );
+	$name[] = date_i18n( 'His' );
 
 	// Add unique identifier
 	$name[] = ai1wm_generate_random_string( 6, false );

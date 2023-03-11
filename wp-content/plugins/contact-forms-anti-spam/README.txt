@@ -92,8 +92,11 @@ I wrote this plugin in high-quality code and not in CSS/JS. (CSS/JS running in t
 
 == Changelog ==
 
-= 0.7.8 -  07/10/2022 =
+= 0.7.9 -  25/02/2023 =
 * Offer - Want to get a free Pro license? Write an article about Maspik on your relevant blog, and get a link from the plugin page and a professional license for free. Email me for more details (Yonifre AT gmail).
+* Bug fix (Please update ASAP!)
+
+= 0.7.8 -  07/10/2022 =
 * Adaptation to WP version 6.1
 
 = 0.7.7 -  07/10/2022 =

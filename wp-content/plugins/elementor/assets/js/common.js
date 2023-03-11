@@ -1,4 +1,4 @@
-/*! elementor - v3.10.2 - 29-01-2023 */
+/*! elementor - v3.11.3 - 07-03-2023 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -1218,17 +1218,14 @@ var createAsyncThunk = (function () {
                 var requestId = (options == null ? void 0 : options.idGenerator) ? options.idGenerator(arg) : nanoid();
                 var abortController = new AC();
                 var abortReason;
-                var abortedPromise = new Promise(function (_, reject) { return abortController.signal.addEventListener("abort", function () { return reject({ name: "AbortError", message: abortReason || "Aborted" }); }); });
                 var started = false;
                 function abort(reason) {
-                    if (started) {
-                        abortReason = reason;
-                        abortController.abort();
-                    }
+                    abortReason = reason;
+                    abortController.abort();
                 }
                 var promise2 = function () {
                     return __async(this, null, function () {
-                        var _a, _b, finalAction, conditionResult, err_1, skipDispatch;
+                        var _a, _b, finalAction, conditionResult, abortedPromise, err_1, skipDispatch;
                         return __generator(this, function (_c) {
                             switch (_c.label) {
                                 case 0:
@@ -1240,13 +1237,17 @@ var createAsyncThunk = (function () {
                                     conditionResult = _c.sent();
                                     _c.label = 2;
                                 case 2:
-                                    if (conditionResult === false) {
+                                    if (conditionResult === false || abortController.signal.aborted) {
                                         throw {
                                             name: "ConditionError",
                                             message: "Aborted due to condition callback returning false."
                                         };
                                     }
                                     started = true;
+                                    abortedPromise = new Promise(function (_, reject) { return abortController.signal.addEventListener("abort", function () { return reject({
+                                        name: "AbortError",
+                                        message: abortReason || "Aborted"
+                                    }); }); });
                                     dispatch(pending(requestId, arg, (_b = options == null ? void 0 : options.getPendingMeta) == null ? void 0 : _b.call(options, { requestId: requestId, arg: arg }, { getState: getState, extra: extra })));
                                     return [4 /*yield*/, Promise.race([
                                             abortedPromise,
@@ -1307,7 +1308,7 @@ var createAsyncThunk = (function () {
             typePrefix: typePrefix
         });
     }
-    createAsyncThunk2.withTypes = createAsyncThunk2;
+    createAsyncThunk2.withTypes = function () { return createAsyncThunk2; };
     return createAsyncThunk2;
 })();
 function unwrapResult(action) {
@@ -1879,7 +1880,7 @@ var prepareAutoBatched = function () { return function (payload) {
     });
 }; };
 var promise;
-var queueMicrotaskShim = typeof queueMicrotask === "function" ? queueMicrotask.bind(typeof window !== "undefined" ? window : __webpack_require__.g) : function (cb) { return (promise || (promise = Promise.resolve())).then(cb).catch(function (err) { return setTimeout(function () {
+var queueMicrotaskShim = typeof queueMicrotask === "function" ? queueMicrotask.bind(typeof window !== "undefined" ? window : typeof __webpack_require__.g !== "undefined" ? __webpack_require__.g : globalThis) : function (cb) { return (promise || (promise = Promise.resolve())).then(cb).catch(function (err) { return setTimeout(function () {
     throw err;
 }, 0); }); };
 var createQueueWithTimer = function (timeout) {
@@ -1887,6 +1888,7 @@ var createQueueWithTimer = function (timeout) {
         setTimeout(notify, timeout);
     };
 };
+var rAF = typeof window !== "undefined" && window.requestAnimationFrame ? window.requestAnimationFrame : createQueueWithTimer(10);
 var autoBatchEnhancer = function (options) {
     if (options === void 0) { options = { type: "raf" }; }
     return function (next) { return function () {
@@ -1899,7 +1901,7 @@ var autoBatchEnhancer = function (options) {
         var shouldNotifyAtEndOfTick = false;
         var notificationQueued = false;
         var listeners = new Set();
-        var queueCallback = options.type === "tick" ? queueMicrotaskShim : options.type === "raf" ? requestAnimationFrame : options.type === "callback" ? options.queueNotification : createQueueWithTimer(options.timeout);
+        var queueCallback = options.type === "tick" ? queueMicrotaskShim : options.type === "raf" ? rAF : options.type === "callback" ? options.queueNotification : createQueueWithTimer(options.timeout);
         var notifyListeners = function () {
             notificationQueued = false;
             if (shouldNotifyAtEndOfTick) {
@@ -2460,6 +2462,126 @@ Module.extend = function (properties) {
   return child;
 };
 module.exports = Module;
+
+/***/ }),
+
+/***/ "../assets/dev/js/utils/notifications.js":
+/*!***********************************************!*\
+  !*** ../assets/dev/js/utils/notifications.js ***!
+  \***********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "../node_modules/@babel/runtime/helpers/defineProperty.js"));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+module.exports = elementorModules.Module.extend({
+  initToast: function initToast() {
+    var toast = elementorCommon.dialogsManager.createWidget('buttons', {
+      id: 'elementor-toast',
+      position: {
+        my: 'center bottom',
+        at: 'center bottom-10',
+        of: '#elementor-panel-content-wrapper',
+        autoRefresh: true
+      },
+      hide: {
+        onClick: true,
+        auto: true,
+        autoDelay: 10000
+      },
+      effects: {
+        show: function show() {
+          var $widget = toast.getElements('widget');
+          $widget.show();
+          toast.refreshPosition();
+          var top = parseInt($widget.css('top'), 10);
+          $widget.hide().css('top', top + 100);
+          $widget.animate({
+            opacity: 'show',
+            height: 'show',
+            paddingBottom: 'show',
+            paddingTop: 'show',
+            top: top
+          }, {
+            easing: 'linear',
+            duration: 300
+          });
+        },
+        hide: function hide() {
+          var $widget = toast.getElements('widget'),
+            top = parseInt($widget.css('top'), 10);
+          $widget.animate({
+            opacity: 'hide',
+            height: 'hide',
+            paddingBottom: 'hide',
+            paddingTop: 'hide',
+            top: top + 100
+          }, {
+            easing: 'linear',
+            duration: 300
+          });
+        }
+      },
+      button: {
+        tag: 'div'
+      }
+    });
+    this.getToast = function () {
+      return toast;
+    };
+  },
+  showToast: function showToast(options) {
+    var toast = this.getToast();
+    toast.setMessage(options.message);
+    toast.getElements('buttonsWrapper').empty();
+    if (!this.isPositionValid(options === null || options === void 0 ? void 0 : options.position)) {
+      this.positionToWindow();
+    }
+    if (options.buttons) {
+      options.buttons.forEach(function (button) {
+        toast.addButton(button);
+      });
+    }
+    if (options.classes) {
+      toast.getElements('widget').addClass(options.classes);
+    }
+    if (options.sticky) {
+      toast.setSettings({
+        hide: {
+          auto: false,
+          onClick: false
+        }
+      });
+    }
+    return toast.show();
+  },
+  isPositionValid: function isPositionValid(position) {
+    var _position$of;
+    var positionToCheck = (_position$of = position === null || position === void 0 ? void 0 : position.of) !== null && _position$of !== void 0 ? _position$of : this.getToast().getSettings('position').of;
+    if (!positionToCheck) {
+      return false;
+    }
+    return !!document.querySelector(positionToCheck);
+  },
+  positionToWindow: function positionToWindow() {
+    var toast = this.getToast();
+    var position = _objectSpread(_objectSpread({}, toast.getSettings('position')), {}, {
+      my: 'right top',
+      at: 'right-10 top+42',
+      // 42px is the default admin bar height + 10px
+      of: ''
+    });
+    toast.setSettings('position', position);
+    toast.getElements('widget').addClass('dialog-position-window');
+  },
+  onInit: function onInit() {
+    this.initToast();
+  }
+});
 
 /***/ }),
 
@@ -7813,15 +7935,16 @@ module.exports = _construct, module.exports.__esModule = true, module.exports["d
 /*!*************************************************************!*\
   !*** ../node_modules/@babel/runtime/helpers/createClass.js ***!
   \*************************************************************/
-/***/ ((module) => {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
+var toPropertyKey = __webpack_require__(/*! ./toPropertyKey.js */ "../node_modules/@babel/runtime/helpers/toPropertyKey.js");
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
     var descriptor = props[i];
     descriptor.enumerable = descriptor.enumerable || false;
     descriptor.configurable = true;
     if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
+    Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
   }
 }
 function _createClass(Constructor, protoProps, staticProps) {
@@ -7840,9 +7963,11 @@ module.exports = _createClass, module.exports.__esModule = true, module.exports[
 /*!****************************************************************!*\
   !*** ../node_modules/@babel/runtime/helpers/defineProperty.js ***!
   \****************************************************************/
-/***/ ((module) => {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
+var toPropertyKey = __webpack_require__(/*! ./toPropertyKey.js */ "../node_modules/@babel/runtime/helpers/toPropertyKey.js");
 function _defineProperty(obj, key, value) {
+  key = toPropertyKey(key);
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -7985,28 +8110,33 @@ module.exports = _isNativeReflectConstruct, module.exports.__esModule = true, mo
 /***/ ((module) => {
 
 function _iterableToArrayLimit(arr, i) {
-  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-  if (_i == null) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _s, _e;
-  try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
+  var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+  if (null != _i) {
+    var _s,
+      _e,
+      _x,
+      _r,
+      _arr = [],
+      _n = !0,
+      _d = !1;
     try {
-      if (!_n && _i["return"] != null) _i["return"]();
+      if (_x = (_i = _i.call(arr)).next, 0 === i) {
+        if (Object(_i) !== _i) return;
+        _n = !1;
+      } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) {
+        ;
+      }
+    } catch (err) {
+      _d = !0, _e = err;
     } finally {
-      if (_d) throw _e;
+      try {
+        if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+      } finally {
+        if (_d) throw _e;
+      }
     }
+    return _arr;
   }
-  return _arr;
 }
 module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
@@ -8188,14 +8318,9 @@ function _regeneratorRuntime() {
     };
   }
   function maybeInvokeDelegate(delegate, context) {
-    var method = delegate.iterator[context.method];
-    if (undefined === method) {
-      if (context.delegate = null, "throw" === context.method) {
-        if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel;
-        context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method");
-      }
-      return ContinueSentinel;
-    }
+    var methodName = context.method,
+      method = delegate.iterator[methodName];
+    if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel;
     var record = tryCatch(method, delegate.iterator, context.arg);
     if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
     var info = record.arg;
@@ -8421,6 +8546,43 @@ module.exports = _superPropBase, module.exports.__esModule = true, module.export
 
 /***/ }),
 
+/***/ "../node_modules/@babel/runtime/helpers/toPrimitive.js":
+/*!*************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/toPrimitive.js ***!
+  \*************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _typeof = (__webpack_require__(/*! ./typeof.js */ "../node_modules/@babel/runtime/helpers/typeof.js")["default"]);
+function _toPrimitive(input, hint) {
+  if (_typeof(input) !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if (_typeof(res) !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/toPropertyKey.js":
+/*!***************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/toPropertyKey.js ***!
+  \***************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _typeof = (__webpack_require__(/*! ./typeof.js */ "../node_modules/@babel/runtime/helpers/typeof.js")["default"]);
+var toPrimitive = __webpack_require__(/*! ./toPrimitive.js */ "../node_modules/@babel/runtime/helpers/toPrimitive.js");
+function _toPropertyKey(arg) {
+  var key = toPrimitive(arg, "string");
+  return _typeof(key) === "symbol" ? key : String(key);
+}
+module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
 /***/ "../node_modules/@babel/runtime/helpers/typeof.js":
 /*!********************************************************!*\
   !*** ../node_modules/@babel/runtime/helpers/typeof.js ***!
@@ -8535,7 +8697,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ _defineProperty)
 /* harmony export */ });
+/* harmony import */ var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toPropertyKey.js */ "../node_modules/@babel/runtime/helpers/esm/toPropertyKey.js");
+
 function _defineProperty(obj, key, value) {
+  key = (0,_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["default"])(key);
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -8584,6 +8749,77 @@ function _objectSpread2(target) {
     });
   }
   return target;
+}
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/esm/toPrimitive.js":
+/*!*****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/esm/toPrimitive.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _toPrimitive)
+/* harmony export */ });
+/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "../node_modules/@babel/runtime/helpers/esm/typeof.js");
+
+function _toPrimitive(input, hint) {
+  if ((0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(input) !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if ((0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(res) !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/esm/toPropertyKey.js":
+/*!*******************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/esm/toPropertyKey.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _toPropertyKey)
+/* harmony export */ });
+/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "../node_modules/@babel/runtime/helpers/esm/typeof.js");
+/* harmony import */ var _toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./toPrimitive.js */ "../node_modules/@babel/runtime/helpers/esm/toPrimitive.js");
+
+
+function _toPropertyKey(arg) {
+  var key = (0,_toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__["default"])(arg, "string");
+  return (0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(key) === "symbol" ? key : String(key);
+}
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/esm/typeof.js":
+/*!************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/esm/typeof.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _typeof)
+/* harmony export */ });
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, _typeof(obj);
 }
 
 /***/ }),
@@ -8719,6 +8955,7 @@ var _connect = _interopRequireDefault(__webpack_require__(/*! elementor-common-m
 var _component = _interopRequireDefault(__webpack_require__(/*! ./components/wordpress/component */ "../core/common/assets/js/components/wordpress/component.js"));
 var _component2 = _interopRequireDefault(__webpack_require__(/*! elementor-common-modules/event-tracker/assets/js/data/component */ "../core/common/modules/event-tracker/assets/js/data/component.js"));
 var _events = _interopRequireDefault(__webpack_require__(/*! elementor-common-modules/event-tracker/assets/js/events */ "../core/common/modules/event-tracker/assets/js/events.js"));
+var _notifications = _interopRequireDefault(__webpack_require__(/*! elementor-utils/notifications */ "../assets/dev/js/utils/notifications.js"));
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2.default)(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2.default)(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2.default)(this, result); }; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 var ElementorCommonApp = /*#__PURE__*/function (_elementorModules$Vie) {
@@ -8757,6 +8994,7 @@ var ElementorCommonApp = /*#__PURE__*/function (_elementorModules$Vie) {
       this.helpers = new _helpers.default();
       this.storage = new _storage.default();
       this.dialogsManager = new DialogsManager.Instance();
+      this.notifications = new _notifications.default();
       this.api = window.$e;
       $e.components.register(new _component2.default());
       elementorCommon.elements.$window.on('elementor:init-components', function () {

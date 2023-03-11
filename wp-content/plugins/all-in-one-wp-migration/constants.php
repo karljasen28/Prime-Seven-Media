@@ -35,7 +35,7 @@ define( 'AI1WM_DEBUG', false );
 // ==================
 // = Plugin Version =
 // ==================
-define( 'AI1WM_VERSION', '7.70' );
+define( 'AI1WM_VERSION', '7.72' );
 
 // ===============
 // = Plugin Name =
@@ -406,11 +406,6 @@ define( 'AI1WM_MESSAGES', 'ai1wm_messages' );
 // = Support Email =
 // =================
 define( 'AI1WM_SUPPORT_EMAIL', 'support@servmask.com' );
-
-// =================
-// = Max File Size =
-// =================
-define( 'AI1WM_MAX_FILE_SIZE', 2 << 28 );
 
 // ==================
 // = Max Chunk Size =

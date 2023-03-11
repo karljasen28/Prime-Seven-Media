@@ -1,4 +1,4 @@
-/*! elementor - v3.10.2 - 29-01-2023 */
+/*! elementor - v3.11.3 - 07-03-2023 */
 (self["webpackChunkelementor"] = self["webpackChunkelementor"] || []).push([["preloaded-modules"],{
 
 /***/ "../assets/dev/js/frontend/handlers/accordion.js":
@@ -370,6 +370,9 @@ class ImageCarousel extends elementorModules.frontend.handlers.SwiperBase {
         slidesPerView: +elementSettings['slides_to_show_' + breakpointName] || defaultSlidesToShow,
         slidesPerGroup: +elementSettings['slides_to_scroll_' + breakpointName] || 1
       };
+      if (elementSettings.image_spacing_custom) {
+        swiperOptions.breakpoints[elementorBreakpoints[breakpointName].value].spaceBetween = this.getSpaceBetween(breakpointName);
+      }
       lastBreakpointSlidesToShowValue = +elementSettings['slides_to_show_' + breakpointName] || defaultSlidesToShow;
     });
     if ('yes' === elementSettings.autoplay) {
@@ -389,7 +392,7 @@ class ImageCarousel extends elementorModules.frontend.handlers.SwiperBase {
       swiperOptions.slidesPerGroup = +elementSettings.slides_to_scroll || 1;
     }
     if (elementSettings.image_spacing_custom) {
-      swiperOptions.spaceBetween = elementSettings.image_spacing_custom.size;
+      swiperOptions.spaceBetween = this.getSpaceBetween();
     }
     const showArrows = 'arrows' === elementSettings.navigation || 'both' === elementSettings.navigation,
       showDots = 'dots' === elementSettings.navigation || 'both' === elementSettings.navigation;
@@ -436,9 +439,6 @@ class ImageCarousel extends elementorModules.frontend.handlers.SwiperBase {
 
     // Handle special cases where the value to update is not the value that the Swiper library accepts.
     switch (propertyName) {
-      case 'image_spacing_custom':
-        params.spaceBetween = newSettingValue.size || 0;
-        break;
       case 'autoplay_speed':
         params.autoplay.delay = newSettingValue;
         break;
@@ -453,10 +453,15 @@ class ImageCarousel extends elementorModules.frontend.handlers.SwiperBase {
       pause_on_hover: 'pauseOnHover',
       autoplay_speed: 'delay',
       speed: 'speed',
-      image_spacing_custom: 'spaceBetween'
+      arrows_position: 'arrows_position' // Not a Swiper setting.
     };
   }
+
   onElementChange(propertyName) {
+    if (0 === propertyName.indexOf('image_spacing_custom')) {
+      this.updateSpaceBetween(propertyName);
+      return;
+    }
     const changeableProperties = this.getChangeableProperties();
     if (changeableProperties[propertyName]) {
       // 'pause_on_hover' is implemented by the handler with event listeners, not the Swiper library.
@@ -472,6 +477,20 @@ class ImageCarousel extends elementorModules.frontend.handlers.SwiperBase {
     if ('activeItemIndex' === propertyName) {
       this.swiper.slideToLoop(this.getEditSettings('activeItemIndex') - 1);
     }
+  }
+  getSpaceBetween() {
+    let device = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    return elementorFrontend.utils.controls.getResponsiveControlValue(this.getElementSettings(), 'image_spacing_custom', 'size', device) || 0;
+  }
+  updateSpaceBetween(propertyName) {
+    const deviceMatch = propertyName.match('image_spacing_custom_(.*)'),
+      device = deviceMatch ? deviceMatch[1] : 'desktop',
+      newSpaceBetween = this.getSpaceBetween(device);
+    if ('desktop' !== device) {
+      this.swiper.params.breakpoints[elementorFrontend.config.responsive.activeBreakpoints[device].value].spaceBetween = newSpaceBetween;
+    }
+    this.swiper.params.spaceBetween = newSpaceBetween;
+    this.swiper.update();
   }
 }
 exports["default"] = ImageCarousel;
@@ -1210,7 +1229,7 @@ module.exports = elementorModules.ViewModule.extend({
         invisible: 'elementor-invisible',
         preventClose: 'elementor-lightbox-prevent-close',
         slideshow: {
-          container: 'swiper-container',
+          container: elementorFrontend.config.swiperClass,
           slidesWrapper: 'swiper-wrapper',
           prevButton: 'elementor-swiper-button elementor-swiper-button-prev',
           nextButton: 'elementor-swiper-button elementor-swiper-button-next',
@@ -1362,7 +1381,7 @@ module.exports = elementorModules.ViewModule.extend({
         type: 'image',
         id: slideshowID,
         url: element.href,
-        hash: element.getAttribute('e-action-hash'),
+        hash: element.getAttribute('data-e-action-hash'),
         title: element.dataset.elementorLightboxTitle,
         description: element.dataset.elementorLightboxDescription,
         modalOptions: {
@@ -1459,7 +1478,7 @@ module.exports = elementorModules.ViewModule.extend({
     $.each(socialNetworks, (key, data) => {
       const networkLabel = data.label,
         $link = $('<a>', {
-          href: this.createShareLink(key, itemUrl, $activeSlide.attr('e-action-hash')),
+          href: this.createShareLink(key, itemUrl, $activeSlide.attr('data-e-action-hash')),
           target: '_blank'
         }).text(networkLabel),
         $socialNetworkIconElement = this.isFontIconSvgExperiment ? $(data.iconElement.element) : $('<i>', {
@@ -1750,7 +1769,7 @@ module.exports = elementorModules.ViewModule.extend({
         $slide.append($zoomContainer);
       }
       if (slide.hash) {
-        $slide.attr('e-action-hash', slide.hash);
+        $slide.attr('data-e-action-hash', slide.hash);
       }
       $slidesWrapper.append($slide);
     });
@@ -1807,8 +1826,8 @@ module.exports = elementorModules.ViewModule.extend({
       };
       if (!isSingleSlide) {
         swiperOptions.navigation = {
-          prevEl: $prevButton,
-          nextEl: $nextButton
+          prevEl: $prevButton[0],
+          nextEl: $nextButton[0]
         };
       }
       if (options.swiper) {
@@ -2022,7 +2041,7 @@ module.exports = elementorModules.ViewModule.extend({
         index: slideIndex,
         title: this.dataset.elementorLightboxTitle,
         description: this.dataset.elementorLightboxDescription,
-        hash: this.getAttribute('e-action-hash')
+        hash: this.getAttribute('data-e-action-hash')
       };
       if (slideVideo) {
         slideData.video = slideVideo;
@@ -2183,62 +2202,15 @@ module.exports = elementorModules.ViewModule.extend({
 
 /***/ }),
 
-/***/ "../modules/nested-tabs/assets/js/frontend/handlers/nested-tabs.js":
-/*!*************************************************************************!*\
-  !*** ../modules/nested-tabs/assets/js/frontend/handlers/nested-tabs.js ***!
-  \*************************************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-var _baseNestedTabs = _interopRequireDefault(__webpack_require__(/*! elementor-frontend/handlers/base-nested-tabs */ "../assets/dev/js/frontend/handlers/base-nested-tabs.js"));
-class NestedTabs extends _baseNestedTabs.default {
-  getTabContentFilterSelector(tabIndex) {
-    // Double by 2, since each `e-con` should have 'e-collapse'.
-    return `*:nth-child(${tabIndex * 2})`;
-  }
-  onInit() {
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    // TODO: Find better solution, Manually adding 'e-collapse' for each container.
-    if (elementorFrontend.isEditMode()) {
-      const $widget = this.$element,
-        $removed = this.findElement('.e-collapse').remove();
-      let index = 1;
-      this.findElement('.e-con').each(function () {
-        const $current = jQuery(this),
-          $desktopTabTitle = $widget.find(`.e-n-tabs-heading > *:nth-child(${index})`),
-          mobileTitleHTML = `<div class="e-n-tab-title e-collapse" data-tab="${index}" role="tab">${$desktopTabTitle.html()}</div>`;
-        $current.before(mobileTitleHTML);
-        ++index;
-      });
-
-      // On refresh since indexes are rearranged, do not call `activateDefaultTab` let editor control handle it.
-      if ($removed.length) {
-        return elementorModules.ViewModule.prototype.onInit.apply(this, args);
-      }
-    }
-    super.onInit(...args);
-  }
-}
-exports["default"] = NestedTabs;
-
-/***/ }),
-
 /***/ "../node_modules/@babel/runtime/helpers/defineProperty.js":
 /*!****************************************************************!*\
   !*** ../node_modules/@babel/runtime/helpers/defineProperty.js ***!
   \****************************************************************/
-/***/ ((module) => {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
+var toPropertyKey = __webpack_require__(/*! ./toPropertyKey.js */ "../node_modules/@babel/runtime/helpers/toPropertyKey.js");
 function _defineProperty(obj, key, value) {
+  key = toPropertyKey(key);
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -2252,6 +2224,62 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/toPrimitive.js":
+/*!*************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/toPrimitive.js ***!
+  \*************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _typeof = (__webpack_require__(/*! ./typeof.js */ "../node_modules/@babel/runtime/helpers/typeof.js")["default"]);
+function _toPrimitive(input, hint) {
+  if (_typeof(input) !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if (_typeof(res) !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/toPropertyKey.js":
+/*!***************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/toPropertyKey.js ***!
+  \***************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _typeof = (__webpack_require__(/*! ./typeof.js */ "../node_modules/@babel/runtime/helpers/typeof.js")["default"]);
+var toPrimitive = __webpack_require__(/*! ./toPrimitive.js */ "../node_modules/@babel/runtime/helpers/toPrimitive.js");
+function _toPropertyKey(arg) {
+  var key = toPrimitive(arg, "string");
+  return _typeof(key) === "symbol" ? key : String(key);
+}
+module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/typeof.js":
+/*!********************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/typeof.js ***!
+  \********************************************************/
+/***/ ((module) => {
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  return (module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports), _typeof(obj);
+}
+module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ })
 

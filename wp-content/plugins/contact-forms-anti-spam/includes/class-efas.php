@@ -125,11 +125,17 @@ class contact_forms_anti_spam {
         }
       }
 
-	  //gravityforms
+	  // Gravity Forms
       if( get_option( "maspik_support_gravity_forms" ) != "no" ){
         if( in_array('gravityforms/gravityforms.php', apply_filters('active_plugins', get_option('active_plugins')))  && cfes_is_supporting() ){ 
           require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/gravityforms-hooks.php';
         }
+      }
+
+      // Disable Comments
+      // in the future // if( get_option( "maspik_Disable_Comments" ) != "no" ){
+      if( 0 ) { 
+          require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/disable-comments.php';
       }
 
       

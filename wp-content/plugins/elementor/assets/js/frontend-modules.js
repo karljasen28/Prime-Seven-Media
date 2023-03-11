@@ -1,4 +1,4 @@
-/*! elementor - v3.10.2 - 29-01-2023 */
+/*! elementor - v3.11.3 - 07-03-2023 */
 (self["webpackChunkelementor"] = self["webpackChunkelementor"] || []).push([["frontend-modules"],{
 
 /***/ "../assets/dev/js/editor/utils/is-instanceof.js":
@@ -98,280 +98,6 @@ class _default extends elementorModules.ViewModule {
   onSettingsChange() {}
 }
 exports["default"] = _default;
-
-/***/ }),
-
-/***/ "../assets/dev/js/frontend/handlers/base-nested-tabs.js":
-/*!**************************************************************!*\
-  !*** ../assets/dev/js/frontend/handlers/base-nested-tabs.js ***!
-  \**************************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-var _base = _interopRequireDefault(__webpack_require__(/*! ./base */ "../assets/dev/js/frontend/handlers/base.js"));
-class BaseNestedTabs extends _base.default {
-  /**
-   * @param {string|number} tabIndex
-   *
-   * @return {string}
-   */
-  getTabTitleFilterSelector(tabIndex) {
-    return `[data-tab="${tabIndex}"]`;
-  }
-
-  /**
-   * @param {string|number} tabIndex
-   *
-   * @return {string}
-   */
-  getTabContentFilterSelector(tabIndex) {
-    return `[data-tab="${tabIndex}"]`;
-  }
-
-  /**
-   * @param {HTMLElement} tabTitleElement
-   *
-   * @return {string}
-   */
-  getTabIndex(tabTitleElement) {
-    return tabTitleElement.getAttribute('data-tab');
-  }
-  getDefaultSettings() {
-    return {
-      selectors: {
-        tablist: '[role="tablist"]',
-        tabTitle: '.e-n-tab-title',
-        tabContent: '.e-con'
-      },
-      classes: {
-        active: 'e-active'
-      },
-      showTabFn: 'show',
-      hideTabFn: 'hide',
-      toggleSelf: false,
-      hidePrevious: true,
-      autoExpand: true,
-      keyDirection: {
-        ArrowLeft: elementorFrontendConfig.is_rtl ? 1 : -1,
-        ArrowUp: -1,
-        ArrowRight: elementorFrontendConfig.is_rtl ? -1 : 1,
-        ArrowDown: 1
-      }
-    };
-  }
-  getDefaultElements() {
-    const selectors = this.getSettings('selectors');
-    return {
-      $tabTitles: this.findElement(selectors.tabTitle),
-      $tabContents: this.findElement(selectors.tabContent)
-    };
-  }
-  activateDefaultTab() {
-    const settings = this.getSettings();
-    if (!settings.autoExpand || 'editor' === settings.autoExpand && !this.isEdit) {
-      return;
-    }
-    const defaultActiveTab = this.getEditSettings('activeItemIndex') || 1,
-      originalToggleMethods = {
-        showTabFn: settings.showTabFn,
-        hideTabFn: settings.hideTabFn
-      };
-
-    // Toggle tabs without animation to avoid jumping
-    this.setSettings({
-      showTabFn: 'show',
-      hideTabFn: 'hide'
-    });
-    this.changeActiveTab(defaultActiveTab);
-
-    // Return back original toggle effects
-    this.setSettings(originalToggleMethods);
-  }
-  handleKeyboardNavigation(event) {
-    const tab = event.currentTarget,
-      $tabList = jQuery(tab.closest(this.getSettings('selectors').tablist)),
-      // eslint-disable-next-line @wordpress/no-unused-vars-before-return
-      $tabs = $tabList.find(this.getSettings('selectors').tabTitle),
-      isVertical = 'vertical' === $tabList.attr('aria-orientation');
-    switch (event.key) {
-      case 'ArrowLeft':
-      case 'ArrowRight':
-        if (isVertical) {
-          return;
-        }
-        break;
-      case 'ArrowUp':
-      case 'ArrowDown':
-        if (!isVertical) {
-          return;
-        }
-        event.preventDefault();
-        break;
-      case 'Home':
-        event.preventDefault();
-        $tabs.first().trigger('focus');
-        return;
-      case 'End':
-        event.preventDefault();
-        $tabs.last().trigger('focus');
-        return;
-      default:
-        return;
-    }
-    const tabIndex = tab.getAttribute('data-tab') - 1,
-      direction = this.getSettings('keyDirection')[event.key],
-      nextTab = $tabs[tabIndex + direction];
-    if (nextTab) {
-      nextTab.focus();
-    } else if (-1 === tabIndex + direction) {
-      $tabs.last().trigger('focus');
-    } else {
-      $tabs.first().trigger('focus');
-    }
-  }
-  deactivateActiveTab(tabIndex) {
-    const settings = this.getSettings(),
-      activeClass = settings.classes.active,
-      activeTitleFilter = tabIndex ? this.getTabTitleFilterSelector(tabIndex) : '.' + activeClass,
-      activeContentFilter = tabIndex ? this.getTabContentFilterSelector(tabIndex) : '.' + activeClass,
-      $activeTitle = this.elements.$tabTitles.filter(activeTitleFilter),
-      $activeContent = this.elements.$tabContents.filter(activeContentFilter);
-    $activeTitle.add($activeContent).removeClass(activeClass);
-    $activeTitle.attr({
-      tabindex: '-1',
-      'aria-selected': 'false',
-      'aria-expanded': 'false'
-    });
-    $activeContent[settings.hideTabFn]();
-    $activeContent.attr('hidden', 'hidden');
-  }
-  activateTab(tabIndex) {
-    const settings = this.getSettings(),
-      activeClass = settings.classes.active,
-      animationDuration = 'show' === settings.showTabFn ? 0 : 400;
-    let $requestedTitle = this.elements.$tabTitles.filter(this.getTabTitleFilterSelector(tabIndex)),
-      $requestedContent = this.elements.$tabContents.filter(this.getTabContentFilterSelector(tabIndex));
-
-    // Check if the tabIndex exists.
-    if (!$requestedTitle.length) {
-      // Activate the previous tab and ensure that the tab index is not less than 1.
-      const previousTabIndex = Math.max(tabIndex - 1, 1);
-      $requestedTitle = this.elements.$tabTitles.filter(this.getTabTitleFilterSelector(previousTabIndex));
-      $requestedContent = this.elements.$tabContents.filter(this.getTabContentFilterSelector(previousTabIndex));
-    }
-    $requestedTitle.add($requestedContent).addClass(activeClass);
-    $requestedTitle.attr({
-      tabindex: '0',
-      'aria-selected': 'true',
-      'aria-expanded': 'true'
-    });
-    $requestedContent[settings.showTabFn](animationDuration, () => {
-      elementorFrontend.elements.$window.trigger('elementor-pro/motion-fx/recalc');
-      elementorFrontend.elements.$window.trigger('elementor/nested-tabs/activate', $requestedContent);
-    });
-    $requestedContent.removeAttr('hidden');
-  }
-  isActiveTab(tabIndex) {
-    return this.elements.$tabTitles.filter('[data-tab="' + tabIndex + '"]').hasClass(this.getSettings('classes.active'));
-  }
-  bindEvents() {
-    this.elements.$tabTitles.on({
-      keydown: event => {
-        // Support for old markup that includes an `<a>` tag in the tab
-        if (jQuery(event.target).is('a') && `Enter` === event.key) {
-          event.preventDefault();
-        }
-
-        // We listen to keydowon event for these keys in order to prevent undesired page scrolling
-        if (['End', 'Home', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
-          this.handleKeyboardNavigation(event);
-        }
-      },
-      keyup: event => {
-        switch (event.code) {
-          case 'ArrowLeft':
-          case 'ArrowRight':
-            this.handleKeyboardNavigation(event);
-            break;
-          case 'Enter':
-          case 'Space':
-            event.preventDefault();
-            this.changeActiveTab(event.currentTarget.getAttribute('data-tab'), true);
-            break;
-        }
-      },
-      click: event => {
-        event.preventDefault();
-        this.changeActiveTab(event.currentTarget.getAttribute('data-tab'), true);
-      }
-    });
-    elementorFrontend.elements.$window.on('elementor/nested-tabs/activate', this.reInitSwipers);
-  }
-
-  /**
-   * Fixes issues where Swipers that have been initialized while a tab is not visible are not properly rendered
-   * and when switching to the tab the swiper will not respect any of the chosen `autoplay` related settings.
-   *
-   * This is triggered when switching to a nested tab, looks for Swipers in the tab content and reinitializes them.
-   *
-   * @param {Object} event   - Incoming event.
-   * @param {Object} content - Active nested tab dom element.
-   */
-  reInitSwipers(event, content) {
-    const swiperElements = content.querySelectorAll('.swiper-container');
-    for (const element of swiperElements) {
-      if (!element.swiper) {
-        return;
-      }
-      element.swiper.initialized = false;
-      element.swiper.init();
-    }
-  }
-  onInit() {
-    super.onInit(...arguments);
-    this.activateDefaultTab();
-  }
-  onEditSettingsChange(propertyName, value) {
-    if ('activeItemIndex' === propertyName) {
-      this.changeActiveTab(value, false);
-    }
-  }
-
-  /**
-   * @param {string}  tabIndex
-   * @param {boolean} fromUser - Whether the call is caused by the user or internal.
-   */
-  changeActiveTab(tabIndex) {
-    let fromUser = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-    // `document/repeater/select` is used only in edit mod, and only when its not internal call,
-    // in other words only in editor and when user triggered the change.
-    if (fromUser && this.isEdit) {
-      return window.top.$e.run('document/repeater/select', {
-        container: elementor.getContainer(this.$element.attr('data-id')),
-        index: parseInt(tabIndex)
-      });
-    }
-    const isActiveTab = this.isActiveTab(tabIndex),
-      settings = this.getSettings();
-    if ((settings.toggleSelf || !isActiveTab) && settings.hidePrevious) {
-      this.deactivateActiveTab();
-    }
-    if (!settings.hidePrevious && isActiveTab) {
-      this.deactivateActiveTab(tabIndex);
-    }
-    if (!isActiveTab) {
-      this.activateTab(tabIndex);
-    }
-  }
-}
-exports["default"] = BaseNestedTabs;
 
 /***/ }),
 
@@ -642,7 +368,7 @@ var _document = _interopRequireDefault(__webpack_require__(/*! ./document */ "..
 var _stretchElement = _interopRequireDefault(__webpack_require__(/*! ./tools/stretch-element */ "../assets/dev/js/frontend/tools/stretch-element.js"));
 var _base = _interopRequireDefault(__webpack_require__(/*! ./handlers/base */ "../assets/dev/js/frontend/handlers/base.js"));
 var _baseSwiper = _interopRequireDefault(__webpack_require__(/*! ./handlers/base-swiper */ "../assets/dev/js/frontend/handlers/base-swiper.js"));
-var _baseNestedTabs = _interopRequireDefault(__webpack_require__(/*! elementor-frontend/handlers/base-nested-tabs */ "../assets/dev/js/frontend/handlers/base-nested-tabs.js"));
+var _nestedTabs = _interopRequireDefault(__webpack_require__(/*! elementor/modules/nested-tabs/assets/js/frontend/handlers/nested-tabs */ "../modules/nested-tabs/assets/js/frontend/handlers/nested-tabs.js"));
 _modules.default.frontend = {
   Document: _document.default,
   tools: {
@@ -651,7 +377,7 @@ _modules.default.frontend = {
   handlers: {
     Base: _base.default,
     SwiperBase: _baseSwiper.default,
-    BaseNestedTabs: _baseNestedTabs.default
+    NestedTabs: _nestedTabs.default
   }
 };
 
@@ -1357,6 +1083,311 @@ exports["default"] = _default;
 
 /***/ }),
 
+/***/ "../modules/nested-tabs/assets/js/frontend/handlers/nested-tabs.js":
+/*!*************************************************************************!*\
+  !*** ../modules/nested-tabs/assets/js/frontend/handlers/nested-tabs.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = void 0;
+var _base = _interopRequireDefault(__webpack_require__(/*! ../../../../../../assets/dev/js/frontend/handlers/base */ "../assets/dev/js/frontend/handlers/base.js"));
+class NestedTabs extends _base.default {
+  /**
+   * @param {string|number} tabIndex
+   *
+   * @return {string}
+   */
+  getTabTitleFilterSelector(tabIndex) {
+    return `[data-tab="${tabIndex}"]`;
+  }
+
+  /**
+   * @param {string|number} tabIndex
+   *
+   * @return {string}
+   */
+  getTabContentFilterSelector(tabIndex) {
+    // Double by 2, since each `e-con` should have 'e-collapse'.
+    return `*:nth-child(${tabIndex * 2})`;
+  }
+
+  /**
+   * @param {HTMLElement} tabTitleElement
+   *
+   * @return {string}
+   */
+  getTabIndex(tabTitleElement) {
+    return tabTitleElement.getAttribute('data-tab');
+  }
+  getDefaultSettings() {
+    return {
+      selectors: {
+        tablist: '[role="tablist"]',
+        tabTitle: '.e-n-tab-title',
+        tabContent: '.e-con',
+        headingContainer: '.e-n-tabs-heading'
+      },
+      classes: {
+        active: 'e-active'
+      },
+      showTabFn: 'show',
+      hideTabFn: 'hide',
+      toggleSelf: false,
+      hidePrevious: true,
+      autoExpand: true,
+      keyDirection: {
+        ArrowLeft: elementorFrontendConfig.is_rtl ? 1 : -1,
+        ArrowUp: -1,
+        ArrowRight: elementorFrontendConfig.is_rtl ? -1 : 1,
+        ArrowDown: 1
+      }
+    };
+  }
+  getDefaultElements() {
+    const selectors = this.getSettings('selectors');
+    return {
+      $tabTitles: this.findElement(selectors.tabTitle),
+      $tabContents: this.findElement(selectors.tabContent)
+    };
+  }
+  activateDefaultTab() {
+    const settings = this.getSettings();
+    const defaultActiveTab = this.getEditSettings('activeItemIndex') || 1,
+      originalToggleMethods = {
+        showTabFn: settings.showTabFn,
+        hideTabFn: settings.hideTabFn
+      };
+
+    // Toggle tabs without animation to avoid jumping
+    this.setSettings({
+      showTabFn: 'show',
+      hideTabFn: 'hide'
+    });
+    this.changeActiveTab(defaultActiveTab);
+
+    // Return back original toggle effects
+    this.setSettings(originalToggleMethods);
+  }
+  handleKeyboardNavigation(event) {
+    const tab = event.currentTarget,
+      $tabList = jQuery(tab.closest(this.getSettings('selectors').tablist)),
+      // eslint-disable-next-line @wordpress/no-unused-vars-before-return
+      $tabs = $tabList.find(this.getSettings('selectors').tabTitle),
+      isVertical = 'vertical' === $tabList.attr('aria-orientation');
+    switch (event.key) {
+      case 'ArrowLeft':
+      case 'ArrowRight':
+        if (isVertical) {
+          return;
+        }
+        break;
+      case 'ArrowUp':
+      case 'ArrowDown':
+        if (!isVertical) {
+          return;
+        }
+        event.preventDefault();
+        break;
+      case 'Home':
+        event.preventDefault();
+        $tabs.first().trigger('focus');
+        return;
+      case 'End':
+        event.preventDefault();
+        $tabs.last().trigger('focus');
+        return;
+      default:
+        return;
+    }
+    const tabIndex = tab.getAttribute('data-tab') - 1,
+      direction = this.getSettings('keyDirection')[event.key],
+      nextTab = $tabs[tabIndex + direction];
+    if (nextTab) {
+      nextTab.focus();
+    } else if (-1 === tabIndex + direction) {
+      $tabs.last().trigger('focus');
+    } else {
+      $tabs.first().trigger('focus');
+    }
+  }
+  deactivateActiveTab(tabIndex) {
+    const settings = this.getSettings(),
+      activeClass = settings.classes.active,
+      activeTitleFilter = tabIndex ? this.getTabTitleFilterSelector(tabIndex) : '.' + activeClass,
+      activeContentFilter = tabIndex ? this.getTabContentFilterSelector(tabIndex) : '.' + activeClass,
+      $activeTitle = this.elements.$tabTitles.filter(activeTitleFilter),
+      $activeContent = this.elements.$tabContents.filter(activeContentFilter);
+    $activeTitle.add($activeContent).removeClass(activeClass);
+    $activeTitle.attr({
+      tabindex: '-1',
+      'aria-selected': 'false',
+      'aria-expanded': 'false'
+    });
+    $activeContent[settings.hideTabFn]();
+    $activeContent.attr('hidden', 'hidden');
+  }
+  activateTab(tabIndex) {
+    const settings = this.getSettings(),
+      activeClass = settings.classes.active,
+      animationDuration = 'show' === settings.showTabFn ? 0 : 400;
+    let $requestedTitle = this.elements.$tabTitles.filter(this.getTabTitleFilterSelector(tabIndex)),
+      $requestedContent = this.elements.$tabContents.filter(this.getTabContentFilterSelector(tabIndex));
+
+    // Check if the tabIndex exists.
+    if (!$requestedTitle.length) {
+      // Activate the previous tab and ensure that the tab index is not less than 1.
+      const previousTabIndex = Math.max(tabIndex - 1, 1);
+      $requestedTitle = this.elements.$tabTitles.filter(this.getTabTitleFilterSelector(previousTabIndex));
+      $requestedContent = this.elements.$tabContents.filter(this.getTabContentFilterSelector(previousTabIndex));
+    }
+    $requestedTitle.add($requestedContent).addClass(activeClass);
+    $requestedTitle.attr({
+      tabindex: '0',
+      'aria-selected': 'true',
+      'aria-expanded': 'true'
+    });
+    $requestedContent[settings.showTabFn](animationDuration, () => {
+      elementorFrontend.elements.$window.trigger('elementor-pro/motion-fx/recalc');
+      elementorFrontend.elements.$window.trigger('elementor/nested-tabs/activate', $requestedContent);
+    });
+    $requestedContent.removeAttr('hidden');
+  }
+  isActiveTab(tabIndex) {
+    return this.elements.$tabTitles.filter('[data-tab="' + tabIndex + '"]').hasClass(this.getSettings('classes.active'));
+  }
+  onTabClick(event) {
+    event.preventDefault();
+    this.changeActiveTab(event.currentTarget.getAttribute('data-tab'), true);
+  }
+  onTabKeyDown(event) {
+    // Support for old markup that includes an `<a>` tag in the tab
+    if (jQuery(event.target).is('a') && `Enter` === event.key) {
+      event.preventDefault();
+    }
+
+    // We listen to keydowon event for these keys in order to prevent undesired page scrolling
+    if (['End', 'Home', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
+      this.handleKeyboardNavigation(event);
+    }
+  }
+  onTabKeyUp(event) {
+    switch (event.code) {
+      case 'ArrowLeft':
+      case 'ArrowRight':
+        this.handleKeyboardNavigation(event);
+        break;
+      case 'Enter':
+      case 'Space':
+        event.preventDefault();
+        this.changeActiveTab(event.currentTarget.getAttribute('data-tab'), true);
+        break;
+    }
+  }
+  getTabEvents() {
+    return {
+      keydown: this.onTabKeyDown.bind(this),
+      keyup: this.onTabKeyUp.bind(this),
+      click: this.onTabClick.bind(this)
+    };
+  }
+  bindEvents() {
+    this.elements.$tabTitles.on(this.getTabEvents());
+    elementorFrontend.elements.$window.on('elementor/nested-tabs/activate', this.reInitSwipers);
+  }
+
+  /**
+   * Fixes issues where Swipers that have been initialized while a tab is not visible are not properly rendered
+   * and when switching to the tab the swiper will not respect any of the chosen `autoplay` related settings.
+   *
+   * This is triggered when switching to a nested tab, looks for Swipers in the tab content and reinitializes them.
+   *
+   * @param {Object} event   - Incoming event.
+   * @param {Object} content - Active nested tab dom element.
+   */
+  reInitSwipers(event, content) {
+    const swiperElements = content.querySelectorAll(`.${elementorFrontend.config.swiperClass}`);
+    for (const element of swiperElements) {
+      if (!element.swiper) {
+        return;
+      }
+      element.swiper.initialized = false;
+      element.swiper.init();
+    }
+  }
+  onInit() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    this.createMobileTabs(args);
+    super.onInit(...args);
+    if (this.getSettings('autoExpand')) {
+      this.activateDefaultTab();
+    }
+  }
+  onEditSettingsChange(propertyName, value) {
+    if ('activeItemIndex' === propertyName) {
+      this.changeActiveTab(value, false);
+    }
+  }
+
+  /**
+   * @param {string}  tabIndex
+   * @param {boolean} fromUser - Whether the call is caused by the user or internal.
+   */
+  changeActiveTab(tabIndex) {
+    let fromUser = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    // `document/repeater/select` is used only in edit mod, and only when its not internal call,
+    // in other words only in editor and when user triggered the change.
+    if (fromUser && this.isEdit) {
+      return window.top.$e.run('document/repeater/select', {
+        container: elementor.getContainer(this.$element.attr('data-id')),
+        index: parseInt(tabIndex)
+      });
+    }
+    const isActiveTab = this.isActiveTab(tabIndex),
+      settings = this.getSettings();
+    if ((settings.toggleSelf || !isActiveTab) && settings.hidePrevious) {
+      this.deactivateActiveTab();
+    }
+    if (!settings.hidePrevious && isActiveTab) {
+      this.deactivateActiveTab(tabIndex);
+    }
+    if (!isActiveTab) {
+      this.activateTab(tabIndex);
+    }
+  }
+  createMobileTabs(args) {
+    const settings = this.getSettings();
+    if (elementorFrontend.isEditMode()) {
+      const $widget = this.$element,
+        $removed = this.findElement('.e-collapse').remove();
+      let index = 1;
+      this.findElement('.e-con').each(function () {
+        const $current = jQuery(this),
+          $desktopTabTitle = $widget.find(`${settings.selectors.headingContainer} > *:nth-child(${index})`),
+          mobileTitleHTML = `<div class="${settings.selectors.tabTitle.replace('.', '')} e-collapse" data-tab="${index}" role="tab">${$desktopTabTitle.html()}</div>`;
+        $current.before(mobileTitleHTML);
+        ++index;
+      });
+
+      // On refresh since indexes are rearranged, do not call `activateDefaultTab` let editor control handle it.
+      if ($removed.length) {
+        return elementorModules.ViewModule.prototype.onInit.apply(this, args);
+      }
+    }
+  }
+}
+exports["default"] = NestedTabs;
+
+/***/ }),
+
 /***/ "../node_modules/core-js/internals/a-callable.js":
 /*!*******************************************************!*\
   !*** ../node_modules/core-js/internals/a-callable.js ***!
@@ -1464,10 +1495,10 @@ module.exports = {
   \********************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-var uncurryThisRaw = __webpack_require__(/*! ../internals/function-uncurry-this-raw */ "../node_modules/core-js/internals/function-uncurry-this-raw.js");
+var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ "../node_modules/core-js/internals/function-uncurry-this.js");
 
-var toString = uncurryThisRaw({}.toString);
-var stringSlice = uncurryThisRaw(''.slice);
+var toString = uncurryThis({}.toString);
+var stringSlice = uncurryThis(''.slice);
 
 module.exports = function (it) {
   return stringSlice(toString(it), 8, -1);
@@ -1971,10 +2002,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "../node_modules/core-js/internals/function-uncurry-this-raw.js":
-/*!**********************************************************************!*\
-  !*** ../node_modules/core-js/internals/function-uncurry-this-raw.js ***!
-  \**********************************************************************/
+/***/ "../node_modules/core-js/internals/function-uncurry-this.js":
+/*!******************************************************************!*\
+  !*** ../node_modules/core-js/internals/function-uncurry-this.js ***!
+  \******************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var NATIVE_BIND = __webpack_require__(/*! ../internals/function-bind-native */ "../node_modules/core-js/internals/function-bind-native.js");
@@ -1987,25 +2018,6 @@ module.exports = NATIVE_BIND ? uncurryThisWithBind : function (fn) {
   return function () {
     return call.apply(fn, arguments);
   };
-};
-
-
-/***/ }),
-
-/***/ "../node_modules/core-js/internals/function-uncurry-this.js":
-/*!******************************************************************!*\
-  !*** ../node_modules/core-js/internals/function-uncurry-this.js ***!
-  \******************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var classofRaw = __webpack_require__(/*! ../internals/classof-raw */ "../node_modules/core-js/internals/classof-raw.js");
-var uncurryThisRaw = __webpack_require__(/*! ../internals/function-uncurry-this-raw */ "../node_modules/core-js/internals/function-uncurry-this-raw.js");
-
-module.exports = function (fn) {
-  // Nashorn bug:
-  //   https://github.com/zloirock/core-js/issues/1128
-  //   https://github.com/zloirock/core-js/issues/1130
-  if (classofRaw(fn) === 'Function') return uncurryThisRaw(fn);
 };
 
 
@@ -2895,10 +2907,10 @@ var store = __webpack_require__(/*! ../internals/shared-store */ "../node_module
 (module.exports = function (key, value) {
   return store[key] || (store[key] = value !== undefined ? value : {});
 })('versions', []).push({
-  version: '3.26.0',
+  version: '3.26.1',
   mode: IS_PURE ? 'pure' : 'global',
   copyright: '© 2014-2022 Denis Pushkarev (zloirock.ru)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.26.0/LICENSE',
+  license: 'https://github.com/zloirock/core-js/blob/v3.26.1/LICENSE',
   source: 'https://github.com/zloirock/core-js'
 });
 

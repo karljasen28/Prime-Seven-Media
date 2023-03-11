@@ -1,4 +1,4 @@
-/*! elementor - v3.10.2 - 29-01-2023 */
+/*! elementor - v3.11.3 - 07-03-2023 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -1218,17 +1218,14 @@ var createAsyncThunk = (function () {
                 var requestId = (options == null ? void 0 : options.idGenerator) ? options.idGenerator(arg) : nanoid();
                 var abortController = new AC();
                 var abortReason;
-                var abortedPromise = new Promise(function (_, reject) { return abortController.signal.addEventListener("abort", function () { return reject({ name: "AbortError", message: abortReason || "Aborted" }); }); });
                 var started = false;
                 function abort(reason) {
-                    if (started) {
-                        abortReason = reason;
-                        abortController.abort();
-                    }
+                    abortReason = reason;
+                    abortController.abort();
                 }
                 var promise2 = function () {
                     return __async(this, null, function () {
-                        var _a, _b, finalAction, conditionResult, err_1, skipDispatch;
+                        var _a, _b, finalAction, conditionResult, abortedPromise, err_1, skipDispatch;
                         return __generator(this, function (_c) {
                             switch (_c.label) {
                                 case 0:
@@ -1240,13 +1237,17 @@ var createAsyncThunk = (function () {
                                     conditionResult = _c.sent();
                                     _c.label = 2;
                                 case 2:
-                                    if (conditionResult === false) {
+                                    if (conditionResult === false || abortController.signal.aborted) {
                                         throw {
                                             name: "ConditionError",
                                             message: "Aborted due to condition callback returning false."
                                         };
                                     }
                                     started = true;
+                                    abortedPromise = new Promise(function (_, reject) { return abortController.signal.addEventListener("abort", function () { return reject({
+                                        name: "AbortError",
+                                        message: abortReason || "Aborted"
+                                    }); }); });
                                     dispatch(pending(requestId, arg, (_b = options == null ? void 0 : options.getPendingMeta) == null ? void 0 : _b.call(options, { requestId: requestId, arg: arg }, { getState: getState, extra: extra })));
                                     return [4 /*yield*/, Promise.race([
                                             abortedPromise,
@@ -1307,7 +1308,7 @@ var createAsyncThunk = (function () {
             typePrefix: typePrefix
         });
     }
-    createAsyncThunk2.withTypes = createAsyncThunk2;
+    createAsyncThunk2.withTypes = function () { return createAsyncThunk2; };
     return createAsyncThunk2;
 })();
 function unwrapResult(action) {
@@ -1879,7 +1880,7 @@ var prepareAutoBatched = function () { return function (payload) {
     });
 }; };
 var promise;
-var queueMicrotaskShim = typeof queueMicrotask === "function" ? queueMicrotask.bind(typeof window !== "undefined" ? window : __webpack_require__.g) : function (cb) { return (promise || (promise = Promise.resolve())).then(cb).catch(function (err) { return setTimeout(function () {
+var queueMicrotaskShim = typeof queueMicrotask === "function" ? queueMicrotask.bind(typeof window !== "undefined" ? window : typeof __webpack_require__.g !== "undefined" ? __webpack_require__.g : globalThis) : function (cb) { return (promise || (promise = Promise.resolve())).then(cb).catch(function (err) { return setTimeout(function () {
     throw err;
 }, 0); }); };
 var createQueueWithTimer = function (timeout) {
@@ -1887,6 +1888,7 @@ var createQueueWithTimer = function (timeout) {
         setTimeout(notify, timeout);
     };
 };
+var rAF = typeof window !== "undefined" && window.requestAnimationFrame ? window.requestAnimationFrame : createQueueWithTimer(10);
 var autoBatchEnhancer = function (options) {
     if (options === void 0) { options = { type: "raf" }; }
     return function (next) { return function () {
@@ -1899,7 +1901,7 @@ var autoBatchEnhancer = function (options) {
         var shouldNotifyAtEndOfTick = false;
         var notificationQueued = false;
         var listeners = new Set();
-        var queueCallback = options.type === "tick" ? queueMicrotaskShim : options.type === "raf" ? requestAnimationFrame : options.type === "callback" ? options.queueNotification : createQueueWithTimer(options.timeout);
+        var queueCallback = options.type === "tick" ? queueMicrotaskShim : options.type === "raf" ? rAF : options.type === "callback" ? options.queueNotification : createQueueWithTimer(options.timeout);
         var notifyListeners = function () {
             notificationQueued = false;
             if (shouldNotifyAtEndOfTick) {
@@ -6382,6 +6384,10 @@ module.exports = Marionette.Behavior.extend({
 "use strict";
 
 
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "../node_modules/@babel/runtime/helpers/defineProperty.js"));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 module.exports = elementorModules.Module.extend({
   CACHE_KEY_NOT_FOUND_ERROR: 'Cache key not found',
   tags: {
@@ -6406,8 +6412,8 @@ module.exports = elementorModules.Module.extend({
     }
   },
   loadCacheRequests: function loadCacheRequests() {
-    var cache = this.cache,
-      cacheRequests = this.cacheRequests,
+    var _this = this;
+    var cacheRequests = this.cacheRequests,
       cacheCallbacks = this.cacheCallbacks;
     this.cacheRequests = {};
     this.cacheCallbacks = [];
@@ -6417,7 +6423,7 @@ module.exports = elementorModules.Module.extend({
         tags: Object.keys(cacheRequests)
       },
       success: function success(data) {
-        jQuery.extend(cache, data);
+        _this.cache = _objectSpread(_objectSpread({}, _this.cache), data);
         cacheCallbacks.forEach(function (callback) {
           callback();
         });
@@ -10112,19 +10118,14 @@ module.exports = elementorModules.common.views.modal.Layout.extend({
     };
   },
   getTemplateActionButton: function getTemplateActionButton(templateData) {
+    var _subscriptionPlans$te;
     var subscriptionPlans = elementor.config.library_connect.subscription_plans,
       baseAccessLevel = elementor.config.library_connect.base_access_level;
     var viewId = '#tmpl-elementor-template-library-' + (baseAccessLevel !== templateData.accessLevel ? 'upgrade-plan-button' : 'insert-button');
     viewId = elementor.hooks.applyFilters('elementor/editor/template-library/template/action-button', viewId, templateData);
     var template = Marionette.TemplateCache.get(viewId);
+    var subscriptionPlan = (_subscriptionPlans$te = subscriptionPlans[templateData.accessLevel]) !== null && _subscriptionPlans$te !== void 0 ? _subscriptionPlans$te : subscriptionPlans[1]; // 1 is Pro plan.
 
-    // In case the access level of the template is not one of the defined.
-    // it will find the next access level that was defined.
-    // Example: access_level = 15, and access_level 15 is not exists in the plans the button will be "Go Expert" which is 20
-    var closestAccessLevel = Object.keys(subscriptionPlans).sort().find(function (accessLevel) {
-      return accessLevel >= templateData.accessLevel;
-    });
-    var subscriptionPlan = subscriptionPlans[closestAccessLevel];
     return Marionette.Renderer.render(template, {
       promotionText: "Go ".concat(subscriptionPlan.label),
       promotionLink: subscriptionPlan.promotion_url
@@ -10782,7 +10783,15 @@ TemplateLibraryTemplateView = Marionette.ItemView.extend({
     return classes;
   },
   attributes: function attributes() {
-    var subscriptionPlan = elementor.config.library_connect.subscription_plans[this.model.get('accessLevel')];
+    var _this = this;
+    var getSubscriptionPlan = function getSubscriptionPlan() {
+      var _subscriptionPlans$_t;
+      var subscriptionPlans = elementor.config.library_connect.subscription_plans;
+
+      // 1 is Pro plan.
+      return (_subscriptionPlans$_t = subscriptionPlans[_this.model.get('accessLevel')]) !== null && _subscriptionPlans$_t !== void 0 ? _subscriptionPlans$_t : subscriptionPlans[1];
+    };
+    var subscriptionPlan = getSubscriptionPlan();
     if (!subscriptionPlan) {
       return {};
     }
@@ -11283,6 +11292,7 @@ ControlBaseDataView = ControlBaseView.extend({
       radio: 'input[data-setting][type="radio"]',
       select: 'select[data-setting]',
       textarea: 'textarea[data-setting]',
+      responsiveSwitchersSibling: "".concat(ui.controlTitle, "[data-e-responsive-switcher-sibling!=\"false\"]"),
       responsiveSwitchers: '.elementor-responsive-switcher',
       contentEditable: '[contenteditable="true"]'
     });
@@ -11636,7 +11646,7 @@ ControlBaseDataView = ControlBaseView.extend({
   },
   renderResponsiveSwitchers: function renderResponsiveSwitchers() {
     var templateHtml = Marionette.Renderer.render('#tmpl-elementor-control-responsive-switchers', this.model.attributes);
-    this.ui.controlTitle.after(templateHtml);
+    this.ui.responsiveSwitchersSibling.after(templateHtml);
     this.ui.responsiveSwitchersWrapper = this.$el.find('.elementor-control-responsive-switchers');
   },
   onAfterExternalChange: function onAfterExternalChange() {
@@ -12881,6 +12891,7 @@ Object.defineProperty(exports, "__esModule", ({
 exports["default"] = void 0;
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "../node_modules/@babel/runtime/helpers/classCallCheck.js"));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ "../node_modules/@babel/runtime/helpers/createClass.js"));
+var _get2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/get */ "../node_modules/@babel/runtime/helpers/get.js"));
 var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ "../node_modules/@babel/runtime/helpers/inherits.js"));
 var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js"));
 var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "../node_modules/@babel/runtime/helpers/getPrototypeOf.js"));
@@ -12902,6 +12913,32 @@ var _default = /*#__PURE__*/function (_ControlBaseDataView) {
         minuteIncrement: 1
       }, this.model.get('picker_options'));
       this.ui.input.flatpickr(options);
+    }
+  }, {
+    key: "onBaseInputChange",
+    value: function onBaseInputChange() {
+      var _this$model$get;
+      (0, _get2.default)((0, _getPrototypeOf2.default)(_default.prototype), "onBaseInputChange", this).apply(this, arguments);
+      if ((_this$model$get = this.model.get('validation')) !== null && _this$model$get !== void 0 && _this$model$get.date_time) {
+        this.validateDateTime();
+      }
+    }
+  }, {
+    key: "validateDateTime",
+    value: function validateDateTime() {
+      var _this$model$get$date_ = this.model.get('validation').date_time,
+        controlName = _this$model$get$date_.control_name,
+        operator = _this$model$get$date_.operator;
+      var startDate = this.options.container.settings.get(controlName);
+      var endDate = this.ui.input.val();
+      if (!startDate || !endDate) {
+        return;
+      }
+      var startDateTimestamp = new Date(startDate).getTime();
+      var endDateTimestamp = new Date(endDate).getTime();
+      if (elementor.conditions.compare(startDateTimestamp, endDateTimestamp, operator)) {
+        this.ui.input.val('');
+      }
     }
   }, {
     key: "onBeforeDestroy",
@@ -13750,7 +13787,7 @@ var ControlIconsView = /*#__PURE__*/function (_ControlMultipleBaseI) {
         iconType = '';
       }
       if ('media' === skin) {
-        this.ui.controlMedia.toggleClass('elementor-media-empty', !iconValue);
+        this.ui.controlMedia.toggleClass('e-media-empty', !iconValue);
       }
       if ('inline' === skin && !disableActiveState || iconType) {
         this.markChecked(iconType);
@@ -13894,7 +13931,10 @@ module.exports = ControlImageDimensionsItemView;
 
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "../node_modules/@babel/runtime/helpers/defineProperty.js"));
 var _filesUploadHandler = _interopRequireDefault(__webpack_require__(/*! ../utils/files-upload-handler */ "../assets/dev/js/editor/utils/files-upload-handler.js"));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var ControlMultipleBaseItemView = __webpack_require__(/*! elementor-controls/base-multiple */ "../assets/dev/js/editor/controls/base-multiple.js"),
   ControlMediaItemView;
 ControlMediaItemView = ControlMultipleBaseItemView.extend({
@@ -13906,12 +13946,14 @@ ControlMediaItemView = ControlMultipleBaseItemView.extend({
     ui.frameOpeners = '.elementor-control-preview-area';
     ui.removeButton = '.elementor-control-media__remove';
     ui.fileName = '.elementor-control-media__file__content__info__name';
+    ui.mediaInputImageSize = '.e-image-size-select';
     return ui;
   },
   events: function events() {
     return _.extend(ControlMultipleBaseItemView.prototype.events.apply(this, arguments), {
       'click @ui.frameOpeners': 'openFrame',
-      'click @ui.removeButton': 'deleteImage'
+      'click @ui.removeButton': 'deleteImage',
+      'change @ui.mediaInputImageSize': 'onMediaInputImageSizeChange'
     });
   },
   getMediaType: function getMediaType() {
@@ -13934,10 +13976,11 @@ ControlMediaItemView = ControlMultipleBaseItemView.extend({
     var _this$getControlPlace;
     var value = this.getControlValue('url'),
       url = value || ((_this$getControlPlace = this.getControlPlaceholder()) === null || _this$getControlPlace === void 0 ? void 0 : _this$getControlPlace.url),
+      isPlaceholder = !value && url,
       mediaType = this.getMediaType();
     if (['image', 'svg'].includes(mediaType)) {
       this.ui.mediaImage.css('background-image', url ? 'url(' + url + ')' : '');
-      if (!value && url) {
+      if (isPlaceholder) {
         this.ui.mediaImage.css('opacity', 0.5);
       }
     } else if ('video' === mediaType) {
@@ -13946,7 +13989,15 @@ ControlMediaItemView = ControlMultipleBaseItemView.extend({
       var fileName = url ? url.split('/').pop() : '';
       this.ui.fileName.text(fileName);
     }
-    this.ui.controlMedia.toggleClass('elementor-media-empty', !value);
+    if (this.ui.mediaInputImageSize) {
+      var imageSize = this.getControlValue('size');
+      if (isPlaceholder) {
+        var _this$getControlPlace2;
+        imageSize = (_this$getControlPlace2 = this.getControlPlaceholder()) === null || _this$getControlPlace2 === void 0 ? void 0 : _this$getControlPlace2.size;
+      }
+      this.ui.mediaInputImageSize.val(imageSize).toggleClass('e-select-placeholder', isPlaceholder);
+    }
+    this.ui.controlMedia.toggleClass('e-media-empty', !value).toggleClass('e-media-empty-placeholder', !value && !isPlaceholder);
   },
   openFrame: function openFrame(e) {
     var _e$target,
@@ -13986,6 +14037,52 @@ ControlMediaItemView = ControlMultipleBaseItemView.extend({
       id: ''
     });
     this.applySavedValue();
+  },
+  onMediaInputImageSizeChange: function onMediaInputImageSizeChange() {
+    var _this2 = this;
+    if (!this.model.get('has_sizes')) {
+      return;
+    }
+    var currentControlValue = this.getControlValue(),
+      placeholder = this.getControlPlaceholder();
+    var hasImage = '' !== (currentControlValue === null || currentControlValue === void 0 ? void 0 : currentControlValue.id),
+      hasPlaceholder = placeholder === null || placeholder === void 0 ? void 0 : placeholder.id,
+      hasValue = hasImage || hasPlaceholder;
+    if (!hasValue) {
+      return;
+    }
+    var shouldUpdateFromPlaceholder = hasPlaceholder && !hasImage;
+    if (shouldUpdateFromPlaceholder) {
+      this.setValue(_objectSpread(_objectSpread({}, placeholder), {}, {
+        size: currentControlValue.size
+      }));
+      if (this.model.get('responsive')) {
+        // Render is already calls `applySavedValue`, therefore there's no need for it in this case.
+        this.renderWithChildren();
+      } else {
+        this.applySavedValue();
+      }
+      this.onMediaInputImageSizeChange();
+      return;
+    }
+    var imageURL;
+    elementor.channels.editor.once('imagesManager:detailsReceived', function (data) {
+      var _data$currentControlV;
+      imageURL = (_data$currentControlV = data[currentControlValue.id]) === null || _data$currentControlV === void 0 ? void 0 : _data$currentControlV[currentControlValue.size];
+      if (imageURL) {
+        currentControlValue.url = imageURL;
+        _this2.setValue(currentControlValue);
+      }
+    });
+    imageURL = elementor.imagesManager.getImageUrl({
+      id: currentControlValue.id,
+      url: currentControlValue.url,
+      size: currentControlValue.size
+    });
+    if (imageURL) {
+      currentControlValue.url = imageURL;
+      this.setValue(currentControlValue);
+    }
   },
   /**
    * Create a media modal select frame, and store it so the instance can be reused when needed.
@@ -14086,7 +14183,8 @@ ControlMediaItemView = ControlMultipleBaseItemView.extend({
         url: attachment.url,
         id: attachment.id,
         alt: attachment.alt,
-        source: attachment.source
+        source: attachment.source,
+        size: this.model.get('default').size
       });
       if (this.model.get('responsive')) {
         // Render is already calls `applySavedValue`, therefore there's no need for it in this case.
@@ -14095,6 +14193,7 @@ ControlMediaItemView = ControlMultipleBaseItemView.extend({
         this.applySavedValue();
       }
     }
+    this.onMediaInputImageSizeChange();
     this.trigger('after:select');
   },
   onBeforeDestroy: function onBeforeDestroy() {
@@ -17106,13 +17205,27 @@ var Copy = /*#__PURE__*/function (_$e$modules$editor$Co) {
         return false;
       }
       var elements = elementor.getPreviewView().$el.find('.elementor-element');
-      elementorCommon.storage.set(storageKey, containers.sort(function (first, second) {
+      var elementsData = containers.sort(function (first, second) {
         return elements.index(first.view.el) - elements.index(second.view.el);
       }).map(function (container) {
         return container.model.toJSON({
           copyHtmlCache: true
         });
-      }));
+      });
+      var storageData = {
+        type: 'elementor',
+        siteurl: elementorCommon.config.urls.rest,
+        elements: elementsData
+      };
+      elementorCommon.storage.set(storageKey, storageData);
+
+      // TODO: Use package for clipboard saving
+      var clipboard = document.createElement('textarea');
+      clipboard.value = JSON.stringify(storageData);
+      document.body.appendChild(clipboard);
+      clipboard.select();
+      document.execCommand('copy');
+      document.body.removeChild(clipboard);
     }
   }]);
   return Copy;
@@ -17844,6 +17957,12 @@ Object.defineProperty(exports, "Paste", ({
     return _paste.Paste;
   }
 }));
+Object.defineProperty(exports, "PasteArea", ({
+  enumerable: true,
+  get: function get() {
+    return _pasteArea.PasteArea;
+  }
+}));
 Object.defineProperty(exports, "PasteStyle", ({
   enumerable: true,
   get: function get() {
@@ -17896,6 +18015,7 @@ var _duplicate = __webpack_require__(/*! ./duplicate */ "../assets/dev/js/editor
 var _empty = __webpack_require__(/*! ./empty */ "../assets/dev/js/editor/document/elements/commands/empty.js");
 var _import = __webpack_require__(/*! ./import */ "../assets/dev/js/editor/document/elements/commands/import.js");
 var _paste = __webpack_require__(/*! ./paste */ "../assets/dev/js/editor/document/elements/commands/paste.js");
+var _pasteArea = __webpack_require__(/*! ./paste-area */ "../assets/dev/js/editor/document/elements/commands/paste-area.js");
 var _move = __webpack_require__(/*! ./move */ "../assets/dev/js/editor/document/elements/commands/move.js");
 var _pasteStyle = __webpack_require__(/*! ./paste-style */ "../assets/dev/js/editor/document/elements/commands/paste-style.js");
 var _resetSettings = __webpack_require__(/*! ./reset-settings */ "../assets/dev/js/editor/document/elements/commands/reset-settings.js");
@@ -17991,6 +18111,153 @@ exports["default"] = _default;
 
 /***/ }),
 
+/***/ "../assets/dev/js/editor/document/elements/commands/paste-area.js":
+/*!************************************************************************!*\
+  !*** ../assets/dev/js/editor/document/elements/commands/paste-area.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+/* provided dependency */ var __ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n")["__"];
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = exports.PasteArea = void 0;
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ "../node_modules/@babel/runtime/regenerator/index.js"));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "../node_modules/@babel/runtime/helpers/asyncToGenerator.js"));
+var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "../node_modules/@babel/runtime/helpers/classCallCheck.js"));
+var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ "../node_modules/@babel/runtime/helpers/createClass.js"));
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ "../node_modules/@babel/runtime/helpers/inherits.js"));
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js"));
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "../node_modules/@babel/runtime/helpers/getPrototypeOf.js"));
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "../node_modules/@babel/runtime/helpers/defineProperty.js"));
+var _environment = _interopRequireDefault(__webpack_require__(/*! elementor-common/utils/environment */ "../core/common/assets/js/utils/environment.js"));
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2.default)(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2.default)(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2.default)(this, result); }; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+var PasteArea = /*#__PURE__*/function (_$e$modules$editor$do) {
+  (0, _inherits2.default)(PasteArea, _$e$modules$editor$do);
+  var _super = _createSuper(PasteArea);
+  function PasteArea() {
+    (0, _classCallCheck2.default)(this, PasteArea);
+    return _super.apply(this, arguments);
+  }
+  (0, _createClass2.default)(PasteArea, [{
+    key: "getHistory",
+    value: function getHistory(args) {
+      return false;
+    }
+  }, {
+    key: "getDialog",
+    value: function getDialog() {
+      var _this = this;
+      if (this.dialog) {
+        return this.dialog;
+      }
+      var $messageContainer = jQuery('<div>', {
+        class: 'e-dialog-description'
+      }).html(__('To paste the element from your other site.', 'elementor'));
+      var $inputArea = jQuery('<input>', {
+        id: 'elementor-paste-area-dialog__input',
+        type: 'text'
+      }).attr('autocomplete', 'off').on('keypress', function (event) {
+        event.preventDefault();
+      }).on('blur', function () {
+        _.defer(function () {
+          return $inputArea.focus();
+        });
+      }).on('paste', /*#__PURE__*/function () {
+        var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(event) {
+          var $widgetContent, retVal;
+          return _regenerator.default.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  event.preventDefault();
+                  $widgetContent = _this.getDialog().getElements('widgetContent');
+                  $widgetContent.addClass('e-state-loading');
+                  _context.next = 5;
+                  return $e.run('document/ui/paste', {
+                    container: _this.container,
+                    storageType: 'rawdata',
+                    data: event.originalEvent.clipboardData.getData('text'),
+                    options: _this.options
+                  });
+                case 5:
+                  retVal = _context.sent;
+                  $widgetContent.removeClass('e-state-loading');
+                  if (!retVal) {
+                    _context.next = 10;
+                    break;
+                  }
+                  _this.dialog.hide();
+                  return _context.abrupt("return");
+                case 10:
+                  $errorArea.show();
+                case 11:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee);
+        }));
+        return function (_x) {
+          return _ref.apply(this, arguments);
+        };
+      }());
+      var $errorArea = jQuery('<div>', {
+        id: 'elementor-paste-area-dialog__error',
+        style: "display: none"
+      }).html(__('Make sure that both sites are updated to last version of Elementor and have enabled the features relevant to the copied element before trying again.', 'elementor'));
+      var $loadingArea = jQuery('<i>', {
+        class: 'eicon-loading eicon-animation-spin'
+      });
+      $messageContainer.append($inputArea).append($errorArea).append($loadingArea);
+      var ctrlLabel = _environment.default.mac ? '&#8984;' : 'Ctrl';
+      this.dialog = elementorCommon.dialogsManager.createWidget('lightbox', {
+        id: 'elementor-paste-area-dialog',
+        headerMessage: "".concat(ctrlLabel, " + V"),
+        message: $messageContainer,
+        position: {
+          my: 'center center',
+          at: 'center center'
+        },
+        closeButton: true,
+        closeButtonOptions: {
+          iconClass: 'eicon-close'
+        },
+        onShow: function onShow() {
+          $inputArea.focus();
+          _this.getDialog().getElements('widgetContent').on('click', function () {
+            $inputArea.focus();
+          });
+        }
+      });
+      return this.dialog;
+    }
+  }, {
+    key: "apply",
+    value: function apply(args) {
+      this.container = args.container;
+      if (args.options) {
+        this.options = args.options;
+      }
+      this.getDialog().show();
+    }
+  }]);
+  return PasteArea;
+}($e.modules.editor.document.CommandHistoryBase);
+exports.PasteArea = PasteArea;
+(0, _defineProperty2.default)(PasteArea, "dialog", null);
+(0, _defineProperty2.default)(PasteArea, "container", null);
+(0, _defineProperty2.default)(PasteArea, "options", {});
+var _default = PasteArea;
+exports["default"] = _default;
+
+/***/ }),
+
 /***/ "../assets/dev/js/editor/document/elements/commands/paste-style.js":
 /*!*************************************************************************!*\
   !*** ../assets/dev/js/editor/document/elements/commands/paste-style.js ***!
@@ -18061,12 +18328,16 @@ var PasteStyle = /*#__PURE__*/function (_$e$modules$editor$do) {
   }, {
     key: "apply",
     value: function apply(args) {
+      var _storageData$elements;
       var _args$containers2 = args.containers,
         containers = _args$containers2 === void 0 ? [args.container] : _args$containers2,
         _args$storageKey2 = args.storageKey,
         storageKey = _args$storageKey2 === void 0 ? 'clipboard' : _args$storageKey2,
         storageData = elementorCommon.storage.get(storageKey);
-      this.applyPasteStyleData(containers, storageData);
+      if (!storageData || !(storageData !== null && storageData !== void 0 && (_storageData$elements = storageData.elements) !== null && _storageData$elements !== void 0 && _storageData$elements.length) || 'elementor' !== (storageData === null || storageData === void 0 ? void 0 : storageData.type)) {
+        return false;
+      }
+      this.applyPasteStyleData(containers, storageData.elements);
     }
   }, {
     key: "applyPasteStyleData",
@@ -18184,6 +18455,8 @@ Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
 exports["default"] = exports.Paste = void 0;
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ "../node_modules/@babel/runtime/regenerator/index.js"));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "../node_modules/@babel/runtime/helpers/asyncToGenerator.js"));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "../node_modules/@babel/runtime/helpers/classCallCheck.js"));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ "../node_modules/@babel/runtime/helpers/createClass.js"));
 var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ "../node_modules/@babel/runtime/helpers/inherits.js"));
@@ -18202,14 +18475,6 @@ var Paste = /*#__PURE__*/function (_$e$modules$editor$do) {
     key: "validateArgs",
     value: function validateArgs(args) {
       this.requireContainer(args);
-
-      // Validate if storage have data.
-      var _args$storageKey = args.storageKey,
-        storageKey = _args$storageKey === void 0 ? 'clipboard' : _args$storageKey,
-        storageData = elementorCommon.storage.get(storageKey);
-      this.requireArgumentType('storageData', 'object', {
-        storageData: storageData
-      });
     }
   }, {
     key: "getHistory",
@@ -18220,34 +18485,93 @@ var Paste = /*#__PURE__*/function (_$e$modules$editor$do) {
       };
     }
   }, {
-    key: "apply",
-    value: function apply(args) {
-      var at = args.at,
-        _args$rebuild = args.rebuild,
-        rebuild = _args$rebuild === void 0 ? false : _args$rebuild,
-        _args$storageKey2 = args.storageKey,
-        storageKey = _args$storageKey2 === void 0 ? 'clipboard' : _args$storageKey2,
-        _args$containers = args.containers,
-        containers = _args$containers === void 0 ? [args.container] : _args$containers,
-        _args$options = args.options,
-        options = _args$options === void 0 ? {} : _args$options,
-        storageData = elementorCommon.storage.get(storageKey);
-      var result = [];
-
-      // Paste on "Add Section" area.
-      if (rebuild) {
-        result = this.rebuild(containers, storageData, at);
-      } else {
-        if (undefined !== at) {
-          options.at = at;
-        }
-        result.push(this.pasteTo(containers, storageData, options));
+    key: "getStorageData",
+    value: function getStorageData(args) {
+      var _args$storageType = args.storageType,
+        storageType = _args$storageType === void 0 ? 'localstorage' : _args$storageType,
+        _args$storageKey = args.storageKey,
+        storageKey = _args$storageKey === void 0 ? 'clipboard' : _args$storageKey,
+        _args$data = args.data,
+        data = _args$data === void 0 ? '' : _args$data;
+      if ('localstorage' === storageType) {
+        return elementorCommon.storage.get(storageKey) || {};
       }
-      if (1 === result.length) {
-        return result[0];
+      try {
+        return JSON.parse(data) || {};
+      } catch (e) {
+        return {};
       }
-      return result;
     }
+  }, {
+    key: "apply",
+    value: function () {
+      var _apply = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(args) {
+        var _storageData$elements;
+        var at, _args$rebuild, rebuild, _args$containers, containers, _args$options, options, storageData, storageDataElements, result;
+        return _regenerator.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                at = args.at, _args$rebuild = args.rebuild, rebuild = _args$rebuild === void 0 ? false : _args$rebuild, _args$containers = args.containers, containers = _args$containers === void 0 ? [args.container] : _args$containers, _args$options = args.options, options = _args$options === void 0 ? {} : _args$options, storageData = this.getStorageData(args);
+                if (!(!storageData || !(storageData !== null && storageData !== void 0 && (_storageData$elements = storageData.elements) !== null && _storageData$elements !== void 0 && _storageData$elements.length) || 'elementor' !== (storageData === null || storageData === void 0 ? void 0 : storageData.type))) {
+                  _context.next = 3;
+                  break;
+                }
+                return _context.abrupt("return", false);
+              case 3:
+                storageDataElements = storageData.elements;
+                if (!(storageData.siteurl !== elementorCommon.config.urls.rest)) {
+                  _context.next = 14;
+                  break;
+                }
+                _context.prev = 5;
+                _context.next = 8;
+                return new Promise(function (resolve, reject) {
+                  return elementorCommon.ajax.addRequest('import_from_json', {
+                    data: {
+                      elements: JSON.stringify(storageDataElements)
+                    },
+                    success: resolve,
+                    error: reject
+                  });
+                });
+              case 8:
+                storageDataElements = _context.sent;
+                _context.next = 14;
+                break;
+              case 11:
+                _context.prev = 11;
+                _context.t0 = _context["catch"](5);
+                return _context.abrupt("return", false);
+              case 14:
+                result = []; // Paste on "Add Section" area.
+                if (rebuild) {
+                  result = this.rebuild(containers, storageDataElements, at);
+                } else {
+                  if (undefined !== at) {
+                    options.at = at;
+                  }
+                  result.push(this.pasteTo(containers, storageDataElements, options));
+                }
+                if (!(1 === result.length)) {
+                  _context.next = 18;
+                  break;
+                }
+                return _context.abrupt("return", result[0]);
+              case 18:
+                return _context.abrupt("return", result);
+              case 19:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[5, 11]]);
+      }));
+      function apply(_x) {
+        return _apply.apply(this, arguments);
+      }
+      return apply;
+    }()
   }, {
     key: "rebuild",
     value: function rebuild(containers, data, at) {
@@ -19020,16 +19344,17 @@ var Component = /*#__PURE__*/function (_ComponentBase) {
           return result;
         },
         isPasteEnabled: function isPasteEnabled(targetContainer) {
+          var _storage$elements;
           var storage = elementorCommon.storage.get('clipboard');
 
           // No storage? no paste.
-          if (!storage || !storage[0]) {
+          if (!storage || !(storage !== null && storage !== void 0 && (_storage$elements = storage.elements) !== null && _storage$elements !== void 0 && _storage$elements.length) || 'elementor' !== (storage === null || storage === void 0 ? void 0 : storage.type)) {
             return false;
           }
-          if (!(storage[0] instanceof Backbone.Model)) {
-            storage[0] = new Backbone.Model(storage[0]);
+          if (!(storage.elements[0] instanceof Backbone.Model)) {
+            storage.elements[0] = new Backbone.Model(storage.elements[0]);
           }
-          var pasteOptions = _this.utils.getPasteOptions(storage[0], targetContainer);
+          var pasteOptions = _this.utils.getPasteOptions(storage.elements[0], targetContainer);
           return Object.values(pasteOptions).some(function (opt) {
             return !!opt;
           });
@@ -25868,7 +26193,6 @@ Object.defineProperty(exports, "__esModule", ({
 exports["default"] = exports.Paste = void 0;
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "../node_modules/@babel/runtime/helpers/classCallCheck.js"));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ "../node_modules/@babel/runtime/helpers/createClass.js"));
-var _get2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/get */ "../node_modules/@babel/runtime/helpers/get.js"));
 var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ "../node_modules/@babel/runtime/helpers/inherits.js"));
 var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js"));
 var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "../node_modules/@babel/runtime/helpers/getPrototypeOf.js"));
@@ -25882,13 +26206,35 @@ var Paste = /*#__PURE__*/function (_$e$modules$CommandBa) {
     return _super.apply(this, arguments);
   }
   (0, _createClass2.default)(Paste, [{
-    key: "initialize",
-    value: function initialize(args) {
+    key: "getPasteData",
+    value: function getPasteData(_ref) {
+      var _ref$storageType = _ref.storageType,
+        storageType = _ref$storageType === void 0 ? 'localstorage' : _ref$storageType,
+        _ref$data = _ref.data,
+        data = _ref$data === void 0 ? '' : _ref$data;
+      if ('localstorage' === storageType) {
+        return elementorCommon.storage.get('clipboard') || {};
+      }
+      try {
+        return JSON.parse(data) || {};
+      } catch (e) {
+        return {};
+      }
+    }
+  }, {
+    key: "apply",
+    value: function apply(args) {
+      var _this$storage,
+        _this$storage$element,
+        _this$storage2,
+        _this = this;
       var _args$containers = args.containers,
         containers = _args$containers === void 0 ? [args.container] : _args$containers;
-      (0, _get2.default)((0, _getPrototypeOf2.default)(Paste.prototype), "initialize", this).call(this, args);
-      this.storage = elementorCommon.storage.get('clipboard') || [];
-      this.storage = this.storage.map(function (model) {
+      this.storage = this.getPasteData(args);
+      if (!this.storage || !((_this$storage = this.storage) !== null && _this$storage !== void 0 && (_this$storage$element = _this$storage.elements) !== null && _this$storage$element !== void 0 && _this$storage$element.length) || 'elementor' !== ((_this$storage2 = this.storage) === null || _this$storage2 === void 0 ? void 0 : _this$storage2.type)) {
+        return false;
+      }
+      this.storage.elements = this.storage.elements.map(function (model) {
         return new Backbone.Model(model);
       });
       if (!containers[0]) {
@@ -25897,19 +26243,14 @@ var Paste = /*#__PURE__*/function (_$e$modules$CommandBa) {
       } else {
         this.target = containers;
       }
-    }
-  }, {
-    key: "apply",
-    value: function apply(args) {
-      var _this = this;
-      if (!this.target || 0 === this.storage.length) {
+      if (!this.target || 0 === this.storage.elements.length) {
         return false;
       }
       var result = [];
       this.target.forEach(function ( /* Container */container) {
         var _args$options = args.options,
           options = _args$options === void 0 ? {} : _args$options,
-          pasteOptions = $e.components.get('document/elements').utils.getPasteOptions(_this.storage[0], container);
+          pasteOptions = $e.components.get('document/elements').utils.getPasteOptions(_this.storage.elements[0], container);
         if (!pasteOptions.isValidChild) {
           if (pasteOptions.isSameElement) {
             options.at = container.parent.model.get('elements').findIndex(container.model) + 1;
@@ -25931,6 +26272,10 @@ var Paste = /*#__PURE__*/function (_$e$modules$CommandBa) {
           }
           if (undefined !== options.at) {
             commandArgs.at = options.at;
+          }
+          commandArgs.storageType = args.storageType || 'localstorage';
+          if (undefined !== args.data) {
+            commandArgs.data = args.data;
           }
           result.push($e.run('document/elements/paste', commandArgs));
         }
@@ -26408,7 +26753,7 @@ var EditorBase = /*#__PURE__*/function (_Marionette$Applicati) {
       var EventManager = __webpack_require__(/*! elementor-utils/hooks */ "../assets/dev/js/utils/hooks.js"),
         DynamicTags = __webpack_require__(/*! elementor-dynamic-tags/manager */ "../assets/dev/js/editor/components/dynamic-tags/manager.js"),
         Settings = __webpack_require__(/*! elementor-editor/components/settings/settings */ "../assets/dev/js/editor/components/settings/settings.js"),
-        Notifications = __webpack_require__(/*! elementor-editor-utils/notifications */ "../assets/dev/js/editor/utils/notifications.js");
+        Notifications = __webpack_require__(/*! elementor-utils/notifications */ "../assets/dev/js/utils/notifications.js");
       this.elementsManager = new _manager.default();
       this.hooks = new EventManager();
       this.selection = new _manager4.default();
@@ -28920,7 +29265,7 @@ BaseElementView = BaseContainer.extend({
   },
   getContextMenuGroups: function getContextMenuGroups() {
     var _this = this;
-    var controlSign = _environment.default.mac ? '⌘' : '^';
+    var controlSign = _environment.default.mac ? '&#8984;' : '^';
     var groups = [{
       name: 'general',
       actions: [{
@@ -28984,7 +29329,7 @@ BaseElementView = BaseContainer.extend({
         }
       }, {
         name: 'pasteStyle',
-        title: __('Paste Style', 'elementor'),
+        title: __('Paste style', 'elementor'),
         shortcut: controlSign + '+⇧+V',
         isEnabled: function isEnabled() {
           return !!elementorCommon.storage.get('clipboard');
@@ -28995,8 +29340,17 @@ BaseElementView = BaseContainer.extend({
           });
         }
       }, {
+        name: 'pasteArea',
+        icon: 'eicon-import-export',
+        title: __('Paste from other site', 'elementor'),
+        callback: function callback() {
+          return $e.run('document/elements/paste-area', {
+            container: _this.getContainer()
+          });
+        }
+      }, {
         name: 'resetStyle',
-        title: __('Reset Style', 'elementor'),
+        title: __('Reset style', 'elementor'),
         callback: function callback() {
           return $e.run('document/elements/reset-style', {
             containers: elementor.selection.getElements(_this.getContainer())
@@ -31972,7 +32326,7 @@ var WidgetView = _baseWidget.default.extend({
       name: 'save',
       actions: [{
         name: 'save',
-        title: __('Save as a Global', 'elementor'),
+        title: __('Save as a global', 'elementor'),
         shortcut: jQuery('<i>', {
           class: 'eicon-pro-icon'
         }),
@@ -39045,100 +39399,6 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ "../assets/dev/js/editor/utils/notifications.js":
-/*!******************************************************!*\
-  !*** ../assets/dev/js/editor/utils/notifications.js ***!
-  \******************************************************/
-/***/ ((module) => {
-
-"use strict";
-
-
-module.exports = elementorModules.Module.extend({
-  initToast: function initToast() {
-    var toast = elementorCommon.dialogsManager.createWidget('buttons', {
-      id: 'elementor-toast',
-      position: {
-        my: 'center bottom',
-        at: 'center bottom-10',
-        of: '#elementor-panel-content-wrapper',
-        autoRefresh: true
-      },
-      hide: {
-        onClick: true,
-        auto: true,
-        autoDelay: 10000
-      },
-      effects: {
-        show: function show() {
-          var $widget = toast.getElements('widget');
-          $widget.show();
-          toast.refreshPosition();
-          var top = parseInt($widget.css('top'), 10);
-          $widget.hide().css('top', top + 100);
-          $widget.animate({
-            opacity: 'show',
-            height: 'show',
-            paddingBottom: 'show',
-            paddingTop: 'show',
-            top: top
-          }, {
-            easing: 'linear',
-            duration: 300
-          });
-        },
-        hide: function hide() {
-          var $widget = toast.getElements('widget'),
-            top = parseInt($widget.css('top'), 10);
-          $widget.animate({
-            opacity: 'hide',
-            height: 'hide',
-            paddingBottom: 'hide',
-            paddingTop: 'hide',
-            top: top + 100
-          }, {
-            easing: 'linear',
-            duration: 300
-          });
-        }
-      },
-      button: {
-        tag: 'div'
-      }
-    });
-    this.getToast = function () {
-      return toast;
-    };
-  },
-  showToast: function showToast(options) {
-    var toast = this.getToast();
-    toast.setMessage(options.message);
-    toast.getElements('buttonsWrapper').empty();
-    if (options.buttons) {
-      options.buttons.forEach(function (button) {
-        toast.addButton(button);
-      });
-    }
-    if (options.classes) {
-      toast.getElements('widget').addClass(options.classes);
-    }
-    if (options.sticky) {
-      toast.setSettings({
-        hide: {
-          auto: false,
-          onClick: false
-        }
-      });
-    }
-    return toast.show();
-  },
-  onInit: function onInit() {
-    this.initToast();
-  }
-});
-
-/***/ }),
-
 /***/ "../assets/dev/js/editor/utils/presets-factory.js":
 /*!********************************************************!*\
   !*** ../assets/dev/js/editor/utils/presets-factory.js ***!
@@ -39931,6 +40191,7 @@ var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*!
 var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "../node_modules/@babel/runtime/helpers/getPrototypeOf.js"));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "../node_modules/@babel/runtime/helpers/defineProperty.js"));
 var _containerHelper = _interopRequireDefault(__webpack_require__(/*! elementor-editor-utils/container-helper */ "../assets/dev/js/editor/utils/container-helper.js"));
+var _environment = _interopRequireDefault(__webpack_require__(/*! elementor-common/utils/environment */ "../core/common/assets/js/utils/environment.js"));
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2.default)(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2.default)(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2.default)(this, result); }; }
@@ -39990,7 +40251,8 @@ var AddSectionBase = /*#__PURE__*/function (_Marionette$ItemView) {
       return {
         contextMenu: {
           behaviorClass: __webpack_require__(/*! elementor-behaviors/context-menu */ "../assets/dev/js/editor/elements/views/behaviors/context-menu.js"),
-          groups: this.getContextMenuGroups()
+          groups: this.getContextMenuGroups(),
+          eventTargets: ['.elementor-add-section-inner']
         }
       };
     }
@@ -40030,11 +40292,13 @@ var AddSectionBase = /*#__PURE__*/function (_Marionette$ItemView) {
       var hasContent = function hasContent() {
         return elementor.elements.length > 0;
       };
+      var controlSign = _environment.default.mac ? '&#8984;' : '^';
       return [{
         name: 'paste',
         actions: [{
           name: 'paste',
           title: __('Paste', 'elementor'),
+          shortcut: controlSign + '+V',
           isEnabled: function isEnabled() {
             return $e.components.get('document/elements').utils.isPasteEnabled(elementor.getPreviewContainer());
           },
@@ -40047,6 +40311,19 @@ var AddSectionBase = /*#__PURE__*/function (_Marionette$ItemView) {
               },
               onAfter: function onAfter() {
                 return _this.onAfterPaste();
+              }
+            });
+          }
+        }, {
+          name: 'paste_area',
+          icon: 'eicon-import-export',
+          title: __('Paste from other site', 'elementor'),
+          callback: function callback() {
+            return $e.run('document/elements/paste-area', {
+              container: elementor.getPreviewContainer(),
+              options: {
+                at: _this.getOption('at'),
+                rebuild: true
               }
             });
           }
@@ -41971,6 +42248,126 @@ var EventManager = function EventManager() {
   return MethodsAvailable;
 };
 module.exports = EventManager;
+
+/***/ }),
+
+/***/ "../assets/dev/js/utils/notifications.js":
+/*!***********************************************!*\
+  !*** ../assets/dev/js/utils/notifications.js ***!
+  \***********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "../node_modules/@babel/runtime/helpers/defineProperty.js"));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+module.exports = elementorModules.Module.extend({
+  initToast: function initToast() {
+    var toast = elementorCommon.dialogsManager.createWidget('buttons', {
+      id: 'elementor-toast',
+      position: {
+        my: 'center bottom',
+        at: 'center bottom-10',
+        of: '#elementor-panel-content-wrapper',
+        autoRefresh: true
+      },
+      hide: {
+        onClick: true,
+        auto: true,
+        autoDelay: 10000
+      },
+      effects: {
+        show: function show() {
+          var $widget = toast.getElements('widget');
+          $widget.show();
+          toast.refreshPosition();
+          var top = parseInt($widget.css('top'), 10);
+          $widget.hide().css('top', top + 100);
+          $widget.animate({
+            opacity: 'show',
+            height: 'show',
+            paddingBottom: 'show',
+            paddingTop: 'show',
+            top: top
+          }, {
+            easing: 'linear',
+            duration: 300
+          });
+        },
+        hide: function hide() {
+          var $widget = toast.getElements('widget'),
+            top = parseInt($widget.css('top'), 10);
+          $widget.animate({
+            opacity: 'hide',
+            height: 'hide',
+            paddingBottom: 'hide',
+            paddingTop: 'hide',
+            top: top + 100
+          }, {
+            easing: 'linear',
+            duration: 300
+          });
+        }
+      },
+      button: {
+        tag: 'div'
+      }
+    });
+    this.getToast = function () {
+      return toast;
+    };
+  },
+  showToast: function showToast(options) {
+    var toast = this.getToast();
+    toast.setMessage(options.message);
+    toast.getElements('buttonsWrapper').empty();
+    if (!this.isPositionValid(options === null || options === void 0 ? void 0 : options.position)) {
+      this.positionToWindow();
+    }
+    if (options.buttons) {
+      options.buttons.forEach(function (button) {
+        toast.addButton(button);
+      });
+    }
+    if (options.classes) {
+      toast.getElements('widget').addClass(options.classes);
+    }
+    if (options.sticky) {
+      toast.setSettings({
+        hide: {
+          auto: false,
+          onClick: false
+        }
+      });
+    }
+    return toast.show();
+  },
+  isPositionValid: function isPositionValid(position) {
+    var _position$of;
+    var positionToCheck = (_position$of = position === null || position === void 0 ? void 0 : position.of) !== null && _position$of !== void 0 ? _position$of : this.getToast().getSettings('position').of;
+    if (!positionToCheck) {
+      return false;
+    }
+    return !!document.querySelector(positionToCheck);
+  },
+  positionToWindow: function positionToWindow() {
+    var toast = this.getToast();
+    var position = _objectSpread(_objectSpread({}, toast.getSettings('position')), {}, {
+      my: 'right top',
+      at: 'right-10 top+42',
+      // 42px is the default admin bar height + 10px
+      of: ''
+    });
+    toast.setSettings('position', position);
+    toast.getElements('widget').addClass('dialog-position-window');
+  },
+  onInit: function onInit() {
+    this.initToast();
+  }
+});
 
 /***/ }),
 
@@ -44028,6 +44425,10 @@ var KitAfterSave = /*#__PURE__*/function (_After) {
   }, {
     key: "apply",
     value: function apply(args) {
+      // On save clear cache of all edited documents and dynamic tags.
+      // This is needed because when returning to the editor after saving the kit, it was still displaying the old data.
+      this.clearDocumentCache();
+      this.clearDynamicTagsCache();
       if ('publish' === args.status) {
         elementor.notifications.showToast({
           message: __('Your changes have been updated.', 'elementor'),
@@ -44058,6 +44459,19 @@ var KitAfterSave = /*#__PURE__*/function (_After) {
         });
         reloadConfirm.show();
       }
+    }
+  }, {
+    key: "clearDocumentCache",
+    value: function clearDocumentCache() {
+      Object.keys(elementor.documents.documents).forEach(function (id) {
+        elementor.documents.invalidateCache(id);
+      });
+    }
+  }, {
+    key: "clearDynamicTagsCache",
+    value: function clearDynamicTagsCache() {
+      elementor.dynamicTags.cleanCache();
+      elementor.dynamicTags.loadCacheRequests();
     }
   }]);
   return KitAfterSave;
@@ -53720,15 +54134,16 @@ module.exports = _construct, module.exports.__esModule = true, module.exports["d
 /*!*************************************************************!*\
   !*** ../node_modules/@babel/runtime/helpers/createClass.js ***!
   \*************************************************************/
-/***/ ((module) => {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
+var toPropertyKey = __webpack_require__(/*! ./toPropertyKey.js */ "../node_modules/@babel/runtime/helpers/toPropertyKey.js");
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
     var descriptor = props[i];
     descriptor.enumerable = descriptor.enumerable || false;
     descriptor.configurable = true;
     if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
+    Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
   }
 }
 function _createClass(Constructor, protoProps, staticProps) {
@@ -53747,9 +54162,11 @@ module.exports = _createClass, module.exports.__esModule = true, module.exports[
 /*!****************************************************************!*\
   !*** ../node_modules/@babel/runtime/helpers/defineProperty.js ***!
   \****************************************************************/
-/***/ ((module) => {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
+var toPropertyKey = __webpack_require__(/*! ./toPropertyKey.js */ "../node_modules/@babel/runtime/helpers/toPropertyKey.js");
 function _defineProperty(obj, key, value) {
+  key = toPropertyKey(key);
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -53929,28 +54346,33 @@ module.exports = _iterableToArray, module.exports.__esModule = true, module.expo
 /***/ ((module) => {
 
 function _iterableToArrayLimit(arr, i) {
-  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-  if (_i == null) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _s, _e;
-  try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
+  var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+  if (null != _i) {
+    var _s,
+      _e,
+      _x,
+      _r,
+      _arr = [],
+      _n = !0,
+      _d = !1;
     try {
-      if (!_n && _i["return"] != null) _i["return"]();
+      if (_x = (_i = _i.call(arr)).next, 0 === i) {
+        if (Object(_i) !== _i) return;
+        _n = !1;
+      } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) {
+        ;
+      }
+    } catch (err) {
+      _d = !0, _e = err;
     } finally {
-      if (_d) throw _e;
+      try {
+        if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+      } finally {
+        if (_d) throw _e;
+      }
     }
+    return _arr;
   }
-  return _arr;
 }
 module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
@@ -54145,14 +54567,9 @@ function _regeneratorRuntime() {
     };
   }
   function maybeInvokeDelegate(delegate, context) {
-    var method = delegate.iterator[context.method];
-    if (undefined === method) {
-      if (context.delegate = null, "throw" === context.method) {
-        if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel;
-        context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method");
-      }
-      return ContinueSentinel;
-    }
+    var methodName = context.method,
+      method = delegate.iterator[methodName];
+    if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel;
     var record = tryCatch(method, delegate.iterator, context.arg);
     if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
     var info = record.arg;
@@ -54395,6 +54812,43 @@ module.exports = _toConsumableArray, module.exports.__esModule = true, module.ex
 
 /***/ }),
 
+/***/ "../node_modules/@babel/runtime/helpers/toPrimitive.js":
+/*!*************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/toPrimitive.js ***!
+  \*************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _typeof = (__webpack_require__(/*! ./typeof.js */ "../node_modules/@babel/runtime/helpers/typeof.js")["default"]);
+function _toPrimitive(input, hint) {
+  if (_typeof(input) !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if (_typeof(res) !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/toPropertyKey.js":
+/*!***************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/toPropertyKey.js ***!
+  \***************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _typeof = (__webpack_require__(/*! ./typeof.js */ "../node_modules/@babel/runtime/helpers/typeof.js")["default"]);
+var toPrimitive = __webpack_require__(/*! ./toPrimitive.js */ "../node_modules/@babel/runtime/helpers/toPrimitive.js");
+function _toPropertyKey(arg) {
+  var key = toPrimitive(arg, "string");
+  return _typeof(key) === "symbol" ? key : String(key);
+}
+module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
 /***/ "../node_modules/@babel/runtime/helpers/typeof.js":
 /*!********************************************************!*\
   !*** ../node_modules/@babel/runtime/helpers/typeof.js ***!
@@ -54509,7 +54963,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ _defineProperty)
 /* harmony export */ });
+/* harmony import */ var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toPropertyKey.js */ "../node_modules/@babel/runtime/helpers/esm/toPropertyKey.js");
+
 function _defineProperty(obj, key, value) {
+  key = (0,_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["default"])(key);
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -54558,6 +55015,77 @@ function _objectSpread2(target) {
     });
   }
   return target;
+}
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/esm/toPrimitive.js":
+/*!*****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/esm/toPrimitive.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _toPrimitive)
+/* harmony export */ });
+/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "../node_modules/@babel/runtime/helpers/esm/typeof.js");
+
+function _toPrimitive(input, hint) {
+  if ((0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(input) !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if ((0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(res) !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/esm/toPropertyKey.js":
+/*!*******************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/esm/toPropertyKey.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _toPropertyKey)
+/* harmony export */ });
+/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "../node_modules/@babel/runtime/helpers/esm/typeof.js");
+/* harmony import */ var _toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./toPrimitive.js */ "../node_modules/@babel/runtime/helpers/esm/toPrimitive.js");
+
+
+function _toPropertyKey(arg) {
+  var key = (0,_toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__["default"])(arg, "string");
+  return (0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(key) === "symbol" ? key : String(key);
+}
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/esm/typeof.js":
+/*!************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/esm/typeof.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _typeof)
+/* harmony export */ });
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, _typeof(obj);
 }
 
 /***/ }),
@@ -55120,7 +55648,6 @@ var Editor = /*#__PURE__*/function (_EditorBase) {
 }(_editorBase.default);
 exports.Editor = Editor;
 window.elementor = new Editor();
-elementor.start();
 })();
 
 /******/ })()

@@ -1,4 +1,4 @@
-/*! elementor - v3.10.2 - 29-01-2023 */
+/*! elementor - v3.11.3 - 07-03-2023 */
 :root {
   color-scheme: dark;
 }
@@ -379,9 +379,6 @@ a.elementor-responsive-switcher:hover {
 }
 .elementor-control-media .eicon-plus-circle {
   color: #E0E1E3;
-}
-.elementor-control-media .elementor-control-media__tool {
-  background-color: #7D7E82;
 }
 .elementor-control-media__file, .elementor-control-media__file__controls {
   border-color: #64666A;
@@ -871,6 +868,11 @@ label.elementor-template-library-order-label:hover,
   border-color: #34383C;
 }
 
+.elementor-context-menu-list__item--disabled .elementor-context-menu-list__item__icon,
+.elementor-context-menu-list__item--disabled .elementor-context-menu-list__item__title,
+.elementor-context-menu-list__item--disabled .elementor-context-menu-list__item__shortcut {
+  color: #7D7E82;
+}
 .elementor-context-menu-list__item:not(.elementor-context-menu-list__item--disabled):hover {
   background-color: #4C4F56;
 }
@@ -971,6 +973,13 @@ label.elementor-template-library-order-label:hover,
 }
 .elementor-hotkeys__item--shortcut span {
   background-color: #64666A;
+}
+
+#elementor-paste-area-dialog .dialog-header {
+  color: inherit;
+}
+#elementor-paste-area-dialog #elementor-paste-area-dialog__error:before {
+  border-top-color: #4C4F56;
 }
 
 .media-modal {
